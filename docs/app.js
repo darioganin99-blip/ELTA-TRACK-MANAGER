@@ -1,15 +1,8 @@
-const firebaseConfig = {
-  apiKey: "AIzaSyDFk_mPN0r_LLHhS3HeQ2yfbfvHZJ2h2mU",
-  authDomain: "elta-track-pod.firebaseapp.com",
-  projectId: "elta-track-pod",
-  storageBucket: "elta-track-pod.firebasestorage.app",
-  messagingSenderId: "993768926683",
-  appId: "1:993768926683:web:8a14e6af8706154a96cbfe",
-  measurementId: "G-9FSMKJ8KL0"
-};
+const firebaseConfig={apiKey:"AIzaSyDFk_mPN0r_LLHhS3HeQ2yfbfvHZJ2h2mU",authDomain:"elta-track-pod.firebaseapp.com",projectId:"elta-track-pod",storageBucket:"elta-track-pod.firebasestorage.app",messagingSenderId:"993768926683",appId:"1:993768926683:web:8a14e6af8706154a96cbfe",measurementId:"G-9FSMKJ8KL0"};
 let db,trs=[],users=[],clientes=[],origenes=[],destinos=[],embarques=[],abmCol="usuarios";
 function init(){if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);db=firebase.firestore()}
 function q(id){return document.getElementById(id)}function esc(v){return String(v??"").replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]))}
+function togglePass(){let p=q("pass");p.type=p.type==="password"?"text":"password"}
 function tv(v){try{let d=v?.toDate?v.toDate():(v?.seconds?new Date(v.seconds*1000):new Date(v));return d&&!isNaN(d.getTime())?d.getTime():0}catch(e){return 0}}
 function fd(v){let n=tv(v);return n?new Date(n).toLocaleString("es-AR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}):"-"}
 function openT(t){let e=String(t.estado||"").toLowerCase();if(t.closed&&String(t.closed).toLowerCase()!=="null")return false;return e==="abierto"||t.closed==null}
@@ -17,7 +10,7 @@ function flota(t){return String(t?.user?.fleet||t.flota||"").trim()}function rut
 function lastU(t){let a=(t.updates||[]).slice();a.sort((x,y)=>tv(y.time||y.fecha||y.createdAt||y.ts)-tv(x.time||x.fecha||x.createdAt||x.ts));return a[0]||null}
 function loc(t){let u=lastU(t),o=u?.gps||u?.ultimaPosicion||t.ultimaPosicion||u||{};return o.ubicacionTexto||o.ubicacion||o.localidad||o.city||o.ciudad||o.address||"-"}
 function alertT(t){let a=(t.alerts||[]).slice();if(!a.length)return"-";a.sort((x,y)=>tv(y.time||y.fecha)-tv(x.time||x.fecha));return a[0].tipo||a[0].type||a[0].motivo||"Alerta"}
-async function login(){try{init();let u=q("user").value.trim(),p=q("pass").value.trim();let d=await db.collection("usuarios").doc(u).get();if(!d.exists)return q("msg").innerText="Usuario no existe";let x=d.data(),r=String(x.role||"").toLowerCase();if(x.pass!==p)return q("msg").innerText="PASS incorrecto";if(!["manager","trafico","coordinador","admin"].includes(r))return q("msg").innerText="Sin permiso Manager";q("login").classList.remove("active");q("app").classList.add("active");await refresh()}catch(e){console.log(e);q("msg").innerText="Error Firebase / configuración"}}
+async function login(){try{init();let u=q("user").value.trim(),p=q("pass").value.trim();let d=await db.collection("usuarios").doc(u).get();if(!d.exists)return q("msg").innerText="Usuario no existe";let x=d.data(),r=String(x.role||"").toLowerCase();if(x.pass!==p)return q("msg").innerText="PASS incorrecto";if(!["admin","trafico","coordinador"].includes(r))return q("msg").innerText="Sin permiso Admin";q("login").classList.remove("active");q("app").classList.add("active");await refresh()}catch(e){console.log(e);q("msg").innerText="Error Firebase / configuración"}}
 function salir(){q("app").classList.remove("active");q("login").classList.add("active")}
 function tab(id){document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));[...document.querySelectorAll("nav button")].find(b=>b.getAttribute("onclick")?.includes(id))?.classList.add("active");q(id).classList.add("active");if(id==="abm")renderABM();if(id==="reportes")renderRep()}
 async function read(c){let s=await db.collection(c).get();return s.docs.map(d=>({id:d.id,...d.data()}))}
