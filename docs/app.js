@@ -1,4 +1,12 @@
-const firebaseConfig={apiKey:"PEGAR_API_KEY",authDomain:"elta-track-pod.firebaseapp.com",projectId:"elta-track-pod",storageBucket:"elta-track-pod.appspot.com",messagingSenderId:"PEGAR_SENDER_ID",appId:"PEGAR_APP_ID"};
+const firebaseConfig = {
+  apiKey: "AIzaSyDFk_mPN0r_LLHhS3HeQ2yfbfvHZJ2h2mU",
+  authDomain: "elta-track-pod.firebaseapp.com",
+  projectId: "elta-track-pod",
+  storageBucket: "elta-track-pod.firebasestorage.app",
+  messagingSenderId: "993768926683",
+  appId: "1:993768926683:web:8a14e6af8706154a96cbfe",
+  measurementId: "G-9FSMKJ8KL0"
+};
 let db,trs=[],users=[],clientes=[],origenes=[],destinos=[],embarques=[],abmCol="usuarios";
 function init(){if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);db=firebase.firestore()}
 function q(id){return document.getElementById(id)}function esc(v){return String(v??"").replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]))}
