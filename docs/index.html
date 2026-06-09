@@ -1,10 +1,87 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ELTA Track Manager</title><link rel="stylesheet" href="style.css"><script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script><script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script></head><body>
-<header><div class="logoBox"><div class="logoText">Elta</div></div><div class="titleBlock"><h1>Track Manager</h1><p>Panel tráfico / coordinación</p></div><b class="version">V1.0.1 Web</b></header>
-<section id="login" class="view active"><div class="card login"><h2 class="loginTitle">Ingreso</h2><label>Usuario</label><input id="user" placeholder="admin / trafico / coordinador"><label>PASS</label><div class="passWrap"><input id="pass" type="password" placeholder="PASS"><button type="button" class="eyeBtn" onclick="togglePass()">👁</button></div><div class="loginBtnRow"><button onclick="login()">Ingresar</button></div><div id="msg"></div></div></section>
-<section id="app" class="view"><nav><button onclick="tab('dash')" class="active">Dashboard</button><button onclick="tab('transitos')">Tránsitos</button><button onclick="tab('mapa')">Mapa</button><button onclick="tab('abm')">ABM</button><button onclick="tab('reportes')">Reportes</button><button onclick="salir()" class="danger">Salir</button></nav><main>
-<section id="dash" class="panel active"><div class="kpis"><div><span id="ka">0</span><b>Abiertos</b></div><div><span id="kc">0</span><b>Cerrados</b></div><div><span id="kal">0</span><b>Alertas</b></div><div><span id="kf">0</span><b>Flotas</b></div></div><div class="card"><h2>Tránsitos abiertos</h2><button onclick="refresh()">Actualizar</button><div id="dashList" class="list"></div></div></section>
-<section id="transitos" class="panel"><div class="card"><h2>Filtros</h2><div class="filters"><input id="fEmb" placeholder="Embarque" oninput="renderTransitos()"><input id="fFlo" placeholder="Flota" oninput="renderTransitos()"><input id="fCli" placeholder="Cliente" oninput="renderTransitos()"><select id="fEst" onchange="renderTransitos()"><option value="">Todos</option><option value="abierto">Abiertos</option><option value="cerrado">Cerrados</option></select></div></div><div class="card"><h2>Listado</h2><div id="transList" class="list"></div></div></section>
-<section id="mapa" class="panel"><div class="card"><h2>Situación de flotas</h2><div class="mapbox">Mapa visual en V1.1<br>V1.0 muestra listado GPS</div><div id="mapList" class="list"></div></div></section>
-<section id="abm" class="panel"><div class="card"><h2>Altas / Bajas / Modificaciones</h2><div class="abmtabs"><button onclick="abm('usuarios')">Usuarios/Flotas</button><button onclick="abm('clientes')">Clientes</button><button onclick="abm('origenes')">Orígenes</button><button onclick="abm('destinos')">Destinos</button><button onclick="abm('embarque')">Embarques</button></div><div id="abmForm" class="form"></div><div id="abmList" class="list"></div></div></section>
-<section id="reportes" class="panel"><div class="card"><h2>Reportes</h2><div id="rep" class="list"></div><button onclick="copyRep()">Copiar reporte</button></div></section>
-</main></section><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ELTA Track Manager</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+<header class="topHeader">
+  <div class="logoHeader"><img src="assets/logo-elta.png" alt="ELTA"></div>
+  <div class="titleBlock"><h1>Track Manager</h1><p>Panel tráfico / coordinación</p></div>
+  <div class="secureText">Sistema seguro</div>
+</header>
+
+<section id="login" class="view active loginPage">
+  <div class="loginFume"></div>
+  <div class="loginCard">
+    <div class="loginIcon">👤</div>
+    <h2 class="loginTitle">Ingreso</h2>
+    <label>Usuario</label>
+    <input id="user" placeholder="Ingrese usuario">
+    <label>PASS</label>
+    <div class="passWrap">
+      <input id="pass" type="password" placeholder="Ingrese contraseña">
+      <button type="button" class="eyeBtn" onclick="togglePass()">👁</button>
+    </div>
+    <button class="loginButton" onclick="login()">↪ Ingresar</button>
+    <div id="msg"></div>
+  </div>
+  <footer class="loginFooter">
+    <span>© 2025 ELTA Tracking Solutions</span>
+    <span>ELTA - Track Manager V1.0.2 Web</span>
+  </footer>
+</section>
+
+<section id="app" class="view">
+  <nav>
+    <button onclick="tab('dash')" class="active">Dashboard</button>
+    <button onclick="tab('transitos')">Tránsitos</button>
+    <button onclick="tab('mapa')">Mapa</button>
+    <button onclick="tab('abm')">ABM</button>
+    <button onclick="tab('reportes')">Reportes</button>
+    <button onclick="salir()" class="danger">Salir</button>
+  </nav>
+  <main>
+    <section id="dash" class="panel active">
+      <div class="kpis">
+        <div><span id="ka">0</span><b>Abiertos</b></div>
+        <div><span id="kc">0</span><b>Cerrados</b></div>
+        <div><span id="kal">0</span><b>Alertas</b></div>
+        <div><span id="kf">0</span><b>Flotas</b></div>
+      </div>
+      <div class="card"><h2>Tránsitos abiertos</h2><button onclick="refresh()">Actualizar</button><div id="dashList" class="list"></div></div>
+    </section>
+    <section id="transitos" class="panel">
+      <div class="card"><h2>Filtros</h2><div class="filters">
+        <input id="fEmb" placeholder="Embarque" oninput="renderTransitos()">
+        <input id="fFlo" placeholder="Flota" oninput="renderTransitos()">
+        <input id="fCli" placeholder="Cliente" oninput="renderTransitos()">
+        <select id="fEst" onchange="renderTransitos()"><option value="">Todos</option><option value="abierto">Abiertos</option><option value="cerrado">Cerrados</option></select>
+      </div></div>
+      <div class="card"><h2>Listado</h2><div id="transList" class="list"></div></div>
+    </section>
+    <section id="mapa" class="panel">
+      <div class="card"><h2>Situación de flotas</h2><div class="mapbox">Mapa visual en V1.1<br>V1.0 muestra listado GPS</div><div id="mapList" class="list"></div></div>
+    </section>
+    <section id="abm" class="panel">
+      <div class="card"><h2>Altas / Bajas / Modificaciones</h2>
+        <div class="abmtabs">
+          <button onclick="abm('usuarios')">Usuarios/Flotas</button><button onclick="abm('clientes')">Clientes</button>
+          <button onclick="abm('origenes')">Orígenes</button><button onclick="abm('destinos')">Destinos</button>
+          <button onclick="abm('embarque')">Embarques</button>
+        </div>
+        <div id="abmForm" class="form"></div><div id="abmList" class="list"></div>
+      </div>
+    </section>
+    <section id="reportes" class="panel">
+      <div class="card"><h2>Reportes</h2><div id="rep" class="list"></div><button onclick="copyRep()">Copiar reporte</button></div>
+    </section>
+  </main>
+</section>
+<script src="app.js"></script>
+</body>
+</html>
