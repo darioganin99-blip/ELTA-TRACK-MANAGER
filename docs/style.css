@@ -10,7 +10,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#102432;color:#0
 @media(max-width:850px){.cornerLogo{width:115px;max-width:36vw;top:18px;left:18px}.loginPage{padding-top:95px;align-items:flex-start;background-size:cover;background-position:center 42%}.loginCard{width:min(300px,88vw);padding:20px 20px 22px}.loginLogo{width:50%;min-width:110px;margin-bottom:12px}.loginCard h1{font-size:20px}.loginCard p{font-size:12px;margin-bottom:18px}.loginCard input{height:40px;font-size:12px}.loginButton{height:40px;font-size:12px}.loginFooter{font-size:11px;bottom:12px;gap:10px;flex-wrap:wrap;padding:0 12px}.sideBrand img{width:110px}.sideBrand h2{font-size:24px}.kpis{grid-template-columns:repeat(2,1fr)}.filters,.form{grid-template-columns:1fr}}
 
 
-/* ===== V1.0.8 - fondo corregido ELTA ===== */
+/* ===== V1.0.9 - fondo corregido ELTA ===== */
 .loginPage{
   min-height:100vh;
   position:relative;
@@ -93,5 +93,91 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#102432;color:#0
   .cornerLogo{
     width:120px;
     max-width:40vw;
+  }
+}
+
+
+
+/* ===== V1.0.9 - fondo visible corregido ===== */
+.loginPage{
+  min-height:100vh !important;
+  position:relative !important;
+  overflow:hidden !important;
+  display:none;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:40px 20px !important;
+  background:#102432 !important;
+}
+.loginPage.active{display:flex !important}
+.bgPhoto{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:0 !important;
+  background-image:url('assets/fondo-camion.png') !important;
+  background-size:cover !important;
+  background-position:center 48% !important;
+  background-repeat:no-repeat !important;
+  transform:none !important;
+  filter:brightness(.92) contrast(1.02) saturate(1.05) !important;
+  opacity:1 !important;
+}
+.bgOverlay{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:1 !important;
+  background:
+    linear-gradient(rgba(5,18,28,.28),rgba(5,18,28,.38)) !important;
+  opacity:1 !important;
+}
+.loginCard{
+  position:relative !important;
+  z-index:3 !important;
+  width:420px !important;
+  max-width:88vw !important;
+  background:rgba(39,59,70,.58) !important;
+  backdrop-filter:blur(6px) !important;
+}
+.cornerLogo,.loginFooter{
+  z-index:3 !important;
+}
+.appPage{
+  min-height:100vh !important;
+  position:relative !important;
+  overflow:hidden !important;
+  background:#102432 !important;
+  padding:18px !important;
+}
+.appBgPhoto{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:0 !important;
+  background-image:url('assets/fondo-camion.png') !important;
+  background-size:cover !important;
+  background-position:center 48% !important;
+  background-repeat:no-repeat !important;
+  transform:none !important;
+  filter:brightness(.88) contrast(1.02) saturate(1.03) !important;
+  opacity:1 !important;
+}
+.appBgOverlay{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:0 !important;
+  background:rgba(5,18,28,.42) !important;
+  pointer-events:none !important;
+}
+.sideBrand,.portalNav,.portalMain{
+  position:relative !important;
+  z-index:1 !important;
+}
+@media(max-width:850px){
+  .bgPhoto,.appBgPhoto{
+    background-position:center 45% !important;
+    background-size:cover !important;
+  }
+  .loginCard{
+    width:320px !important;
+    max-width:92vw !important;
   }
 }
