@@ -161,3 +161,40 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#071a2c;color:va
 @media(max-width:640px){
   .dashboardShell{padding:10px 12px;margin-left:0}.sidebar{display:none}.managerHeader{grid-template-columns:44px 1fr}.headerTitle h1{font-size:24px}.headerTitle p{font-size:13px}.kpiGrid{grid-template-columns:1fr}.filters,.form{grid-template-columns:1fr}.loginCard{width:320px}.cornerLogo{width:120px;max-width:40vw}.loginFooter{font-size:11px;bottom:12px;gap:10px;flex-wrap:wrap}
 }
+
+
+
+/* ===== V1.1.1 - Login sin iconos en campos ===== */
+.inputIcon{
+  display:none !important;
+}
+.loginCard input{
+  padding-left:20px !important;
+  padding-right:20px !important;
+}
+.inputWrap:has(.eyeBtn) input{
+  padding-right:48px !important;
+}
+.eyeBtn{
+  position:absolute !important;
+  right:14px !important;
+  top:50% !important;
+  transform:translateY(-50%) !important;
+  width:24px !important;
+  height:24px !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#173649 !important;
+  cursor:pointer !important;
+  font-size:15px !important;
+  padding:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.forgot{
+  text-align:right !important;
+  margin-top:12px !important;
+  color:#20aaff !important;
+  font-weight:700 !important;
+}
