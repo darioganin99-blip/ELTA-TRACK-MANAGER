@@ -24,7 +24,7 @@
     <button class="loginButton" onclick="login()">INGRESAR</button>
     <div id="msg"></div>
   </div>
-  <footer class="loginFooter"><span>Sistema seguro</span><span>© 2025 ELTA Tracking Solutions</span><span>Versión 1.0.7</span></footer>
+  <footer class="loginFooter"><span>Sistema seguro</span><span>© 2025 ELTA Tracking Solutions</span><span>Versión 1.0.8</span></footer>
 </section>
 
 <section id="app" class="view appPage">
@@ -46,7 +46,7 @@
       <div class="glassCard"><h2>Filtros</h2><div class="filters"><input id="fEmb" placeholder="Embarque" oninput="renderTransitos()"><input id="fFlo" placeholder="Flota" oninput="renderTransitos()"><input id="fCli" placeholder="Cliente" oninput="renderTransitos()"><select id="fEst" onchange="renderTransitos()"><option value="">Todos</option><option value="abierto">Abiertos</option><option value="cerrado">Cerrados</option></select></div></div>
       <div class="glassCard"><h2>Listado de tránsitos</h2><div id="transList" class="list"></div></div>
     </section>
-    <section id="mapa" class="panel"><div class="glassCard"><h2>Seguimiento de flotas</h2><div class="mapbox">Mapa operativo en V1.1<br>V1.0.7 muestra listado GPS operacional</div><div id="mapList" class="list"></div></div></section>
+    <section id="mapa" class="panel"><div class="glassCard"><h2>Seguimiento de flotas</h2><div class="mapbox">Mapa operativo en V1.1<br>V1.0.8 muestra listado GPS operacional</div><div id="mapList" class="list"></div></div></section>
     <section id="abm" class="panel"><div class="glassCard"><h2>Administración</h2><div class="abmtabs"><button onclick="abm('usuarios')">Usuarios/Flotas</button><button onclick="abm('clientes')">Clientes</button><button onclick="abm('origenes')">Orígenes</button><button onclick="abm('destinos')">Destinos</button><button onclick="abm('embarque')">Embarques</button></div><div id="abmForm" class="form"></div><div id="abmList" class="list"></div></div></section>
     <section id="reportes" class="panel"><div class="glassCard"><h2>Reportes</h2><div id="rep" class="list"></div><button onclick="copyRep()">Copiar reporte</button></div></section>
   </main>
