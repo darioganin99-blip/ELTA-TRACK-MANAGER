@@ -28,6 +28,7 @@ async function login(){
   }catch(e){console.log(e);q("msg").innerText="Error Firebase / configuración"}
 }
 function salir(){q("app").classList.remove("active");q("login").classList.add("active")}
+function toggleSidebar(){document.body.classList.toggle("sidebarCollapsed")}
 
 function tab(id){
   document.querySelectorAll(".sideNav button").forEach(b=>b.classList.remove("active"));
@@ -70,6 +71,7 @@ function renderDash(){
   q("ka").innerText=abiertos.length;
   q("kc").innerText=cerrados.length;
   q("kal").innerText=totalAlerts;
+  if(q("headerAlertCount"))q("headerAlertCount").innerText=totalAlerts;
   q("kf").innerText=users.filter(u=>String(u.role||"").toLowerCase()==="flota").length || new Set(trs.map(flota).filter(Boolean)).size;
   q("donutTotal").innerText=trs.length;
   q("legOpen").innerText=abiertos.length;

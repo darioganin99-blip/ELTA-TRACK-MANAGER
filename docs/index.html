@@ -41,7 +41,7 @@
   <footer class="loginFooter">
     <span>🛡 Sistema seguro</span>
     <span>© 2025 ELTA Tracking Solutions</span>
-    <span>Versión 1.1.1</span>
+    <span>Versión 1.1.2</span>
   </footer>
 </section>
 
@@ -80,17 +80,16 @@
 
   <main class="dashboardShell">
     <header class="managerHeader">
-      <button class="hamburger" type="button">☰</button>
+      <button class="hamburger" type="button" onclick="toggleSidebar()">☰</button>
 
       <div class="headerTitle">
         <h1>Track Manager</h1>
         <p>Panel tráfico / coordinación</p>
-        <span>Versión 1.1.1</span>
+        <span>Versión 1.1.2</span>
       </div>
 
       <div class="headerActions">
-        <button class="miniPill">🔔</button>
-        <button class="userPill"><span>AD</span> Admin</button>
+        <button class="miniPill alertBell" onclick="tab(\'alertas\')" title="Ver alertas">🔔 <span id="headerAlertCount">0</span></button>
       </div>
     </header>
 
@@ -271,7 +270,7 @@
     <footer class="appFooter">
       <span>🛡 Sistema seguro</span>
       <span>© 2025 ELTA Tracking Solutions</span>
-      <span>Versión 1.1.1</span>
+      <span>Versión 1.1.2</span>
     </footer>
   </main>
 </section>
