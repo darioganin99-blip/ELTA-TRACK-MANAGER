@@ -1,0 +1,1 @@
+ELTA Track Manager Web V1.0.5 - logo original verde/azul y logo de ingreso al 50%.
