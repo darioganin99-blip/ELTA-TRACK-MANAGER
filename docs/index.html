@@ -9,51 +9,118 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 </head>
 <body>
-<header class="topHeader">
-  <div class="logoHeader"><img src="assets/logo-elta.png" alt="ELTA"></div>
-  <div class="titleBlock"><h1>Track Manager</h1><p>Panel tráfico / coordinación</p><span>Sistema seguro</span></div>
-  <div class="versionHeader">V1.0.3 Web</div>
-</header>
 
 <section id="login" class="view active loginPage">
-  <div class="loginCard">
-    <h2>Ingreso</h2>
-    <label>Usuario</label>
-    <input id="user" placeholder="Ingrese usuario">
-    <label>PASS</label>
-    <div class="passWrap">
-      <input id="pass" type="password" placeholder="Ingrese contraseña">
-      <button type="button" onclick="togglePass()">👁</button>
+  <img class="portalLogo" src="assets/logo-elta.png" alt="ELTA">
+
+  <div class="portalLoginCard">
+    <h1>TRACK MANAGER</h1>
+    <p>Ingresá con tu usuario y contraseña</p>
+
+    <div class="fieldWrap">
+      <span class="floatingLabel">Usuario</span>
+      <input id="user" autocomplete="username">
     </div>
-    <div class="loginActions"><button class="loginButton" onclick="login()">Ingresar</button></div>
+
+    <div class="fieldWrap">
+      <span class="floatingLabel">Contraseña</span>
+      <input id="pass" type="password" autocomplete="current-password">
+      <button type="button" class="eyeBtn" onclick="togglePass()">👁</button>
+    </div>
+
+    <button class="portalButton" onclick="login()">Ingresar</button>
     <div id="msg"></div>
   </div>
-  <footer class="loginFooter"><span>ELTA Track Manager</span><span>Versión 1.0.3</span><span>© 2025 ELTA</span></footer>
+
+  <div class="loginFooter">ELTA - Track Manager V1.0.4 Web</div>
 </section>
 
-<section id="app" class="view">
-  <nav>
-    <button onclick="tab('dash')" class="active">🏠 Dashboard</button>
+<section id="app" class="view appPage">
+  <aside class="sideBrand">
+    <img src="assets/logo-elta.png" alt="ELTA">
+    <div>
+      <h2>Track Manager</h2>
+      <p>Panel tráfico / coordinación</p>
+    </div>
+  </aside>
+
+  <nav class="portalNav">
+    <button onclick="tab('dash')" class="active">🏠 Inicio</button>
     <button onclick="tab('transitos')">🚚 Tránsitos</button>
-    <button onclick="tab('mapa')">🗺️ Mapa</button>
-    <button onclick="tab('abm')">⚙️ ABM</button>
+    <button onclick="tab('mapa')">📍 Seguimiento</button>
+    <button onclick="tab('abm')">⚙ Administración</button>
     <button onclick="tab('reportes')">📊 Reportes</button>
-    <button onclick="salir()" class="danger">Salir</button>
+    <button onclick="salir()" class="danger">🚪 Salir</button>
   </nav>
-  <main>
+
+  <main class="portalMain">
     <section id="dash" class="panel active">
-      <div class="kpis"><div><span id="ka">0</span><b>Abiertos</b></div><div><span id="kc">0</span><b>Cerrados</b></div><div><span id="kal">0</span><b>Alertas</b></div><div><span id="kf">0</span><b>Flotas</b></div></div>
-      <div class="card"><div class="cardHead"><h2>Tránsitos abiertos</h2><button onclick="refresh()">Actualizar</button></div><div id="dashList" class="list"></div></div>
+      <div class="kpis">
+        <div><span id="ka">0</span><b>Tránsitos abiertos</b></div>
+        <div><span id="kc">0</span><b>Tránsitos cerrados</b></div>
+        <div><span id="kal">0</span><b>Alertas registradas</b></div>
+        <div><span id="kf">0</span><b>Flotas</b></div>
+      </div>
+
+      <div class="glassCard">
+        <div class="cardHead">
+          <h2>Tránsitos abiertos</h2>
+          <button onclick="refresh()">Actualizar</button>
+        </div>
+        <div id="dashList" class="list"></div>
+      </div>
     </section>
+
     <section id="transitos" class="panel">
-      <div class="card"><h2>Filtros</h2><div class="filters"><input id="fEmb" placeholder="Embarque" oninput="renderTransitos()"><input id="fFlo" placeholder="Flota" oninput="renderTransitos()"><input id="fCli" placeholder="Cliente" oninput="renderTransitos()"><select id="fEst" onchange="renderTransitos()"><option value="">Todos</option><option value="abierto">Abiertos</option><option value="cerrado">Cerrados</option></select></div></div>
-      <div class="card"><h2>Listado</h2><div id="transList" class="list"></div></div>
+      <div class="glassCard">
+        <h2>Filtros</h2>
+        <div class="filters">
+          <input id="fEmb" placeholder="Embarque" oninput="renderTransitos()">
+          <input id="fFlo" placeholder="Flota" oninput="renderTransitos()">
+          <input id="fCli" placeholder="Cliente" oninput="renderTransitos()">
+          <select id="fEst" onchange="renderTransitos()">
+            <option value="">Todos</option>
+            <option value="abierto">Abiertos</option>
+            <option value="cerrado">Cerrados</option>
+          </select>
+        </div>
+      </div>
+      <div class="glassCard"><h2>Listado de tránsitos</h2><div id="transList" class="list"></div></div>
     </section>
-    <section id="mapa" class="panel"><div class="card"><h2>Situación de flotas</h2><div class="mapbox">Mapa visual en V1.1<br>V1.0 muestra listado GPS</div><div id="mapList" class="list"></div></div></section>
-    <section id="abm" class="panel"><div class="card"><h2>Altas / Bajas / Modificaciones</h2><div class="abmtabs"><button onclick="abm('usuarios')">Usuarios/Flotas</button><button onclick="abm('clientes')">Clientes</button><button onclick="abm('origenes')">Orígenes</button><button onclick="abm('destinos')">Destinos</button><button onclick="abm('embarque')">Embarques</button></div><div id="abmForm" class="form"></div><div id="abmList" class="list"></div></div></section>
-    <section id="reportes" class="panel"><div class="card"><h2>Reportes</h2><div id="rep" class="list"></div><button onclick="copyRep()">Copiar reporte</button></div></section>
+
+    <section id="mapa" class="panel">
+      <div class="glassCard">
+        <h2>Seguimiento de flotas</h2>
+        <div class="mapbox">Mapa operativo en V1.1<br>V1.0.4 muestra listado GPS operacional</div>
+        <div id="mapList" class="list"></div>
+      </div>
+    </section>
+
+    <section id="abm" class="panel">
+      <div class="glassCard">
+        <h2>Administración</h2>
+        <div class="abmtabs">
+          <button onclick="abm('usuarios')">Usuarios/Flotas</button>
+          <button onclick="abm('clientes')">Clientes</button>
+          <button onclick="abm('origenes')">Orígenes</button>
+          <button onclick="abm('destinos')">Destinos</button>
+          <button onclick="abm('embarque')">Embarques</button>
+        </div>
+        <div id="abmForm" class="form"></div>
+        <div id="abmList" class="list"></div>
+      </div>
+    </section>
+
+    <section id="reportes" class="panel">
+      <div class="glassCard">
+        <h2>Reportes</h2>
+        <div id="rep" class="list"></div>
+        <button onclick="copyRep()">Copiar reporte</button>
+      </div>
+    </section>
   </main>
 </section>
+
 <script src="app.js"></script>
 </body>
 </html>
