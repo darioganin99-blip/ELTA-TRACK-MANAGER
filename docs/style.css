@@ -1,183 +1,163 @@
-*{box-sizing:border-box}:root{--elta:#34b245;--elta2:#43ce50;--dark:#143241;--card:rgba(76,100,113,.62);--field:#eaf1ff}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#102432;color:#0f172a}.view{display:none}.view.active{display:block}
-.loginPage{min-height:100vh;position:relative;overflow:hidden;display:none;align-items:center;justify-content:center;padding:40px 20px;background:linear-gradient(rgba(15,25,35,.45),rgba(15,25,35,.55)),url('assets/fondo-camion.png');background-size:110%;background-position:center 40%;background-repeat:no-repeat}.loginPage.active{display:flex}.loginPage:before{content:"";position:absolute;inset:0;backdrop-filter:blur(6px) grayscale(.12) saturate(.90);background:rgba(10,25,35,.28);z-index:0}
-.cornerLogo{position:absolute;top:26px;left:30px;width:145px;max-width:18vw;height:auto;z-index:2}.loginCard{position:relative;z-index:2;width:min(360px,88vw);padding:25px 28px 24px;border-radius:18px;border:1px solid rgba(255,255,255,.18);background:var(--card);box-shadow:0 16px 36px rgba(0,0,0,.32);backdrop-filter:blur(9px);text-align:center}.loginLogo{display:block;width:50%;max-width:180px;min-width:120px;height:auto;margin:0 auto 14px}
-.loginCard h1{margin:0;color:#fff;font-size:24px;letter-spacing:.7px;font-weight:900}.loginCard p{margin:10px 0 22px;color:rgba(255,255,255,.74);font-size:13px}.loginCard label{display:block;text-align:left;color:white;font-size:12px;font-weight:900;margin:12px 0 6px}
-.loginCard input{width:100%;height:42px;border:0;border-radius:10px;background:var(--field);color:#111827;font-size:13px;padding:0 14px;outline:none}.loginCard input:focus{box-shadow:0 0 0 3px rgba(52,178,69,.35)}.passWrap{position:relative}.passWrap input{padding-right:46px}.passWrap button{position:absolute;right:8px;top:8px;width:26px;height:26px;border:0;background:transparent;color:#173649;cursor:pointer;font-size:15px}
-.loginButton{width:100%;height:42px;border:0;border-radius:10px;background:linear-gradient(90deg,var(--elta),var(--elta2));color:white;font-size:13px;font-weight:900;cursor:pointer;margin-top:18px}#msg{min-height:16px;color:#ffced0;font-weight:900;margin-top:10px;font-size:12px}.loginFooter{position:absolute;bottom:24px;left:0;right:0;z-index:2;display:flex;gap:30px;justify-content:center;text-align:center;color:rgba(255,255,255,.74);font-weight:700;font-size:13px}
-.appPage{min-height:100vh;background:linear-gradient(rgba(15,25,35,.48),rgba(15,25,35,.58)),url('assets/fondo-camion.png');background-size:110%;background-attachment:fixed;background-position:center 40%;background-repeat:no-repeat;padding:18px}.appPage:before{content:"";position:fixed;inset:0;backdrop-filter:blur(5px) grayscale(.10);pointer-events:none;z-index:0}.sideBrand,.portalNav,.portalMain{position:relative;z-index:1}.sideBrand{display:flex;align-items:center;gap:18px;color:white;margin-bottom:18px}.sideBrand img{width:150px;height:auto}.sideBrand h2{margin:0;font-size:34px;font-weight:900}.sideBrand p{margin:4px 0 0;color:rgba(255,255,255,.78)}
-.portalNav{display:flex;overflow-x:auto;gap:10px;margin-bottom:16px}button{border:0;border-radius:14px;font-weight:900;font-size:16px;padding:12px 16px;background:#2a4657;color:white;cursor:pointer}.portalNav button{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:white}.portalNav button.active{background:linear-gradient(90deg,var(--elta),var(--elta2))}.danger{background:#b91c1c!important}.portalMain{padding-bottom:60px}.panel{display:none}.panel.active{display:block}.glassCard{background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.45);border-radius:24px;box-shadow:0 16px 38px rgba(0,0,0,.22);padding:20px;margin-bottom:18px;backdrop-filter:blur(8px)}.cardHead{display:flex;align-items:center;justify-content:space-between;gap:14px}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}.kpis div{background:rgba(255,255,255,.88);border-radius:22px;padding:22px;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.18);backdrop-filter:blur(8px)}.kpis span{display:block;font-size:38px;font-weight:900;color:#1d4ed8}.kpis b{font-size:14px}.list{display:flex;flex-direction:column;gap:14px}.item{background:white;border:1px solid #d7dee8;border-radius:18px;padding:16px}.item.open{border:2px solid #2563eb}.item.closed{background:#edf2f7;color:#475569}.top{display:flex;justify-content:space-between;gap:12px;font-weight:900;font-size:18px;margin-bottom:10px}.badge{border-radius:999px;padding:4px 12px;background:#dbeafe;color:#1d4ed8;font-weight:900}.badge.closed{background:#cbd5e1;color:#475569}.filters,.form{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.filters input,.filters select,.form input,.form select{height:48px;border:1px solid #cbd5e1;border-radius:13px;padding:0 14px;font-size:15px}.abmtabs{display:flex;overflow-x:auto;gap:8px;margin:12px 0}.mapbox{min-height:230px;border:2px dashed #cbd5e1;border-radius:18px;background:#f8fafc;display:flex;align-items:center;justify-content:center;text-align:center;color:#475569;margin:14px 0}
-@media(max-width:850px){.cornerLogo{width:115px;max-width:36vw;top:18px;left:18px}.loginPage{padding-top:95px;align-items:flex-start;background-size:cover;background-position:center 42%}.loginCard{width:min(300px,88vw);padding:20px 20px 22px}.loginLogo{width:50%;min-width:110px;margin-bottom:12px}.loginCard h1{font-size:20px}.loginCard p{font-size:12px;margin-bottom:18px}.loginCard input{height:40px;font-size:12px}.loginButton{height:40px;font-size:12px}.loginFooter{font-size:11px;bottom:12px;gap:10px;flex-wrap:wrap;padding:0 12px}.sideBrand img{width:110px}.sideBrand h2{font-size:24px}.kpis{grid-template-columns:repeat(2,1fr)}.filters,.form{grid-template-columns:1fr}}
+*{box-sizing:border-box}
+:root{
+  --elta:#4cc63f;
+  --elta2:#35ad45;
+  --blue:#1e88e5;
+  --dark:#071a2c;
+  --panel:rgba(9,28,43,.68);
+  --panel2:rgba(255,255,255,.08);
+  --border:rgba(255,255,255,.16);
+  --text:#f8fafc;
+  --muted:rgba(255,255,255,.72);
+  --field:#edf3ff;
+}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#071a2c;color:var(--text)}
+.view{display:none}.view.active{display:block}
 
-
-/* ===== V1.0.9 - fondo corregido ELTA ===== */
+/* LOGIN */
 .loginPage{
-  min-height:100vh;
-  position:relative;
-  overflow:hidden;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:40px 20px;
-  background:#102432;
+  min-height:100vh;position:relative;overflow:hidden;display:none;align-items:center;justify-content:center;
+  padding:40px 20px;background:#102432;
 }
 .loginPage.active{display:flex}
 .bgPhoto{
-  position:absolute;
-  inset:-8px;
-  z-index:0;
-  background-image:url('assets/fondo-camion.png');
-  background-size:cover;
-  background-position:62% center;
-  background-repeat:no-repeat;
-  transform:none;
-  filter:brightness(.62) saturate(.95);
+  position:absolute;inset:0;z-index:0;background-image:url('assets/fondo-camion.png');
+  background-size:cover;background-position:center 48%;background-repeat:no-repeat;
+  filter:brightness(.92) contrast(1.02) saturate(1.05);opacity:1;
 }
-.bgOverlay{
-  position:absolute;
-  inset:0;
-  z-index:1;
-  background:rgba(8,24,34,.42);
-}
+.bgOverlay{position:absolute;inset:0;z-index:1;background:linear-gradient(rgba(5,18,28,.28),rgba(5,18,28,.38))}
+.cornerLogo{position:absolute;top:30px;left:34px;width:165px;max-width:18vw;height:auto;z-index:3}
 .loginCard{
-  width:420px;
-  max-width:88vw;
-  z-index:3;
+  position:relative;z-index:3;width:420px;max-width:88vw;padding:26px 30px 28px;border-radius:22px;
+  border:1px solid rgba(255,255,255,.22);background:rgba(39,59,70,.58);
+  box-shadow:0 20px 45px rgba(0,0,0,.34);backdrop-filter:blur(6px);text-align:center;
 }
-.cornerLogo{
-  width:165px;
-  max-width:18vw;
-  z-index:3;
-}
-.loginFooter{
-  z-index:3;
-}
-.appPage{
-  min-height:100vh;
-  position:relative;
-  overflow:hidden;
-  background:#102432;
-  padding:18px;
-}
+.loginLogo{display:block;width:50%;max-width:180px;height:auto;margin:0 auto 18px}
+.loginCard h1{margin:0;color:white;font-size:24px;letter-spacing:.5px;font-weight:900}
+.loginCard p{margin:10px 0 12px;color:rgba(255,255,255,.78);font-size:14px}
+.greenLine{width:46px;height:3px;background:var(--elta);border-radius:999px;margin:0 auto 22px}
+.loginCard label{display:block;text-align:left;color:white;font-size:13px;font-weight:900;margin:14px 0 7px}
+.inputWrap{position:relative}.inputIcon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;opacity:.8}
+.loginCard input{width:100%;height:44px;border:0;border-radius:11px;background:var(--field);color:#111827;font-size:14px;padding:0 42px;outline:none}
+.loginCard input:focus{box-shadow:0 0 0 3px rgba(52,178,69,.32)}
+.eyeBtn{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:26px;height:26px;border:0;background:transparent;color:#173649;cursor:pointer;font-size:15px;padding:0}
+.loginButton{width:100%;height:46px;border:0;border-radius:11px;margin-top:20px;background:linear-gradient(90deg,var(--elta),var(--elta2));color:white;font-size:14px;font-weight:900;cursor:pointer}
+.forgot{display:block;margin-top:18px;color:#20b8ff;text-decoration:none;font-size:13px;font-weight:700}
+#msg{min-height:18px;color:#ffced0;font-weight:900;margin-top:10px;font-size:12px}
+.loginFooter{position:absolute;bottom:24px;left:0;right:0;z-index:3;display:flex;gap:32px;justify-content:center;color:rgba(255,255,255,.84);font-size:13px;font-weight:700}
+
+/* APP V1.1 */
+.appPage{min-height:100vh;position:relative;overflow:hidden;background:#071a2c}
 .appBgPhoto{
-  position:fixed;
-  inset:-8px;
-  z-index:0;
-  background-image:url('assets/fondo-camion.png');
-  background-size:cover;
-  background-position:62% center;
-  background-repeat:no-repeat;
-  transform:none;
-  filter:brightness(.58) saturate(.9);
+  position:fixed;inset:0;z-index:0;background-image:url('assets/fondo-camion.png');
+  background-size:cover;background-position:center 48%;background-repeat:no-repeat;
+  filter:brightness(.68) contrast(1.02) saturate(.95);opacity:1;
 }
-.appBgOverlay{
-  position:fixed;
-  inset:0;
-  z-index:0;
-  background:rgba(8,24,34,.50);
-  pointer-events:none;
-}
-.sideBrand,.portalNav,.portalMain{
-  position:relative;
-  z-index:1;
-}
-@media(max-width:850px){
-  .bgPhoto,.appBgPhoto{
-    background-position:58% center;
-    transform:none;
-  }
-  .loginCard{
-    width:320px;
-    max-width:92vw;
-  }
-  .cornerLogo{
-    width:120px;
-    max-width:40vw;
-  }
-}
+.appBgOverlay{position:fixed;inset:0;z-index:0;background:rgba(5,18,28,.54);pointer-events:none}
 
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;width:270px;z-index:3;
+  background:linear-gradient(180deg,rgba(6,22,35,.94),rgba(6,22,35,.78));
+  border-right:1px solid var(--border);backdrop-filter:blur(12px);
+  display:flex;flex-direction:column;padding:28px 16px;
+}
+.brandBox{height:100px;display:flex;align-items:center;padding-left:18px}
+.brandBox img{width:150px;height:auto}
+.sideNav{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.sideNav button{
+  width:100%;display:flex;align-items:center;gap:14px;border:0;border-radius:10px;padding:15px 16px;
+  background:transparent;color:rgba(255,255,255,.84);font-weight:800;font-size:15px;text-align:left;cursor:pointer;
+}
+.sideNav button.active{background:linear-gradient(90deg,rgba(76,198,63,.55),rgba(76,198,63,.16));color:white;border-left:3px solid var(--elta)}
+.sideNav button:hover{background:rgba(255,255,255,.08)}
+.adminBox{
+  margin-top:auto;border-top:1px solid var(--border);padding:18px 0 10px;display:flex;align-items:center;gap:12px;color:white;
+}
+.adminAvatar{width:38px;height:38px;border-radius:50%;background:var(--elta);display:flex;align-items:center;justify-content:center;font-weight:900}
+.adminBox small{display:block;color:var(--muted);margin-top:3px}
+.logoutBtn{background:transparent!important;color:white!important;text-align:left;border:0;padding:14px 0;font-weight:800;cursor:pointer}
 
+.dashboardShell{position:relative;z-index:1;margin-left:270px;min-height:100vh;padding:10px 28px 28px}
+.managerHeader{
+  min-height:86px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,.06);
+  backdrop-filter:blur(10px);display:grid;grid-template-columns:60px 1fr auto;align-items:center;padding:12px 18px;margin-bottom:28px;
+}
+.hamburger{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--border);color:white;font-size:20px}
+.headerTitle{text-align:right;padding-right:28px}
+.headerTitle h1{margin:0;font-size:34px;line-height:1;font-weight:900;color:white}
+.headerTitle p{margin:7px 0 0;color:white;font-size:16px}
+.headerTitle span{display:block;margin-top:7px;color:var(--muted);font-size:13px}
+.headerActions{display:flex;gap:12px;align-items:center}
+.miniPill,.userPill{border:1px solid var(--border);background:rgba(255,255,255,.08);color:white;border-radius:12px;padding:10px 12px;font-weight:800}
+.userPill span{display:inline-flex;width:30px;height:30px;border-radius:50%;background:#31a9e8;align-items:center;justify-content:center;margin-right:8px}
 
-/* ===== V1.0.9 - fondo visible corregido ===== */
-.loginPage{
-  min-height:100vh !important;
-  position:relative !important;
-  overflow:hidden !important;
-  display:none;
-  align-items:center !important;
-  justify-content:center !important;
-  padding:40px 20px !important;
-  background:#102432 !important;
+.panel{display:none}.panel.active{display:block}
+.sectionTitle{margin:0 0 18px}
+.sectionTitle h2{margin:0;color:white;font-size:26px;font-weight:900}
+.sectionTitle p{margin:6px 0 0;color:var(--muted)}
+
+.kpiGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:18px}
+.kpiCard{
+  min-height:126px;border:1px solid var(--border);border-radius:12px;background:rgba(7,26,42,.72);
+  backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;padding:20px;
 }
-.loginPage.active{display:flex !important}
-.bgPhoto{
-  position:absolute !important;
-  inset:0 !important;
-  z-index:0 !important;
-  background-image:url('assets/fondo-camion.png') !important;
-  background-size:cover !important;
-  background-position:center 48% !important;
-  background-repeat:no-repeat !important;
-  transform:none !important;
-  filter:brightness(.92) contrast(1.02) saturate(1.05) !important;
-  opacity:1 !important;
+.kpiCard h3{margin:0 0 10px;color:white;font-size:15px}
+.kpiCard strong{font-size:36px;display:block;font-weight:900}
+.kpiCard small{color:var(--muted)}
+.kpiCard span{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px}
+.kpiCard.green strong{color:var(--elta)}.kpiCard.green span{background:rgba(76,198,63,.18)}
+.kpiCard.blue strong{color:#38bdf8}.kpiCard.blue span{background:rgba(56,189,248,.16)}
+.kpiCard.yellow strong{color:#facc15}.kpiCard.yellow span{background:rgba(250,204,21,.16)}
+.kpiCard.purple strong{color:#8b5cf6}.kpiCard.purple span{background:rgba(139,92,246,.16)}
+
+.dashGrid{display:grid;grid-template-columns:1fr 1.55fr;gap:18px;margin-bottom:18px}
+.glassPanel{
+  border:1px solid var(--border);border-radius:12px;background:rgba(7,26,42,.72);
+  box-shadow:0 18px 42px rgba(0,0,0,.22);backdrop-filter:blur(12px);padding:18px;color:white;
 }
-.bgOverlay{
-  position:absolute !important;
-  inset:0 !important;
-  z-index:1 !important;
-  background:
-    linear-gradient(rgba(5,18,28,.28),rgba(5,18,28,.38)) !important;
-  opacity:1 !important;
+.panelHead{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
+.panelHead h3{margin:0;font-size:17px}
+.panelHead button,.glassPanel button{border:0;border-radius:10px;background:rgba(76,198,63,.22);color:#6df35f;padding:9px 12px;font-weight:900;cursor:pointer}
+.donutRow{display:flex;align-items:center;gap:28px;min-height:190px}
+.donut{width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--elta) 0 68%, #38bdf8 68% 82%, #facc15 82% 94%, #ef4444 94% 100%);display:flex;align-items:center;justify-content:center}
+.donut:before{content:"";position:absolute;width:88px;height:88px;border-radius:50%;background:#071a2c}
+.donut div{position:relative;text-align:center;z-index:1}.donut b{font-size:28px;display:block}.donut small{color:var(--muted)}
+.legend{display:flex;flex-direction:column;gap:14px;min-width:190px}.legend div{display:flex;align-items:center;gap:10px;color:white}.legend b{margin-left:auto}.dot{width:12px;height:12px;border-radius:50%;display:inline-block}.dot.green{background:var(--elta)}.dot.blue{background:#38bdf8}.dot.yellow{background:#facc15}.dot.red{background:#ef4444}
+
+.mapVisual{position:relative;min-height:245px;border-radius:10px;overflow:hidden;background:linear-gradient(135deg,rgba(33,84,66,.72),rgba(14,45,70,.78)),radial-gradient(circle at 60% 40%,rgba(76,198,63,.22),transparent 30%);border:1px solid rgba(255,255,255,.1)}
+.mapVisual.big{min-height:430px}
+.routeLine{position:absolute;left:12%;right:10%;top:55%;height:3px;background:rgba(56,189,248,.55);transform:rotate(-8deg);box-shadow:0 0 18px rgba(56,189,248,.28)}
+.truckPoint{position:absolute;font-size:28px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
+.p1{left:24%;top:62%}.p2{left:55%;top:34%}.p3{left:76%;top:52%}
+.city{position:absolute;color:white;font-size:13px;text-shadow:0 2px 6px #000}.c1{left:20%;top:47%}.c2{left:50%;top:55%}.c3{left:74%;top:35%}
+
+.tablePanel{margin-bottom:18px}
+.darkTable{overflow-x:auto}
+.darkTable table{width:100%;border-collapse:collapse;color:white}
+.darkTable th,.darkTable td{padding:13px 12px;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;font-size:14px}
+.darkTable th{color:rgba(255,255,255,.72);font-weight:800;background:rgba(255,255,255,.05)}
+.statusBadge{display:inline-block;border-radius:6px;padding:5px 8px;font-size:12px;font-weight:900}
+.statusBadge.open{background:rgba(76,198,63,.25);color:#6df35f}
+.statusBadge.closed{background:rgba(148,163,184,.22);color:#cbd5e1}
+.alertStrip{display:flex;justify-content:space-between;gap:20px;align-items:center}
+.alertStrip h3{margin:0 0 10px}.alertLine{color:#ffb4b4;margin:6px 0}
+
+.cardList{display:flex;flex-direction:column;gap:14px}
+.item{border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.07);padding:16px;color:white}
+.item.open{border-color:rgba(76,198,63,.7)}.item.closed{background:rgba(148,163,184,.12);color:#cbd5e1}
+.top{display:flex;justify-content:space-between;gap:12px;font-weight:900;font-size:17px;margin-bottom:10px}
+.badge{border-radius:999px;padding:4px 12px;background:rgba(76,198,63,.22);color:#6df35f;font-weight:900}
+.badge.closed{background:rgba(148,163,184,.22);color:#cbd5e1}
+.filters,.form{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.filters input,.filters select,.form input,.form select{height:44px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:rgba(255,255,255,.1);color:white;padding:0 12px}
+.filters input::placeholder,.form input::placeholder{color:rgba(255,255,255,.55)}
+.abmtabs{display:flex;overflow-x:auto;gap:8px;margin:12px 0}.abmtabs button{white-space:nowrap}
+.emptyPanel{min-height:180px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.appFooter{display:flex;gap:34px;justify-content:center;color:var(--muted);font-weight:700;margin:34px 0 0;font-size:14px}
+
+@media(max-width:1000px){
+  .sidebar{width:82px;padding:20px 10px}.brandBox{padding-left:0;justify-content:center}.brandBox img{width:58px}.sideNav button span,.adminBox div,.logoutBtn{display:none}.sideNav button{justify-content:center;font-size:20px}.dashboardShell{margin-left:82px}.managerHeader{grid-template-columns:48px 1fr}.headerActions{display:none}.headerTitle{text-align:right;padding-right:0}.kpiGrid{grid-template-columns:repeat(2,1fr)}.dashGrid{grid-template-columns:1fr}
 }
-.loginCard{
-  position:relative !important;
-  z-index:3 !important;
-  width:420px !important;
-  max-width:88vw !important;
-  background:rgba(39,59,70,.58) !important;
-  backdrop-filter:blur(6px) !important;
-}
-.cornerLogo,.loginFooter{
-  z-index:3 !important;
-}
-.appPage{
-  min-height:100vh !important;
-  position:relative !important;
-  overflow:hidden !important;
-  background:#102432 !important;
-  padding:18px !important;
-}
-.appBgPhoto{
-  position:fixed !important;
-  inset:0 !important;
-  z-index:0 !important;
-  background-image:url('assets/fondo-camion.png') !important;
-  background-size:cover !important;
-  background-position:center 48% !important;
-  background-repeat:no-repeat !important;
-  transform:none !important;
-  filter:brightness(.88) contrast(1.02) saturate(1.03) !important;
-  opacity:1 !important;
-}
-.appBgOverlay{
-  position:fixed !important;
-  inset:0 !important;
-  z-index:0 !important;
-  background:rgba(5,18,28,.42) !important;
-  pointer-events:none !important;
-}
-.sideBrand,.portalNav,.portalMain{
-  position:relative !important;
-  z-index:1 !important;
-}
-@media(max-width:850px){
-  .bgPhoto,.appBgPhoto{
-    background-position:center 45% !important;
-    background-size:cover !important;
-  }
-  .loginCard{
-    width:320px !important;
-    max-width:92vw !important;
-  }
+@media(max-width:640px){
+  .dashboardShell{padding:10px 12px;margin-left:0}.sidebar{display:none}.managerHeader{grid-template-columns:44px 1fr}.headerTitle h1{font-size:24px}.headerTitle p{font-size:13px}.kpiGrid{grid-template-columns:1fr}.filters,.form{grid-template-columns:1fr}.loginCard{width:320px}.cornerLogo{width:120px;max-width:40vw}.loginFooter{font-size:11px;bottom:12px;gap:10px;flex-wrap:wrap}
 }
