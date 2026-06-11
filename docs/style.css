@@ -917,3 +917,196 @@ body.sidebarCollapsed .sideNav button{
     grid-template-columns:1fr !important;
   }
 }
+
+
+/* ===== V1.2.3 - Linea logo + graficos torta + bloques con informacion ===== */
+
+/* Línea debajo del logo ELTA del menú */
+.brandBox{
+  position:relative !important;
+  flex-direction:column !important;
+  justify-content:center !important;
+  gap:12px !important;
+}
+
+.brandDivider{
+  width:86% !important;
+  height:1px !important;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent) !important;
+  margin:2px auto 0 !important;
+}
+
+/* Gráficos tipo torta alineados */
+.chartsGrid{
+  display:grid !important;
+  grid-template-columns:repeat(4,1fr) !important;
+  gap:12px !important;
+  margin-bottom:12px !important;
+}
+
+.chartPanel{
+  min-height:255px !important;
+  padding:13px !important;
+  display:flex !important;
+  flex-direction:column !important;
+}
+
+.compactChart{
+  flex:1 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;
+}
+
+.pieChartBlock{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:12px !important;
+}
+
+.pieChart{
+  width:112px !important;
+  height:112px !important;
+  border-radius:50% !important;
+  position:relative !important;
+  box-shadow:0 0 24px rgba(0,0,0,.28) !important;
+}
+
+.pieChart::after{
+  content:"" !important;
+  position:absolute !important;
+  inset:30px !important;
+  border-radius:50% !important;
+  background:#071a2c !important;
+  border:1px solid rgba(255,255,255,.09) !important;
+}
+
+.pieCenter{
+  position:absolute !important;
+  inset:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  z-index:2 !important;
+  color:white !important;
+  font-weight:900 !important;
+}
+
+.pieCenter b{
+  font-size:20px !important;
+  line-height:1 !important;
+}
+
+.pieCenter small{
+  font-size:9px !important;
+  color:rgba(255,255,255,.65) !important;
+  margin-top:3px !important;
+}
+
+.pieLegend{
+  width:100% !important;
+  display:flex !important;
+  flex-direction:column !important;
+  gap:6px !important;
+}
+
+.pieLegendRow{
+  display:grid !important;
+  grid-template-columns:12px 1fr 34px 42px !important;
+  gap:6px !important;
+  align-items:center !important;
+  font-size:11px !important;
+  color:white !important;
+}
+
+.pieLegendRow .swatch{
+  width:10px !important;
+  height:10px !important;
+  border-radius:3px !important;
+}
+
+.pieLegendRow .name{
+  overflow:hidden !important;
+  white-space:nowrap !important;
+  text-overflow:ellipsis !important;
+  color:rgba(255,255,255,.86) !important;
+}
+
+.pieLegendRow .val{
+  text-align:right !important;
+  font-weight:900 !important;
+}
+
+.pieLegendRow .pct{
+  text-align:right !important;
+  color:#9be58f !important;
+  font-weight:900 !important;
+}
+
+.chartEmpty{
+  min-height:160px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  color:rgba(255,255,255,.68) !important;
+  font-size:12px !important;
+}
+
+/* Tabla y alertas con contenido visible */
+.darkTable.emptyTable,
+.alertEmpty{
+  min-height:110px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  color:rgba(255,255,255,.70) !important;
+  font-size:13px !important;
+  border:1px dashed rgba(255,255,255,.14) !important;
+  border-radius:10px !important;
+  background:rgba(255,255,255,.04) !important;
+}
+
+.alertStrip{
+  min-height:76px !important;
+}
+
+.alertStrip > div{
+  width:100% !important;
+}
+
+#dashAlerts{
+  min-height:24px !important;
+}
+
+/* Renglones todavía más compactos */
+.darkTable th,
+.darkTable td{
+  padding:5px 7px !important;
+  font-size:10.5px !important;
+  line-height:1.1 !important;
+}
+
+.darkTable td{
+  height:28px !important;
+}
+
+.statusBadge{
+  padding:2px 5px !important;
+  font-size:9.5px !important;
+}
+
+/* Responsive gráficos */
+@media(max-width:1300px){
+  .chartsGrid{
+    grid-template-columns:repeat(2,1fr) !important;
+  }
+}
+
+@media(max-width:720px){
+  .chartsGrid{
+    grid-template-columns:1fr !important;
+  }
+}
