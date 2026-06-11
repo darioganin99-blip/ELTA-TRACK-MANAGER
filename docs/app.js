@@ -241,3 +241,122 @@ function renderRep(){
 }
 function copyRep(){navigator.clipboard?.writeText(q("rep").innerText);alert("Reporte copiado")}
 document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
+
+
+
+
+/* ===== V1.2.4 overrides ===== */
+
+function uniq(arr){
+  return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
+}
+function fillSelect(id, values, label){
+  let el=q(id);
+  if(!el)return;
+  let current=el.value;
+  el.innerHTML=`<option value="">${label}</option>`+uniq(values).map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join("");
+  if([...el.options].some(o=>o.value===current))el.value=current;
+}
+function refreshFilters(){
+  fillSelect("fFlo", trs.map(flota), "Todas las flotas");
+  fillSelect("fCli", trs.map(t=>ruta(t).cliente), "Todos los clientes");
+}
+function valFrom(obj, keys){
+  for(let k of keys){
+    let v=obj&&obj[k];
+    if(v!==undefined&&v!==null&&String(v).trim()!=="")return v;
+  }
+  return "";
+}
+function locFull(t){
+  let u=lastU(t)||{};
+  let gps=u.gps||u.ultimaPosicion||t.ultimaPosicion||t.lastPosition||t.posicion||u||{};
+  let direct=valFrom(gps,["ubicacionTexto","ubicacion","localidadProvincia","address","direccion","formatted_address"]);
+  if(direct)return direct;
+  let locTxt=[valFrom(gps,["localidad","city","ciudad","municipio","partido"]), valFrom(gps,["provincia","state","region"])].filter(Boolean).join(", ");
+  if(locTxt)return locTxt;
+  let lat=valFrom(gps,["lat","latitude","latitud"]);
+  let lng=valFrom(gps,["lng","lon","longitude","longitud"]);
+  if(lat&&lng)return `${lat}, ${lng}`;
+  return "-";
+}
+function loc(t){return locFull(t)}
+function alertLoc(a,t){
+  let gps=a.gps||a.ubicacion||a.posicion||a.location||{};
+  let direct=valFrom(a,["localidad","ubicacionTexto","ubicacion","lugar","zona","city","ciudad"])||valFrom(gps,["localidad","ubicacionTexto","ubicacion","city","ciudad"]);
+  return direct||locFull(t);
+}
+function alertKm(a){
+  return valFrom(a,["km","kilometro","kilómetro","kmRuta","progresiva"])||"-";
+}
+function alertDate(a){
+  return fd(a.time||a.fecha||a.createdAt||a.ts);
+}
+function collectAlerts(){
+  let alerts=[];
+  trs.forEach(t=>(t.alerts||[]).forEach(a=>alerts.push({t,a})));
+  alerts.sort((x,y)=>tv(y.a.time||y.a.fecha||y.a.createdAt||y.a.ts)-tv(x.a.time||x.a.fecha||x.a.createdAt||x.a.ts));
+  return alerts;
+}
+
+async function refresh(){
+  [trs,users,clientes,origenes,destinos,embarques]=await Promise.all([
+    read("transitos"),read("usuarios"),read("clientes"),read("origenes"),read("destinos"),read("embarque")
+  ]);
+  refreshFilters();
+  renderDash();renderTransitos();renderMapa();renderRep();renderUnits();renderDrivers();renderClients();renderAlerts();
+}
+
+function card(t){
+  let o=openT(t),r=ruta(t);
+  return `<div class="item ${o?"open":"closed"}">
+    <div class="top"><span>🚚 Flota ${esc(flota(t)||"-")} / 📦 Emb. ${esc(t.embarque||"-")}</span><span class="badge ${o?"":"closed"}">${o?"En tránsito":"Finalizado"}</span></div>
+    <div class="metaGrid">
+      <div><b>Cliente:</b> ${esc(r.cliente||"-")}</div>
+      <div><b>Lote/Carga:</b> ${esc(t.lote||"-")}</div>
+      <div><b>Origen:</b> ${esc(r.origen||"-")}</div>
+      <div><b>Destino:</b> ${esc(r.destino||"-")}</div>
+      <div><b>Inicio:</b> ${fd(t.start?.time||t.start)}</div>
+      <div><b>Cierre:</b> ${o?"-":fd(t.closed?.time||t.closed)}</div>
+      <div class="fullLine"><b>Últ. posición:</b> ${esc(locFull(t))}</div>
+      <div class="fullLine"><b>Últ. alerta:</b> ${esc(alertT(t))}</div>
+    </div>
+  </div>`;
+}
+
+function filt(t){
+  let e=q("fEmb")?.value.toLowerCase()||"",f=q("fFlo")?.value||"",c=q("fCli")?.value||"",s=q("fEst")?.value||"";
+  return(!e||String(t.embarque||"").toLowerCase().includes(e))&&(!f||flota(t)===f)&&(!c||String(ruta(t).cliente||"")===c)&&(!s||(s==="abierto"?openT(t):!openT(t)));
+}
+
+function renderDashAlerts(){
+  let alerts=collectAlerts();
+  if(!alerts.length){q("dashAlerts").innerHTML='<div class="alertEmpty">Sin alertas activas.</div>';return;}
+  q("dashAlerts").innerHTML=`<div class="alertListCompact">`+alerts.map(x=>{
+    let tipo=esc(x.a.tipo||x.a.type||x.a.motivo||"Alerta");
+    return `<div class="alertCard">
+      <div class="alertTop"><span>⚠️ ${tipo}</span><span>${alertDate(x.a)}</span></div>
+      <div class="alertInfo">
+        <div><b>Emb.:</b> ${esc(x.t.embarque||"-")}</div>
+        <div><b>Flota:</b> ${esc(flota(x.t)||"-")}</div>
+        <div><b>Km:</b> ${esc(alertKm(x.a))}</div>
+        <div><b>Estado:</b> ${openT(x.t)?"En tránsito":"Finalizado"}</div>
+        <div class="fullLine"><b>Localidad:</b> ${esc(alertLoc(x.a,x.t))}</div>
+      </div>
+    </div>`;
+  }).join("")+`</div>`;
+}
+
+function renderAlerts(){
+  let alerts=collectAlerts();
+  q("alertList").innerHTML=alerts.map(x=>`<div class="item">
+    <div class="top"><span>⚠️ ${esc(x.a.tipo||x.a.type||x.a.motivo||"Alerta")}</span><span class="badge">Emb. ${esc(x.t.embarque||"-")}</span></div>
+    <div class="metaGrid">
+      <div><b>Flota:</b> ${esc(flota(x.t)||"-")}</div>
+      <div><b>Km:</b> ${esc(alertKm(x.a))}</div>
+      <div><b>Fecha/Hora:</b> ${alertDate(x.a)}</div>
+      <div><b>Estado:</b> ${openT(x.t)?"En tránsito":"Finalizado"}</div>
+      <div class="fullLine"><b>Localidad:</b> ${esc(alertLoc(x.a,x.t))}</div>
+    </div>
+  </div>`).join("")||'<div class="item">Sin alertas registradas.</div>';
+}

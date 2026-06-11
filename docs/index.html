@@ -41,7 +41,7 @@
   <footer class="loginFooter">
     <span>🛡 Sistema seguro</span>
     <span>© 2025 ELTA Tracking Solutions</span>
-    <span>Versión 1.2.3</span>
+    <span>Versión 1.2.4</span>
   </footer>
 </section>
 
@@ -86,7 +86,7 @@
       <div class="headerTitle">
         <h1>Track Manager</h1>
         <p>Panel tráfico / coordinación</p>
-        <span>Versión 1.2.3</span>
+        <span>Versión 1.2.4</span>
       </div>
 
       <div class="headerActions">
@@ -180,12 +180,12 @@
       <div class="glassPanel">
         <div class="filters">
           <input id="fEmb" placeholder="Embarque" oninput="renderTransitos()">
-          <input id="fFlo" placeholder="Flota" oninput="renderTransitos()">
-          <input id="fCli" placeholder="Cliente" oninput="renderTransitos()">
+          <select id="fFlo" onchange="renderTransitos()"><option value="">Todas las flotas</option></select>
+          <select id="fCli" onchange="renderTransitos()"><option value="">Todos los clientes</option></select>
           <select id="fEst" onchange="renderTransitos()">
             <option value="">Todos</option>
-            <option value="abierto">Abiertos</option>
-            <option value="cerrado">Cerrados</option>
+            <option value="abierto">En tránsito</option>
+            <option value="cerrado">Finalizado</option>
           </select>
         </div>
       </div>
@@ -259,7 +259,7 @@
     <footer class="appFooter">
       <span>🛡 Sistema seguro</span>
       <span>© 2025 ELTA Tracking Solutions</span>
-      <span>Versión 1.2.3</span>
+      <span>Versión 1.2.4</span>
     </footer>
   </main>
 </section>
