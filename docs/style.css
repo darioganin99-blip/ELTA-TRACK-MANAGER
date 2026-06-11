@@ -2314,3 +2314,31 @@ select option:hover{
     grid-template-columns:1fr !important;
   }
 }
+
+
+/* ===== V1.2.19 - Unidades / Choferes fix datos role flota ===== */
+
+.fleetUserCard{
+  min-height:150px !important;
+}
+
+.fleetUserTransit{
+  margin-top:10px !important;
+  padding-top:9px !important;
+  border-top:1px solid rgba(255,255,255,.12) !important;
+  font-size:11px !important;
+  color:#d3dce7 !important;
+}
+
+.fleetUserTransit b{
+  color:white !important;
+}
+
+.fleetUserEmptyHint{
+  border:1px dashed rgba(255,255,255,.18) !important;
+  border-radius:12px !important;
+  padding:18px !important;
+  color:rgba(255,255,255,.76) !important;
+  background:rgba(20,39,54,.55) !important;
+  font-size:13px !important;
+}
