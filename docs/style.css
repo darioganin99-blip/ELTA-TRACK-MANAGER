@@ -2103,3 +2103,92 @@ select option:hover{
   white-space:nowrap !important;
   box-shadow:0 2px 6px rgba(0,0,0,.45) !important;
 }
+
+
+/* ===== V1.2.16 - Seguimiento: marcador solo número + zoom + último reporte ===== */
+
+/* eliminar cualquier camion remanente dentro del mapa */
+.eltaFleetMarker .truckIcon,
+.eltaTruckMarker{
+  display:none !important;
+}
+
+/* marcador numérico principal */
+.eltaFleetMarkerWrap{
+  background:transparent !important;
+  border:0 !important;
+}
+
+.eltaFleetMarker{
+  position:relative !important;
+  width:auto !important;
+  min-width:54px !important;
+  height:38px !important;
+  padding:0 14px !important;
+  border-radius:999px !important;
+  background:linear-gradient(180deg,#39c947 0%,#168b28 100%) !important;
+  color:#ffffff !important;
+  border:3px solid #ffffff !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  font-size:18px !important;
+  font-weight:1000 !important;
+  box-shadow:0 4px 12px rgba(0,0,0,.65),0 0 0 2px rgba(9,31,45,.85) !important;
+  text-shadow:0 1px 2px rgba(0,0,0,.85) !important;
+}
+
+.eltaFleetMarker::after{
+  content:"" !important;
+  position:absolute !important;
+  left:50% !important;
+  bottom:-11px !important;
+  transform:translateX(-50%) !important;
+  width:0 !important;
+  height:0 !important;
+  border-left:8px solid transparent !important;
+  border-right:8px solid transparent !important;
+  border-top:11px solid #168b28 !important;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.5)) !important;
+}
+
+.eltaFleetMarker.closed{
+  background:linear-gradient(180deg,#6b7280,#374151) !important;
+}
+
+.eltaFleetMarker.closed::after{
+  border-top-color:#374151 !important;
+}
+
+.eltaFleetMarker .fleetNumber{
+  position:static !important;
+  min-width:auto !important;
+  height:auto !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#ffffff !important;
+  font-size:18px !important;
+  font-weight:1000 !important;
+  padding:0 !important;
+}
+
+.eltaFleetMarker .fleetLabel{
+  display:none !important;
+}
+
+/* resaltar último reporte en panel derecho */
+.trackingReportLine{
+  grid-column:1 / -1 !important;
+  margin-top:4px !important;
+  padding:8px 10px !important;
+  border-radius:8px !important;
+  background:rgba(76,198,63,.14) !important;
+  border:1px solid rgba(76,198,63,.42) !important;
+  color:#ffffff !important;
+  font-size:13px !important;
+  font-weight:900 !important;
+}
+
+.trackingReportLine b{
+  color:#8df27c !important;
+}

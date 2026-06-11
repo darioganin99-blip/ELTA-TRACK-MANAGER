@@ -1,0 +1,1 @@
+ELTA Track Manager Web V1.2.16 - Seguimiento: elimina icono camion, mejora marcador numerico, resalta ultimo reporte y ajusta zoom para ver todas las flotas.

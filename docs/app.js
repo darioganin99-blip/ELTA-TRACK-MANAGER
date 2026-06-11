@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
 
 
 
-/* ===== V1.2.15 overrides ===== */
+/* ===== V1.2.16 overrides ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -364,7 +364,7 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.15 - Graficos barra compactos ===== */
+/* ===== V1.2.16 - Graficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -416,7 +416,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.15 - Reaseguro gráficos barra compactos ===== */
+/* ===== V1.2.16 - Reaseguro gráficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -468,7 +468,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.15 - Dashboard 4 gráficos + últimas alertas compactas ===== */
+/* ===== V1.2.16 - Dashboard 4 gráficos + últimas alertas compactas ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -540,7 +540,7 @@ function renderDashAlerts(){
 
 
 
-/* ===== V1.2.15 - SOLO vista Tránsitos: tarjeta como imagen ===== */
+/* ===== V1.2.16 - SOLO vista Tránsitos: tarjeta como imagen ===== */
 
 function valFrom(obj, keys){
   for(let k of keys){
@@ -628,7 +628,7 @@ function card(t){
 
 
 
-/* ===== V1.2.15 - Localidad/provincia desde coordenadas conocidas ===== */
+/* ===== V1.2.16 - Localidad/provincia desde coordenadas conocidas ===== */
 function parseCoordPair(txt){
   let s=String(txt||"");
   let m=s.match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
@@ -724,7 +724,7 @@ function card(t){
 
 
 
-/* ===== V1.2.15 - SOLO vista Seguimiento: mapa real GPS ===== */
+/* ===== V1.2.16 - SOLO vista Seguimiento: mapa real GPS ===== */
 let seguimientoMap=null;
 let seguimientoMarkers=[];
 
@@ -784,7 +784,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.15 - Seguimiento: fix mapa y localidad/provincia ===== */
+/* ===== V1.2.16 - Seguimiento: fix mapa y localidad/provincia ===== */
 function trackingCard(t){
   let o=openT(t),r=ruta(t),pos=getPosObj(t);
   return `<div class="trackingCard">
@@ -863,7 +863,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.15 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
+/* ===== V1.2.16 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -946,7 +946,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.15 - Seguimiento: marcador numerico estilo etiqueta ===== */
+/* ===== V1.2.16 - Seguimiento: marcador numerico estilo etiqueta ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -1016,4 +1016,115 @@ function initSeguimientoMap(items){
       maxZoom:13
     });
   }
+}
+
+
+
+
+/* ===== V1.2.16 - Seguimiento: solo numero, zoom con todas las flotas, ultimo reporte resaltado ===== */
+
+function markerHtmlForFleet(t){
+  let fleet=esc(flota(t)||"-");
+  let cls=openT(t)?"":" closed";
+  return `<div class="eltaFleetMarker${cls}">
+    <span class="fleetNumber">${fleet}</span>
+  </div>`;
+}
+
+function trackingCard(t){
+  let o=openT(t),r=ruta(t);
+  let last=(lastU(t)||{}).time||(lastU(t)||{}).fecha||(lastU(t)||{}).createdAt||(lastU(t)||{}).ts;
+  return `<div class="trackingCard">
+    <div class="trackingCardTop">
+      <div class="trackingFleetTitle">Flota ${esc(flota(t)||"-")}</div>
+      <span class="trackingState ${o?"":"closed"}">${o?"Abierto":"Finalizado"}</span>
+    </div>
+    <div class="trackingData">
+      <div><b>Emb.:</b> ${esc(t.embarque||"-")}</div>
+      <div><b>Chofer:</b> ${esc(typeof driverName==="function"?driverName(t):"-")}</div>
+      <div class="locationLine"><b>Ubicación:</b> ${esc(locFull(t))}</div>
+      <div><b>Cliente:</b> ${esc(r.cliente||"-")}</div>
+      <div><b>Destino:</b> ${esc(r.destino||"-")}</div>
+      <div class="trackingReportLine"><b>Últ. reporte:</b> ${fd(last)}</div>
+    </div>
+    <div class="trackingAlerts">
+      <h4>⚠️ Alertas del tránsito</h4>
+      ${trackingAlertsHtml(t)}
+    </div>
+  </div>`;
+}
+
+function initSeguimientoMap(items){
+  if(typeof L==="undefined"||!q("realMap"))return;
+
+  // Mostrar en mapa todas las flotas con posicion dentro del conjunto renderizado.
+  // Si hay abiertas, el conjunto ya viene filtrado desde renderMapa.
+  let withPos=items.map(t=>({t,pos:getPosObj(t)})).filter(x=>x.pos);
+
+  if(!seguimientoMap){
+    seguimientoMap=L.map("realMap",{
+      zoomControl:true,
+      preferCanvas:true,
+      worldCopyJump:true
+    });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+      maxZoom:19,
+      attribution:"&copy; OpenStreetMap"
+    }).addTo(seguimientoMap);
+  }
+
+  seguimientoMarkers.forEach(m=>m.remove());
+  seguimientoMarkers=[];
+
+  setTimeout(()=>seguimientoMap.invalidateSize(true),80);
+  setTimeout(()=>seguimientoMap.invalidateSize(true),300);
+  setTimeout(()=>seguimientoMap.invalidateSize(true),750);
+
+  if(!withPos.length){
+    seguimientoMap.setView([-34.6037,-58.3816],8);
+    return;
+  }
+
+  let bounds=[];
+  withPos.forEach(({t,pos})=>{
+    let icon=L.divIcon({
+      className:"eltaFleetMarkerWrap",
+      html:markerHtmlForFleet(t),
+      iconSize:[64,52],
+      iconAnchor:[32,48],
+      popupAnchor:[0,-46]
+    });
+
+    let marker=L.marker([pos.lat,pos.lng],{icon}).addTo(seguimientoMap);
+    marker.bindPopup(`<div class="mapPopup">
+      <div class="fleetPopupTitle">Flota ${esc(flota(t)||"-")}</div>
+      Emb.: ${esc(t.embarque||"-")}<br>
+      Ubicación: ${esc(locFull(t))}<br>
+      Cliente: ${esc(ruta(t).cliente||"-")}<br>
+      Estado: ${openT(t)?"Abierto":"Finalizado"}
+    </div>`);
+    seguimientoMarkers.push(marker);
+    bounds.push([pos.lat,pos.lng]);
+  });
+
+  setTimeout(()=>{
+    if(bounds.length===1){
+      seguimientoMap.setView(bounds[0],12);
+    }else{
+      let group=L.featureGroup(seguimientoMarkers);
+      seguimientoMap.fitBounds(group.getBounds(),{
+        paddingTopLeft:[80,80],
+        paddingBottomRight:[80,80],
+        maxZoom:12
+      });
+    }
+    seguimientoMap.invalidateSize(true);
+  },120);
+}
+
+function renderMapa(){
+  let abiertos=trs.filter(openT);
+  let items=abiertos.length?abiertos:trs.slice().sort((a,b)=>tv(b.start?.time||b.start)-tv(a.start?.time||a.start)).slice(0,20);
+  if(q("mapList"))q("mapList").innerHTML=items.map(trackingCard).join("")||'<div class="trackingCard">No hay flotas para mostrar.</div>';
+  initSeguimientoMap(items);
 }
