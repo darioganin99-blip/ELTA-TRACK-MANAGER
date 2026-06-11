@@ -1,0 +1,1 @@
+ELTA Track Manager Web V1.2.10 - Solo vista Transitos modificada con tarjeta horizontal y alertas a la derecha.

@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
 
 
 
-/* ===== V1.2.9 overrides ===== */
+/* ===== V1.2.10 overrides ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -364,7 +364,7 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.9 - Graficos barra compactos ===== */
+/* ===== V1.2.10 - Graficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -416,7 +416,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.9 - Reaseguro gráficos barra compactos ===== */
+/* ===== V1.2.10 - Reaseguro gráficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -468,7 +468,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.9 - Dashboard 4 gráficos + últimas alertas compactas ===== */
+/* ===== V1.2.10 - Dashboard 4 gráficos + últimas alertas compactas ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -535,4 +535,92 @@ function renderDashAlerts(){
     let fecha=fd(x.a.time||x.a.fecha||x.a.createdAt||x.a.ts);
     return `<div class="alertLine">• ${tipo} · Emb. ${emb} · Flota ${flo} · ${fecha}</div>`;
   }).join("");
+}
+
+
+
+
+/* ===== V1.2.10 - SOLO vista Tránsitos: tarjeta como imagen ===== */
+
+function valFrom(obj, keys){
+  for(let k of keys){
+    let v=obj&&obj[k];
+    if(v!==undefined&&v!==null&&String(v).trim()!=="")return v;
+  }
+  return "";
+}
+function driverName(t){
+  return valFrom(t,["chofer","driver","conductor","nombreChofer"])||
+         valFrom(t.user||{},["name","nombre","chofer","driver","user"])||
+         valFrom(lastU(t)||{},["chofer","driver","conductor"])||
+         "-";
+}
+function locFull(t){
+  let u=lastU(t)||{};
+  let sources=[u.gps,u.ultimaPosicion,u.position,u.location,u.posicion,t.ultimaPosicion,t.lastPosition,t.position,t.location,t.posicion,u].filter(Boolean);
+  for(let gps of sources){
+    let direct=valFrom(gps,["ubicacionTexto","ubicacion","localidadProvincia","address","direccion","formatted_address"]);
+    if(direct)return direct;
+    let locTxt=[valFrom(gps,["localidad","city","ciudad","municipio","partido"]), valFrom(gps,["provincia","state","region"])].filter(Boolean).join(", ");
+    if(locTxt)return locTxt;
+    let lat=valFrom(gps,["lat","latitude","latitud"]);
+    let lng=valFrom(gps,["lng","lon","longitude","longitud"]);
+    if(lat&&lng)return `${lat}, ${lng}`;
+  }
+  return "-";
+}
+function loc(t){return locFull(t)}
+function alertLoc(a,t){
+  let gps=a.gps||a.ubicacion||a.posicion||a.location||{};
+  return valFrom(a,["localidad","ubicacionTexto","ubicacion","lugar","zona","city","ciudad"])||
+         valFrom(gps,["localidad","ubicacionTexto","ubicacion","city","ciudad"])||
+         locFull(t);
+}
+function alertKm(a){
+  return valFrom(a,["km","kilometro","kilómetro","kmRuta","progresiva"])||"-";
+}
+function alertDate(a){
+  return fd(a.time||a.fecha||a.createdAt||a.ts);
+}
+function transitAlertsCompact(t){
+  let arr=(t.alerts||[]).slice();
+  arr.sort((a,b)=>tv(b.time||b.fecha||b.createdAt||b.ts)-tv(a.time||a.fecha||a.createdAt||a.ts));
+  if(!arr.length)return '<div class="noAlerts">Sin alertas registradas.</div>';
+  return `<div class="transitAlertsBox">`+arr.map(a=>{
+    let tipo=esc(a.tipo||a.type||a.motivo||"Alerta");
+    return `<div class="transitAlertCard">
+      <div class="transitAlertTop"><span>⚠️ ${tipo}</span><span>${alertDate(a)}</span></div>
+      <div class="transitAlertGrid">
+        <div><b>Km:</b> ${esc(alertKm(a))}</div>
+        <div><b>Hora:</b> ${alertDate(a)}</div>
+        <div class="fullLine"><b>Localidad:</b> ${esc(alertLoc(a,t))}</div>
+      </div>
+    </div>`;
+  }).join("")+`</div>`;
+}
+
+function card(t){
+  let o=openT(t),r=ruta(t);
+  return `<div class="item ${o?"open":"closed"} transitCardV1210">
+    <div class="transitLeft">
+      <div class="transitTop">
+        <div class="transitTitle">🚚 Flota ${esc(flota(t)||"-")} / 📦 Emb. ${esc(t.embarque||"-")}</div>
+        <span class="transitBadge ${o?"open":""}">${o?"Abierto":"Finalizado"}</span>
+      </div>
+      <div class="transitDataGrid">
+        <div><b>Chofer:</b> ${esc(driverName(t))}</div>
+        <div><b>Cliente:</b> ${esc(r.cliente||"-")}</div>
+        <div><b>Origen:</b> ${esc(r.origen||"-")}</div>
+        <div><b>Destino:</b> ${esc(r.destino||"-")}</div>
+        <div><b>Lote/Carga:</b> ${esc(t.lote||"-")}</div>
+        <div><b>Inicio:</b> ${fd(t.start?.time||t.start)}</div>
+        <div><b>Cierre:</b> ${o?"-":fd(t.closed?.time||t.closed)}</div>
+        <div class="fullLine"><b>Últ. posición:</b> ${esc(locFull(t))}</div>
+      </div>
+    </div>
+    <div class="transitRight">
+      <h4 class="alertsTitle">⚠️ Alertas</h4>
+      ${transitAlertsCompact(t)}
+    </div>
+  </div>`;
 }
