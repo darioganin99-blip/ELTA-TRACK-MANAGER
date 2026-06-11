@@ -1,0 +1,1 @@
+ELTA Track Manager Web V1.2.18 - Solo transitos abiertos en vistas operativas, sin menu Coordinacion, Unidades/Conductores unificado con usuarios role flota.

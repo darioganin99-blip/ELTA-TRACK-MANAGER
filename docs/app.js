@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
 
 
 
-/* ===== V1.2.17 overrides ===== */
+/* ===== V1.2.18 overrides ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -364,7 +364,7 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.17 - Graficos barra compactos ===== */
+/* ===== V1.2.18 - Graficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -416,7 +416,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.17 - Reaseguro gráficos barra compactos ===== */
+/* ===== V1.2.18 - Reaseguro gráficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -468,7 +468,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.17 - Dashboard 4 gráficos + últimas alertas compactas ===== */
+/* ===== V1.2.18 - Dashboard 4 gráficos + últimas alertas compactas ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -540,7 +540,7 @@ function renderDashAlerts(){
 
 
 
-/* ===== V1.2.17 - SOLO vista Tránsitos: tarjeta como imagen ===== */
+/* ===== V1.2.18 - SOLO vista Tránsitos: tarjeta como imagen ===== */
 
 function valFrom(obj, keys){
   for(let k of keys){
@@ -628,7 +628,7 @@ function card(t){
 
 
 
-/* ===== V1.2.17 - Localidad/provincia desde coordenadas conocidas ===== */
+/* ===== V1.2.18 - Localidad/provincia desde coordenadas conocidas ===== */
 function parseCoordPair(txt){
   let s=String(txt||"");
   let m=s.match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
@@ -724,7 +724,7 @@ function card(t){
 
 
 
-/* ===== V1.2.17 - SOLO vista Seguimiento: mapa real GPS ===== */
+/* ===== V1.2.18 - SOLO vista Seguimiento: mapa real GPS ===== */
 let seguimientoMap=null;
 let seguimientoMarkers=[];
 
@@ -784,7 +784,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.17 - Seguimiento: fix mapa y localidad/provincia ===== */
+/* ===== V1.2.18 - Seguimiento: fix mapa y localidad/provincia ===== */
 function trackingCard(t){
   let o=openT(t),r=ruta(t),pos=getPosObj(t);
   return `<div class="trackingCard">
@@ -863,7 +863,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.17 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
+/* ===== V1.2.18 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -946,7 +946,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.17 - Seguimiento: marcador numerico estilo etiqueta ===== */
+/* ===== V1.2.18 - Seguimiento: marcador numerico estilo etiqueta ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -1021,7 +1021,7 @@ function initSeguimientoMap(items){
 
 
 
-/* ===== V1.2.17 - Seguimiento: solo numero, zoom con todas las flotas, ultimo reporte resaltado ===== */
+/* ===== V1.2.18 - Seguimiento: solo numero, zoom con todas las flotas, ultimo reporte resaltado ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -1132,7 +1132,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.17 - Seguimiento: filtros cliente/embarque + marker 50% ===== */
+/* ===== V1.2.18 - Seguimiento: filtros cliente/embarque + marker 50% ===== */
 
 function refreshSeguimientoFilters(){
   let cli=q("segCli");
@@ -1229,3 +1229,100 @@ function initSeguimientoMap(items){
     seguimientoMap.invalidateSize(true);
   },120);
 }
+
+
+
+
+/* ===== V1.2.18 - Solo transitos abiertos + Unidades/Conductores por usuarios role=flota ===== */
+
+function isFlotaUser(u){
+  return String(u.role||u.rol||"").toLowerCase().trim()==="flota";
+}
+function flotaUserId(u){
+  return String(u.flota||u.fleet||u.user||u.id||"").trim();
+}
+function flotaUserName(u){
+  return String(u.nombre||u.name||u.chofer||u.conductor||u.user||u.id||"-").trim();
+}
+function flotaUserPhone(u){
+  return String(u.telefono||u.phone||u.celular||u.mobile||"-").trim();
+}
+function flotaUserActive(u){
+  return u.activo===false ? "Inactivo" : "Activo";
+}
+function renderUnits(){
+  let flotas=users.filter(isFlotaUser).sort((a,b)=>flotaUserId(a).localeCompare(flotaUserId(b),"es",{numeric:true}));
+  if(!q("unitsList"))return;
+  q("unitsList").innerHTML=flotas.map(u=>`<div class="fleetUserCard">
+    <div class="fleetUserTop">
+      <div class="fleetUserTitle">🚚 Flota ${esc(flotaUserId(u)||"-")}</div>
+      <span class="fleetUserRole">flota</span>
+    </div>
+    <div class="fleetUserData">
+      <div><b>Usuario:</b> ${esc(u.user||u.id||"-")}</div>
+      <div><b>Estado:</b> ${esc(flotaUserActive(u))}</div>
+      <div class="fullLine"><b>Chofer:</b> ${esc(flotaUserName(u))}</div>
+      <div><b>Teléfono:</b> ${esc(flotaUserPhone(u))}</div>
+      <div><b>Rol:</b> ${esc(u.role||u.rol||"flota")}</div>
+    </div>
+  </div>`).join("")||'<div class="item">No hay usuarios con role flota.</div>';
+}
+
+/* Conductores queda unificado con Unidades por compatibilidad */
+function renderDrivers(){
+  renderUnits();
+}
+
+/* Vista Tránsitos: mostrar solamente tránsitos abiertos */
+function renderTransitos(){
+  if(q("transList"))q("transList").innerHTML=trs.filter(openT).filter(filt).map(card).join("")||'<div class="item">No hay tránsitos abiertos.</div>';
+}
+
+/* Filtros de Tránsitos: estado ya queda limitado a abierto por regla operativa */
+function filt(t){
+  let e=q("fEmb")?.value.toLowerCase()||"",f=q("fFlo")?.value||"",c=q("fCli")?.value||"";
+  return openT(t)&&
+        (!e||String(t.embarque||"").toLowerCase().includes(e))&&
+        (!f||flota(t)===f||String(t?.user?.fleet||"")===f)&&
+        (!c||String(ruta(t).cliente||"")===c);
+}
+
+/* Seguimiento: solo flotas con tránsitos abiertos */
+function renderMapa(){
+  refreshSeguimientoFilters?.();
+  let items=trs.filter(openT).filter(typeof seguimientoFilter==="function"?seguimientoFilter:()=>true);
+  if(q("mapList"))q("mapList").innerHTML=items.map(trackingCard).join("")||'<div class="trackingCard">No hay flotas abiertas para mostrar.</div>';
+  initSeguimientoMap(items);
+}
+
+/* Dashboard: ultimos tránsitos solo abiertos */
+function renderDashTable(){
+  if(!q("dashTable"))return;
+  let rows=trs.filter(openT).slice().sort((a,b)=>tv(b.start?.time||b.start)-tv(a.start?.time||a.start)).slice(0,10);
+  if(!rows.length){
+    q("dashTable").innerHTML='<div class="alertEmpty">Sin tránsitos abiertos.</div>';
+    return;
+  }
+  q("dashTable").innerHTML=`<table class="darkTable"><thead><tr>
+    <th>Embarque</th><th>Cliente</th><th>Origen</th><th>Destino</th><th>Flota</th><th>Estado</th><th>Actualizado</th>
+  </tr></thead><tbody>`+rows.map(t=>`<tr>
+    <td>${esc(t.embarque||"-")}</td>
+    <td>${esc(ruta(t).cliente||"-")}</td>
+    <td>${esc(ruta(t).origen||"-")}</td>
+    <td>${esc(ruta(t).destino||"-")}</td>
+    <td>${esc(flota(t)||"-")}</td>
+    <td><span class="statusBadge open">En tránsito</span></td>
+    <td>${fd((lastU(t)||{}).time||(lastU(t)||{}).fecha||(lastU(t)||{}).createdAt||t.start?.time||t.start)}</td>
+  </tr>`).join("")+`</tbody></table>`;
+}
+
+/* Reportes: solo abiertos */
+function renderRep(){
+  let abiertos=trs.filter(openT);
+  let by={};
+  abiertos.forEach(t=>by[flota(t)||"-"]=(by[flota(t)||"-"]||0)+1);
+  if(q("rep"))q("rep").innerHTML=`<div class="item"><b>Tránsitos abiertos:</b> ${abiertos.length}</div><div class="item"><b>Por flota:</b><br>${Object.entries(by).map(([k,v])=>`${esc(k)}: ${v}`).join("<br>")||"-"}</div>`;
+}
+
+/* Evitar errores si quedan llamadas internas a Coordinacion */
+function renderCoordinacion(){}

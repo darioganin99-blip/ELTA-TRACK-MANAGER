@@ -2246,3 +2246,71 @@ select option:hover{
     grid-template-columns:1fr !important;
   }
 }
+
+
+/* ===== V1.2.18 - Menus: quitar Coordinacion, unir Unidades/Conductores, solo abiertos ===== */
+
+.fleetUsersGrid{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:12px !important;
+}
+
+.fleetUserCard{
+  border:1px solid rgba(76,198,63,.42) !important;
+  border-radius:12px !important;
+  background:rgba(20,39,54,.84) !important;
+  color:white !important;
+  padding:14px !important;
+}
+
+.fleetUserTop{
+  display:flex !important;
+  justify-content:space-between !important;
+  align-items:center !important;
+  gap:10px !important;
+  margin-bottom:10px !important;
+}
+
+.fleetUserTitle{
+  font-size:17px !important;
+  font-weight:900 !important;
+}
+
+.fleetUserRole{
+  border-radius:999px !important;
+  padding:4px 10px !important;
+  font-size:11px !important;
+  font-weight:900 !important;
+  background:rgba(76,198,63,.22) !important;
+  color:#8df27c !important;
+}
+
+.fleetUserData{
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:4px 10px !important;
+  font-size:12px !important;
+  line-height:1.2 !important;
+  color:#d3dce7 !important;
+}
+
+.fleetUserData b{
+  color:white !important;
+}
+
+.fleetUserData .fullLine{
+  grid-column:1 / -1 !important;
+}
+
+@media(max-width:1100px){
+  .fleetUsersGrid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+
+@media(max-width:700px){
+  .fleetUsersGrid{
+    grid-template-columns:1fr !important;
+  }
+}

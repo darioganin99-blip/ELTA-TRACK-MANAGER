@@ -42,7 +42,7 @@
   <footer class="loginFooter">
     <span>🛡 Sistema seguro</span>
     <span>© 2025 ELTA Tracking Solutions</span>
-    <span>Versión 1.2.17</span>
+    <span>Versión 1.2.18</span>
   </footer>
 </section>
 
@@ -60,9 +60,9 @@
       <button onclick="tab('dash')" class="active">🏠 <span>Dashboard</span></button>
       <button onclick="tab('transitos')">🚚 <span>Tránsitos</span></button>
       <button onclick="tab('mapa')">📍 <span>Seguimiento</span></button>
-      <button onclick="tab('coordinacion')">👥 <span>Coordinación</span></button>
-      <button onclick="tab('unidades')">🚛 <span>Unidades</span></button>
-      <button onclick="tab('conductores')">👤 <span>Conductores</span></button>
+      
+      <button onclick="tab('unidades')">🚛 <span>Unidades / Conductores</span></button>
+      
       <button onclick="tab('clientes')">🏢 <span>Clientes</span></button>
       <button onclick="tab('reportes')">📊 <span>Reportes</span></button>
       <button onclick="tab('alertas')">🔔 <span>Alertas</span></button>
@@ -87,7 +87,7 @@
       <div class="headerTitle">
         <h1>Track Manager</h1>
         <p>Panel tráfico / coordinación</p>
-        <span>Versión 1.2.17</span>
+        <span>Versión 1.2.18</span>
       </div>
 
       <div class="headerActions">
@@ -213,20 +213,20 @@
       </div>
     </section>
 
-    <section id="coordinacion" class="panel">
-      <div class="sectionTitle"><h2>Coordinación</h2><p>Vista para asignaciones y seguimiento operativo</p></div>
-      <div class="glassPanel emptyPanel">Módulo coordinación preparado para V1.2.</div>
-    </section>
+    
 
     <section id="unidades" class="panel">
-      <div class="sectionTitle"><h2>Unidades</h2><p>Estado de flotas y unidades</p></div>
-      <div class="glassPanel"><div id="unitList" class="cardList"></div></div>
+      <div class="sectionTitle"><h2>Unidades / Conductores</h2><p>Usuarios registrados con rol flota</p></div>
+      <div class="glassPanel">
+        <div class="panelHead">
+          <h3>Flotas registradas</h3>
+          <button onclick="refresh()">Actualizar</button>
+        </div>
+        <div id="unitsList" class="fleetUsersGrid"></div>
+      </div>
     </section>
 
-    <section id="conductores" class="panel">
-      <div class="sectionTitle"><h2>Conductores</h2><p>Usuarios flota y choferes</p></div>
-      <div class="glassPanel"><div id="driverList" class="cardList"></div></div>
-    </section>
+    
 
     <section id="clientes" class="panel">
       <div class="sectionTitle"><h2>Clientes</h2><p>Clientes registrados</p></div>
@@ -264,7 +264,7 @@
     <footer class="appFooter">
       <span>🛡 Sistema seguro</span>
       <span>© 2025 ELTA Tracking Solutions</span>
-      <span>Versión 1.2.17</span>
+      <span>Versión 1.2.18</span>
     </footer>
   </main>
 </section>
