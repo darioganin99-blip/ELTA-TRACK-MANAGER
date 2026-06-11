@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
 
 
 
-/* ===== V1.2.10 overrides ===== */
+/* ===== V1.2.11 overrides ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -364,7 +364,7 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.10 - Graficos barra compactos ===== */
+/* ===== V1.2.11 - Graficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -416,7 +416,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.10 - Reaseguro gráficos barra compactos ===== */
+/* ===== V1.2.11 - Reaseguro gráficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -468,7 +468,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.10 - Dashboard 4 gráficos + últimas alertas compactas ===== */
+/* ===== V1.2.11 - Dashboard 4 gráficos + últimas alertas compactas ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -540,7 +540,7 @@ function renderDashAlerts(){
 
 
 
-/* ===== V1.2.10 - SOLO vista Tránsitos: tarjeta como imagen ===== */
+/* ===== V1.2.11 - SOLO vista Tránsitos: tarjeta como imagen ===== */
 
 function valFrom(obj, keys){
   for(let k of keys){
@@ -599,6 +599,103 @@ function transitAlertsCompact(t){
   }).join("")+`</div>`;
 }
 
+function card(t){
+  let o=openT(t),r=ruta(t);
+  return `<div class="item ${o?"open":"closed"} transitCardV1210">
+    <div class="transitLeft">
+      <div class="transitTop">
+        <div class="transitTitle">🚚 Flota ${esc(flota(t)||"-")} / 📦 Emb. ${esc(t.embarque||"-")}</div>
+        <span class="transitBadge ${o?"open":""}">${o?"Abierto":"Finalizado"}</span>
+      </div>
+      <div class="transitDataGrid">
+        <div><b>Chofer:</b> ${esc(driverName(t))}</div>
+        <div><b>Cliente:</b> ${esc(r.cliente||"-")}</div>
+        <div><b>Origen:</b> ${esc(r.origen||"-")}</div>
+        <div><b>Destino:</b> ${esc(r.destino||"-")}</div>
+        <div><b>Lote/Carga:</b> ${esc(t.lote||"-")}</div>
+        <div><b>Inicio:</b> ${fd(t.start?.time||t.start)}</div>
+        <div><b>Cierre:</b> ${o?"-":fd(t.closed?.time||t.closed)}</div>
+        <div class="fullLine"><b>Últ. posición:</b> ${esc(locFull(t))}</div>
+      </div>
+    </div>
+    <div class="transitRight">
+      <h4 class="alertsTitle">⚠️ Alertas</h4>
+      ${transitAlertsCompact(t)}
+    </div>
+  </div>`;
+}
+
+
+
+
+/* ===== V1.2.11 - Localidad/provincia desde coordenadas conocidas ===== */
+function parseCoordPair(txt){
+  let s=String(txt||"");
+  let m=s.match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
+  if(!m)return null;
+  return {lat:parseFloat(m[1]), lng:parseFloat(m[2])};
+}
+function distKm(a,b){
+  let R=6371, dLat=(b.lat-a.lat)*Math.PI/180, dLng=(b.lng-a.lng)*Math.PI/180;
+  let la1=a.lat*Math.PI/180, la2=b.lat*Math.PI/180;
+  let x=Math.sin(dLat/2)**2+Math.cos(la1)*Math.cos(la2)*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(x));
+}
+function coordToLocalidadProvincia(lat,lng){
+  let p={lat:Number(lat),lng:Number(lng)};
+  if(!isFinite(p.lat)||!isFinite(p.lng))return "";
+  let refs=[
+    {lat:-34.3512317,lng:-58.8042567,name:"Belén de Escobar, Buenos Aires"},
+    {lat:-34.6160377,lng:-58.4588818,name:"Caballito, CABA"},
+    {lat:-34.6171148,lng:-58.4583581,name:"Caballito, CABA"},
+    {lat:-34.0910132,lng:-59.0895417,name:"Zárate, Buenos Aires"},
+    {lat:-34.603722,lng:-58.381592,name:"Ciudad Autónoma de Buenos Aires, CABA"},
+    {lat:-34.095,lng:-59.024,name:"Campana, Buenos Aires"},
+    {lat:-34.436,lng:-58.706,name:"Tigre, Buenos Aires"},
+    {lat:-34.470,lng:-58.528,name:"San Fernando, Buenos Aires"},
+    {lat:-34.522,lng:-58.700,name:"Malvinas Argentinas, Buenos Aires"},
+    {lat:-34.686,lng:-58.563,name:"La Matanza, Buenos Aires"},
+    {lat:-34.921,lng:-57.954,name:"La Plata, Buenos Aires"},
+    {lat:-32.946,lng:-60.639,name:"Rosario, Santa Fe"},
+    {lat:-31.420,lng:-64.188,name:"Córdoba, Córdoba"},
+    {lat:-41.133,lng:-71.310,name:"San Carlos de Bariloche, Río Negro"}
+  ];
+  let best=refs.map(r=>({name:r.name,d:distKm(p,r)})).sort((a,b)=>a.d-b.d)[0];
+  if(best&&best.d<=35)return best.name;
+  return `${p.lat.toFixed(6)}, ${p.lng.toFixed(6)}`;
+}
+function localidadFromObj(obj){
+  if(!obj)return "";
+  let direct=valFrom(obj,["localidadProvincia","ubicacionTexto","localidadTexto","ciudadProvincia"]);
+  if(direct)return direct;
+  let loc=[valFrom(obj,["localidad","city","ciudad","municipio","partido"]), valFrom(obj,["provincia","state","region"])].filter(Boolean).join(", ");
+  if(loc)return loc;
+  let lat=valFrom(obj,["lat","latitude","latitud"]);
+  let lng=valFrom(obj,["lng","lon","longitude","longitud"]);
+  if(lat&&lng)return coordToLocalidadProvincia(lat,lng);
+  let coord=valFrom(obj,["ubicacion","address","direccion","formatted_address"]);
+  let pair=parseCoordPair(coord);
+  if(pair)return coordToLocalidadProvincia(pair.lat,pair.lng);
+  return coord||"";
+}
+function locFull(t){
+  let u=lastU(t)||{};
+  let sources=[u.gps,u.ultimaPosicion,u.position,u.location,u.posicion,t.ultimaPosicion,t.lastPosition,t.position,t.location,t.posicion,u].filter(Boolean);
+  for(let src of sources){
+    let v=localidadFromObj(src);
+    if(v)return v;
+  }
+  return "-";
+}
+function loc(t){return locFull(t)}
+function alertLoc(a,t){
+  let sources=[a,a.gps,a.ubicacion,a.posicion,a.location].filter(Boolean);
+  for(let src of sources){
+    let v=localidadFromObj(src);
+    if(v)return v;
+  }
+  return locFull(t);
+}
 function card(t){
   let o=openT(t),r=ruta(t);
   return `<div class="item ${o?"open":"closed"} transitCardV1210">

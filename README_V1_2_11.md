@@ -1,0 +1,1 @@
+ELTA Track Manager Web V1.2.11 - Correccion combos visibles y conversion de coordenadas conocidas a localidad/provincia.

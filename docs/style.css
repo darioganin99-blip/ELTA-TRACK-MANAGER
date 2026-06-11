@@ -1924,3 +1924,29 @@ body.sidebarCollapsed .dashboardShell{
     grid-template-columns:1fr !important;
   }
 }
+
+
+/* ===== V1.2.11 - Combos visibles y localidad/provincia ===== */
+select,
+.filters select,
+#transitos select,
+.transitosFilters select{
+  background:#223241 !important;
+  color:#f8fafc !important;
+  border:1px solid rgba(255,255,255,.20) !important;
+  color-scheme:dark !important;
+}
+
+select option,
+.filters select option,
+#transitos select option,
+.transitosFilters select option{
+  background:#223241 !important;
+  color:#f8fafc !important;
+}
+
+select option:checked,
+select option:hover{
+  background:#2f80ed !important;
+  color:#ffffff !important;
+}
