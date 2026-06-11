@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
 
 
 
-/* ===== V1.2.7 overrides ===== */
+/* ===== V1.2.5 overrides ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -364,7 +364,7 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.7 - Graficos barra compactos ===== */
+/* ===== V1.2.5 - Graficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -413,130 +413,4 @@ function renderEstadoPie(abiertos,cerrados,total){
 
 function renderPieChart(id,data,limit=4){
   renderCompactBarChart(id,data,limit);
-}
-
-
-
-
-/* ===== V1.2.7 - Solo vista Tránsitos ===== */
-
-function uniq(arr){
-  return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
-}
-function userFlota(u){
-  return String(u?.flota||u?.fleet||u?.user?.fleet||u?.id||"").trim();
-}
-function fillSelect(id, values, label){
-  let el=q(id);
-  if(!el)return;
-  let current=el.value;
-  el.innerHTML=`<option value="">${label}</option>`+uniq(values).map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join("");
-  if([...el.options].some(o=>o.value===current))el.value=current;
-}
-function refreshFilters(){
-  fillSelect("fFlo", [...trs.map(flota), ...users.map(userFlota)], "Todas las flotas");
-  fillSelect("fCli", [...trs.map(t=>ruta(t).cliente), ...clientes.map(c=>c.nombre||c.cliente||c.razonSocial||c.id)], "Todos los clientes");
-}
-function valFrom(obj, keys){
-  for(let k of keys){
-    let v=obj&&obj[k];
-    if(v!==undefined&&v!==null&&String(v).trim()!=="")return v;
-  }
-  return "";
-}
-function driverName(t){
-  return valFrom(t,["chofer","driver","conductor","nombreChofer"])||
-         valFrom(t.user||{},["name","nombre","chofer","driver","user"])||
-         valFrom(lastU(t)||{},["chofer","driver","conductor"])||
-         "-";
-}
-function locFull(t){
-  let u=lastU(t)||{};
-  let sources=[
-    u.gps,u.ultimaPosicion,u.position,u.location,u.posicion,
-    t.ultimaPosicion,t.lastPosition,t.position,t.location,t.posicion,
-    u
-  ].filter(Boolean);
-  for(let gps of sources){
-    let direct=valFrom(gps,["ubicacionTexto","ubicacion","localidadProvincia","address","direccion","formatted_address"]);
-    if(direct)return direct;
-    let locTxt=[valFrom(gps,["localidad","city","ciudad","municipio","partido"]), valFrom(gps,["provincia","state","region"])].filter(Boolean).join(", ");
-    if(locTxt)return locTxt;
-    let lat=valFrom(gps,["lat","latitude","latitud"]);
-    let lng=valFrom(gps,["lng","lon","longitude","longitud"]);
-    if(lat&&lng)return `${lat}, ${lng}`;
-  }
-  return "-";
-}
-function loc(t){return locFull(t)}
-function alertLoc(a,t){
-  let gps=a.gps||a.ubicacion||a.posicion||a.location||{};
-  let direct=valFrom(a,["localidad","ubicacionTexto","ubicacion","lugar","zona","city","ciudad"])||
-             valFrom(gps,["localidad","ubicacionTexto","ubicacion","city","ciudad"]);
-  return direct||locFull(t);
-}
-function alertKm(a){
-  return valFrom(a,["km","kilometro","kilómetro","kmRuta","progresiva"])||"-";
-}
-function alertDate(a){
-  return fd(a.time||a.fecha||a.createdAt||a.ts);
-}
-function transitAlertsHtml(t){
-  let arr=(t.alerts||[]).slice();
-  arr.sort((a,b)=>tv(b.time||b.fecha||b.createdAt||b.ts)-tv(a.time||a.fecha||a.createdAt||a.ts));
-  if(!arr.length)return '<div class="noAlerts">Sin alertas registradas.</div>';
-  return `<div class="transitAlertList">`+arr.map(a=>{
-    let tipo=esc(a.tipo||a.type||a.motivo||"Alerta");
-    return `<div class="transitAlertItem">
-      <div class="taTop"><span>⚠️ ${tipo}</span><span>${alertDate(a)}</span></div>
-      <div class="taData">
-        <div><b>Km:</b> ${esc(alertKm(a))}</div>
-        <div><b>Hora:</b> ${alertDate(a)}</div>
-        <div class="fullLine"><b>Localidad:</b> ${esc(alertLoc(a,t))}</div>
-      </div>
-    </div>`;
-  }).join("")+`</div>`;
-}
-
-async function refresh(){
-  [trs,users,clientes,origenes,destinos,embarques]=await Promise.all([
-    read("transitos"),read("usuarios"),read("clientes"),read("origenes"),read("destinos"),read("embarque")
-  ]);
-  refreshFilters();
-  renderDash();renderTransitos();renderMapa();renderRep();
-  if(typeof renderUnits==="function")renderUnits();
-  if(typeof renderDrivers==="function")renderDrivers();
-  if(typeof renderClients==="function")renderClients();
-  if(typeof renderAlerts==="function")renderAlerts();
-}
-
-function card(t){
-  let o=openT(t),r=ruta(t);
-  return `<div class="item ${o?"open":"closed"} transitCard">
-    <div class="transitMain">
-      <div class="top"><span>🚚 Flota ${esc(flota(t)||"-")} / 📦 Emb. ${esc(t.embarque||"-")}</span><span class="badge ${o?"":"closed"}">${o?"En tránsito":"Finalizado"}</span></div>
-      <div class="metaGrid">
-        <div><b>Chofer:</b> ${esc(driverName(t))}</div>
-        <div><b>Cliente:</b> ${esc(r.cliente||"-")}</div>
-        <div><b>Origen:</b> ${esc(r.origen||"-")}</div>
-        <div><b>Destino:</b> ${esc(r.destino||"-")}</div>
-        <div><b>Lote/Carga:</b> ${esc(t.lote||"-")}</div>
-        <div><b>Inicio:</b> ${fd(t.start?.time||t.start)}</div>
-        <div><b>Cierre:</b> ${o?"-":fd(t.closed?.time||t.closed)}</div>
-        <div class="fullLine"><b>Últ. posición:</b> ${esc(locFull(t))}</div>
-      </div>
-    </div>
-    <div class="transitAlerts">
-      <h4>⚠️ Alertas</h4>
-      ${transitAlertsHtml(t)}
-    </div>
-  </div>`;
-}
-
-function filt(t){
-  let e=q("fEmb")?.value.toLowerCase()||"",f=q("fFlo")?.value||"",c=q("fCli")?.value||"",s=q("fEst")?.value||"";
-  return(!e||String(t.embarque||"").toLowerCase().includes(e))&&
-        (!f||flota(t)===f||String(t?.user?.fleet||"")===f)&&
-        (!c||String(ruta(t).cliente||"")===c)&&
-        (!s||(s==="abierto"?openT(t):!openT(t)));
 }
