@@ -1323,3 +1323,286 @@ body.sidebarCollapsed .sideNav button{
 .panelHead h3{
   font-size:14px !important;
 }
+
+
+/* ===== V1.2.8 - Rollback visual según captura ===== */
+
+/* Vista general igual a la versión aprobada */
+.dashboardShell{
+  padding-top:6px !important;
+}
+
+.managerHeader{
+  min-height:78px !important;
+  padding:10px 16px !important;
+  margin-bottom:10px !important;
+  border-radius:7px !important;
+}
+
+.headerTitle{
+  text-align:center !important;
+  justify-self:center !important;
+  align-items:center !important;
+  padding-right:0 !important;
+}
+
+.headerTitle h1{
+  font-size:28px !important;
+  line-height:1 !important;
+  margin:0 !important;
+}
+
+.headerTitle p{
+  font-size:13px !important;
+  margin-top:5px !important;
+}
+
+.headerTitle span{
+  font-size:11px !important;
+  margin-top:4px !important;
+}
+
+.sectionTitle{
+  margin-top:0 !important;
+  margin-bottom:8px !important;
+}
+
+.sectionTitle h2{
+  font-size:25px !important;
+  line-height:1 !important;
+}
+
+.sectionTitle p{
+  font-size:13px !important;
+  margin-top:5px !important;
+}
+
+.kpiGrid{
+  gap:10px !important;
+  margin-bottom:12px !important;
+}
+
+.kpiCard{
+  min-height:92px !important;
+  padding:13px 16px !important;
+  border-radius:11px !important;
+}
+
+.kpiCard h3{
+  font-size:13px !important;
+  margin-bottom:5px !important;
+}
+
+.kpiCard strong{
+  font-size:30px !important;
+  line-height:1 !important;
+}
+
+.kpiCard small{
+  font-size:12px !important;
+}
+
+.kpiCard span{
+  width:48px !important;
+  height:48px !important;
+  border-radius:15px !important;
+  font-size:22px !important;
+}
+
+.chartsGrid{
+  display:grid !important;
+  grid-template-columns:repeat(4,1fr) !important;
+  gap:12px !important;
+  margin-bottom:12px !important;
+}
+
+.chartPanel{
+  min-height:218px !important;
+  padding:14px !important;
+}
+
+.compactChart{
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:flex-start !important;
+  gap:8px !important;
+}
+
+.barChartBlock{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:10px !important;
+}
+
+.barChartItem{
+  display:grid !important;
+  grid-template-columns:1fr 42px 46px !important;
+  gap:8px !important;
+  align-items:center !important;
+}
+
+.barChartName{
+  color:white !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+  overflow:hidden !important;
+  white-space:nowrap !important;
+  text-overflow:ellipsis !important;
+}
+
+.barChartVal{
+  color:white !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+  text-align:right !important;
+}
+
+.barChartPct{
+  color:#9be58f !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+  text-align:right !important;
+}
+
+.barLine{
+  grid-column:1 / 4 !important;
+  height:8px !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.12) !important;
+  overflow:hidden !important;
+}
+
+.barLineFill{
+  height:100% !important;
+  border-radius:999px !important;
+  background:linear-gradient(90deg,#8ce53f,#4cc63f,#55b8ff) !important;
+}
+
+.estadoSummary{
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:8px !important;
+  margin-bottom:12px !important;
+}
+
+.estadoMini{
+  border:1px solid rgba(255,255,255,.12) !important;
+  border-radius:10px !important;
+  background:rgba(255,255,255,.07) !important;
+  padding:10px !important;
+}
+
+.estadoMini b{
+  display:block !important;
+  font-size:24px !important;
+  line-height:1 !important;
+}
+
+.estadoMini small{
+  display:block !important;
+  margin-top:6px !important;
+  color:rgba(255,255,255,.72) !important;
+  font-size:11px !important;
+}
+
+.estadoMini.open b{
+  color:#4cc63f !important;
+}
+
+.estadoMini.closed b{
+  color:#8b5cf6 !important;
+}
+
+.tablePanel{
+  margin-bottom:10px !important;
+}
+
+.darkTable th,
+.darkTable td{
+  padding:5px 7px !important;
+  font-size:10.5px !important;
+  line-height:1.1 !important;
+}
+
+.darkTable td{
+  height:28px !important;
+}
+
+.statusBadge{
+  padding:2px 5px !important;
+  font-size:9.5px !important;
+}
+
+.appFooter{
+  margin-top:16px !important;
+  font-size:12px !important;
+}
+
+/* Sidebar colapsada como en la captura */
+.sidebar{
+  width:72px !important;
+  padding:18px 8px !important;
+}
+
+.brandBox{
+  height:70px !important;
+  padding-left:0 !important;
+  justify-content:center !important;
+}
+
+.brandBox img{
+  width:50px !important;
+}
+
+.sideNav button span,
+.adminBox div,
+.logoutBtn{
+  display:none !important;
+}
+
+.sideNav button{
+  justify-content:center !important;
+  font-size:18px !important;
+  min-height:40px !important;
+  padding:9px !important;
+}
+
+.dashboardShell{
+  margin-left:72px !important;
+}
+
+body.sidebarCollapsed .sidebar{
+  width:190px !important;
+  padding:22px 10px !important;
+}
+
+body.sidebarCollapsed .brandBox img{
+  width:118px !important;
+}
+
+body.sidebarCollapsed .sideNav button span,
+body.sidebarCollapsed .adminBox div,
+body.sidebarCollapsed .logoutBtn{
+  display:block !important;
+}
+
+body.sidebarCollapsed .sideNav button{
+  justify-content:flex-start !important;
+  font-size:13px !important;
+}
+
+body.sidebarCollapsed .dashboardShell{
+  margin-left:190px !important;
+}
+
+@media(max-width:1300px){
+  .chartsGrid{
+    grid-template-columns:repeat(2,1fr) !important;
+  }
+}
+
+@media(max-width:720px){
+  .chartsGrid{
+    grid-template-columns:1fr !important;
+  }
+}

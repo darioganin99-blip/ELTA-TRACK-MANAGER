@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
 
 
 
-/* ===== V1.2.5 overrides ===== */
+/* ===== V1.2.8 overrides ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -364,7 +364,59 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.5 - Graficos barra compactos ===== */
+/* ===== V1.2.8 - Graficos barra compactos ===== */
+
+function renderCompactBarChart(id, data, limit=4){
+  let el=q(id);
+  if(!el)return;
+  let entries=Object.entries(data).filter(([k,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,limit);
+  let total=Object.values(data).reduce((a,b)=>a+b,0);
+  if(!entries.length||!total){
+    el.innerHTML='<div class="chartEmpty">Sin información disponible.</div>';
+    return;
+  }
+  el.innerHTML=`<div class="barChartBlock">`+entries.map(([k,v])=>{
+    let pct=Math.round((v/total)*100);
+    return `<div class="barChartItem">
+      <div class="barChartName" title="${esc(k)}">${esc(k)}</div>
+      <div class="barChartVal">${v}</div>
+      <div class="barChartPct">${pct}%</div>
+      <div class="barLine"><div class="barLineFill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join("")+`</div>`;
+}
+
+function renderEstadoPie(abiertos,cerrados,total){
+  let el=q("chartEstado");
+  if(!el)return;
+  let pOpen=total?Math.round((abiertos/total)*100):0;
+  let pClosed=total?Math.round((cerrados/total)*100):0;
+  el.innerHTML=`<div class="estadoSummary">
+    <div class="estadoMini open"><b>${abiertos}</b><small>En tránsito · ${pOpen}%</small></div>
+    <div class="estadoMini closed"><b>${cerrados}</b><small>Finalizado · ${pClosed}%</small></div>
+  </div>
+  <div class="barChartBlock">
+    <div class="barChartItem">
+      <div class="barChartName">En tránsito</div>
+      <div class="barChartVal">${abiertos}</div>
+      <div class="barChartPct">${pOpen}%</div>
+      <div class="barLine"><div class="barLineFill" style="width:${pOpen}%"></div></div>
+    </div>
+    <div class="barChartItem">
+      <div class="barChartName">Finalizado</div>
+      <div class="barChartVal">${cerrados}</div>
+      <div class="barChartPct">${pClosed}%</div>
+      <div class="barLine"><div class="barLineFill" style="width:${pClosed}%;background:linear-gradient(90deg,#8b5cf6,#55b8ff)"></div></div>
+    </div>
+  </div>`;
+}
+
+function renderPieChart(id,data,limit=4){
+  renderCompactBarChart(id,data,limit);
+}
+
+
+/* ===== V1.2.8 - Reaseguro gráficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
