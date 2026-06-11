@@ -1982,3 +1982,48 @@ select option:hover{
 .trackingData{grid-template-columns:1fr 1fr!important}
 .trackingData .locationLine{grid-column:1 / -1!important;font-size:13px!important;color:#ffffff!important}
 .trackingData .coordLine{display:none!important}
+
+
+/* ===== V1.2.14 - Seguimiento: zoom a todas las flotas + numero en marcador ===== */
+
+.eltaFleetMarker{
+  position:relative !important;
+  width:54px !important;
+  height:34px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  filter:drop-shadow(0 3px 7px rgba(0,0,0,.65)) !important;
+}
+
+.eltaFleetMarker .truckIcon{
+  font-size:24px !important;
+  line-height:1 !important;
+}
+
+.eltaFleetMarker .fleetNumber{
+  position:absolute !important;
+  right:-8px !important;
+  top:-9px !important;
+  min-width:25px !important;
+  height:20px !important;
+  border-radius:999px !important;
+  background:#4cc63f !important;
+  color:white !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  font-size:11px !important;
+  font-weight:900 !important;
+  border:2px solid #0b1f2e !important;
+}
+
+.eltaFleetMarker.closed .fleetNumber{
+  background:#64748b !important;
+}
+
+.mapPopup .fleetPopupTitle{
+  font-size:14px !important;
+  font-weight:900 !important;
+  margin-bottom:4px !important;
+}

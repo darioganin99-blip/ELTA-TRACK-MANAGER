@@ -1,0 +1,1 @@
+ELTA Track Manager Web V1.2.14 - Seguimiento: mapa ajusta zoom para todas las flotas en transito y marcador con numero de flota.
