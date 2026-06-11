@@ -1,0 +1,1 @@
+ELTA Track Manager Web V1.2.15 - Seguimiento: marcadores numericos tipo etiqueta para identificar flota, sin icono camion.

@@ -2027,3 +2027,79 @@ select option:hover{
   font-weight:900 !important;
   margin-bottom:4px !important;
 }
+
+
+/* ===== V1.2.15 - Seguimiento: marcador numerico sin camion ===== */
+
+.eltaFleetMarkerWrap{
+  background:transparent !important;
+  border:0 !important;
+}
+
+.eltaFleetMarker{
+  position:relative !important;
+  width:auto !important;
+  min-width:42px !important;
+  height:32px !important;
+  padding:0 11px !important;
+  border-radius:999px !important;
+  background:linear-gradient(180deg,#30343a,#121820) !important;
+  color:#ffffff !important;
+  border:2px solid rgba(255,255,255,.85) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  font-size:16px !important;
+  font-weight:900 !important;
+  box-shadow:0 4px 10px rgba(0,0,0,.55) !important;
+  text-shadow:0 1px 2px rgba(0,0,0,.9) !important;
+}
+
+.eltaFleetMarker::after{
+  content:"" !important;
+  position:absolute !important;
+  left:50% !important;
+  bottom:-9px !important;
+  transform:translateX(-50%) !important;
+  width:0 !important;
+  height:0 !important;
+  border-left:7px solid transparent !important;
+  border-right:7px solid transparent !important;
+  border-top:9px solid #121820 !important;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.45)) !important;
+}
+
+.eltaFleetMarker.closed{
+  background:linear-gradient(180deg,#6b7280,#374151) !important;
+}
+
+.eltaFleetMarker .truckIcon{
+  display:none !important;
+}
+
+.eltaFleetMarker .fleetNumber{
+  position:static !important;
+  min-width:auto !important;
+  height:auto !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#ffffff !important;
+  font-size:16px !important;
+  font-weight:900 !important;
+  padding:0 !important;
+}
+
+.eltaFleetMarker .fleetLabel{
+  position:absolute !important;
+  left:50% !important;
+  top:35px !important;
+  transform:translateX(-50%) !important;
+  background:rgba(28,31,35,.92) !important;
+  color:white !important;
+  border-radius:5px !important;
+  padding:3px 7px !important;
+  font-size:10px !important;
+  font-weight:800 !important;
+  white-space:nowrap !important;
+  box-shadow:0 2px 6px rgba(0,0,0,.45) !important;
+}
