@@ -13,6 +13,53 @@ function lastU(t){let a=(t.updates||[]).slice();a.sort((x,y)=>tv(y.time||y.fecha
 function loc(t){let u=lastU(t),o=u?.gps||u?.ultimaPosicion||t.ultimaPosicion||u||{};return o.ubicacionTexto||o.ubicacion||o.localidad||o.city||o.ciudad||o.address||"-"}
 function alertT(t){let a=(t.alerts||[]).slice();if(!a.length)return"-";a.sort((x,y)=>tv(y.time||y.fecha)-tv(x.time||x.fecha));return a[0].tipo||a[0].type||a[0].motivo||"Alerta"}
 
+
+function countBy(arr, getter){
+  let out={};
+  arr.forEach(x=>{
+    let k=String(getter(x)||"-").trim()||"-";
+    out[k]=(out[k]||0)+1;
+  });
+  return out;
+}
+function renderBarChart(id, data, limit=4){
+  let el=q(id);
+  if(!el)return;
+  let entries=Object.entries(data).sort((a,b)=>b[1]-a[1]).slice(0,limit);
+  let total=Object.values(data).reduce((a,b)=>a+b,0);
+  if(!entries.length||!total){
+    el.innerHTML='<div class="chartEmpty">Sin datos.</div>';
+    return;
+  }
+  el.innerHTML=entries.map(([k,v])=>{
+    let pct=Math.round((v/total)*100);
+    return `<div class="chartRow">
+      <div class="chartLabel" title="${esc(k)}">${esc(k)}</div>
+      <div class="chartValue">${v}</div>
+      <div class="chartPct">${pct}%</div>
+      <div class="barTrack"><div class="barFill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join("");
+}
+function renderEstadoChart(abiertos,cerrados,total){
+  let el=q("chartEstado");
+  if(!el)return;
+  let pOpen=total?Math.round((abiertos/total)*100):0;
+  let pClosed=total?Math.round((cerrados/total)*100):0;
+  el.innerHTML=`<div class="stateChartSummary">
+    <div class="stateBox open"><b>${abiertos}</b><small>En tránsito · ${pOpen}%</small></div>
+    <div class="stateBox closed"><b>${cerrados}</b><small>Finalizado · ${pClosed}%</small></div>
+  </div>
+  <div class="chartRow">
+    <div class="chartLabel">En tránsito</div><div class="chartValue">${abiertos}</div><div class="chartPct">${pOpen}%</div>
+    <div class="barTrack"><div class="barFill" style="width:${pOpen}%"></div></div>
+  </div>
+  <div class="chartRow">
+    <div class="chartLabel">Finalizado</div><div class="chartValue">${cerrados}</div><div class="chartPct">${pClosed}%</div>
+    <div class="barTrack"><div class="barFill" style="width:${pClosed}%;background:linear-gradient(90deg,#8b5cf6,#64748b)"></div></div>
+  </div>`;
+}
+
 async function login(){
   try{
     init();
@@ -68,22 +115,29 @@ function card(t){
 function renderDash(){
   let abiertos=trs.filter(openT), cerrados=trs.filter(t=>!openT(t));
   let totalAlerts=trs.reduce((n,t)=>n+(t.alerts||[]).length,0);
-  q("ka").innerText=abiertos.length;
-  q("kc").innerText=cerrados.length;
-  q("kal").innerText=totalAlerts;
+  if(q("ka"))q("ka").innerText=abiertos.length;
+  if(q("kc"))q("kc").innerText=cerrados.length;
+  if(q("kal"))q("kal").innerText=totalAlerts;
   if(q("headerAlertCount"))q("headerAlertCount").innerText=totalAlerts;
-  q("kf").innerText=users.filter(u=>String(u.role||"").toLowerCase()==="flota").length || new Set(trs.map(flota).filter(Boolean)).size;
-  q("donutTotal").innerText=trs.length;
-  q("legOpen").innerText=abiertos.length;
-  q("legWait").innerText=Math.max(0, trs.length-abiertos.length-cerrados.length);
-  q("legAlert").innerText=totalAlerts;
-  q("legClosed").innerText=cerrados.length;
+  if(q("kf"))q("kf").innerText=users.filter(u=>String(u.role||"").toLowerCase()==="flota").length || new Set(trs.map(flota).filter(Boolean)).size;
+
+  renderEstadoChart(abiertos.length,cerrados.length,trs.length);
+  renderBarChart("chartCliente", countBy(trs,t=>ruta(t).cliente), 4);
+  renderBarChart("chartOrigen", countBy(trs,t=>ruta(t).origen), 4);
+  renderBarChart("chartDestino", countBy(trs,t=>ruta(t).destino), 4);
+
+  if(q("donutTotal"))q("donutTotal").innerText=trs.length;
+  if(q("legOpen"))q("legOpen").innerText=abiertos.length;
+  if(q("legWait"))q("legWait").innerText=Math.max(0, trs.length-abiertos.length-cerrados.length);
+  if(q("legAlert"))q("legAlert").innerText=totalAlerts;
+  if(q("legClosed"))q("legClosed").innerText=cerrados.length;
+
   renderDashTable();
   renderDashAlerts();
 }
 
 function renderDashTable(){
-  let rows=trs.slice().sort((a,b)=>tv(b.start?.time||b.start)-tv(a.start?.time||a.start)).slice(0,8);
+  let rows=trs.slice().sort((a,b)=>tv(b.start?.time||b.start)-tv(a.start?.time||a.start)).slice(0,10);
   q("dashTable").innerHTML=`<table>
     <thead><tr><th>Embarque</th><th>Cliente</th><th>Origen</th><th>Destino</th><th>Flota</th><th>Estado</th><th>Actualizado</th></tr></thead>
     <tbody>${rows.map(t=>{

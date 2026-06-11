@@ -770,3 +770,150 @@ body.sidebarCollapsed .sideNav button{
     min-height:86px !important;
   }
 }
+
+
+/* ===== V1.2.2 - Dashboard con graficos compactos y sin mapa ===== */
+.chartsGrid{
+  display:grid !important;
+  grid-template-columns:repeat(4,1fr) !important;
+  gap:12px !important;
+  margin-bottom:12px !important;
+}
+
+.chartPanel{
+  min-height:230px !important;
+  padding:13px !important;
+}
+
+.compactChart{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:8px !important;
+}
+
+.chartRow{
+  display:grid !important;
+  grid-template-columns:1fr 42px 48px !important;
+  align-items:center !important;
+  gap:8px !important;
+  min-height:30px !important;
+}
+
+.chartLabel{
+  color:white !important;
+  font-size:12px !important;
+  font-weight:800 !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  white-space:nowrap !important;
+}
+
+.chartValue{
+  text-align:right !important;
+  color:white !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+}
+
+.chartPct{
+  text-align:right !important;
+  color:#9be58f !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+}
+
+.barTrack{
+  grid-column:1 / 4 !important;
+  height:8px !important;
+  border-radius:999px !important;
+  overflow:hidden !important;
+  background:rgba(255,255,255,.10) !important;
+}
+
+.barFill{
+  height:100% !important;
+  border-radius:999px !important;
+  background:linear-gradient(90deg,#4cc63f,#1e88e5) !important;
+}
+
+.chartEmpty{
+  color:rgba(255,255,255,.65) !important;
+  font-size:12px !important;
+  padding:12px 0 !important;
+}
+
+.stateChartSummary{
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:8px !important;
+  margin-bottom:10px !important;
+}
+
+.stateBox{
+  border:1px solid rgba(255,255,255,.12) !important;
+  border-radius:10px !important;
+  background:rgba(255,255,255,.06) !important;
+  padding:10px !important;
+}
+
+.stateBox b{
+  display:block !important;
+  font-size:24px !important;
+  line-height:1 !important;
+}
+
+.stateBox small{
+  display:block !important;
+  margin-top:4px !important;
+  font-size:11px !important;
+  color:rgba(255,255,255,.68) !important;
+}
+
+.stateBox.open b{color:#4cc63f !important}
+.stateBox.closed b{color:#8b5cf6 !important}
+
+/* Ultimos transitos mas compacto */
+.tablePanel{
+  margin-bottom:10px !important;
+}
+
+.darkTable th,
+.darkTable td{
+  padding:6px 8px !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+}
+
+.darkTable th{
+  height:30px !important;
+}
+
+.darkTable td{
+  height:32px !important;
+}
+
+.statusBadge{
+  padding:3px 6px !important;
+  font-size:10px !important;
+  border-radius:5px !important;
+}
+
+.panelHead{
+  margin-bottom:7px !important;
+}
+
+.panelHead h3{
+  font-size:14px !important;
+}
+
+@media(max-width:1200px){
+  .chartsGrid{
+    grid-template-columns:repeat(2,1fr) !important;
+  }
+}
+
+@media(max-width:700px){
+  .chartsGrid{
+    grid-template-columns:1fr !important;
+  }
+}

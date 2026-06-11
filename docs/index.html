@@ -41,7 +41,7 @@
   <footer class="loginFooter">
     <span>🛡 Sistema seguro</span>
     <span>© 2025 ELTA Tracking Solutions</span>
-    <span>Versión 1.2.1</span>
+    <span>Versión 1.2.2</span>
   </footer>
 </section>
 
@@ -85,7 +85,7 @@
       <div class="headerTitle">
         <h1>Track Manager</h1>
         <p>Panel tráfico / coordinación</p>
-        <span>Versión 1.2.1</span>
+        <span>Versión 1.2.2</span>
       </div>
 
       <div class="headerActions">
@@ -134,38 +134,26 @@
         </div>
       </div>
 
-      <div class="dashGrid">
-        <div class="glassPanel">
-          <div class="panelHead">
-            <h3>Tránsitos por estado</h3>
-          </div>
-          <div class="donutRow">
-            <div class="donut">
-              <div><b id="donutTotal">0</b><small>Total</small></div>
-            </div>
-            <div class="legend">
-              <div><span class="dot green"></span> En tránsito <b id="legOpen">0</b></div>
-              <div><span class="dot blue"></span> En espera <b id="legWait">0</b></div>
-              <div><span class="dot yellow"></span> Con alertas <b id="legAlert">0</b></div>
-              <div><span class="dot red"></span> Finalizado <b id="legClosed">0</b></div>
-            </div>
-          </div>
+      
+<div class="chartsGrid">
+        <div class="glassPanel chartPanel">
+          <div class="panelHead"><h3>Tránsitos por estado</h3></div>
+          <div id="chartEstado" class="compactChart"></div>
         </div>
 
-        <div class="glassPanel mapPanel">
-          <div class="panelHead">
-            <h3>Seguimiento en mapa</h3>
-            <button onclick="tab('mapa')">Ver mapa</button>
-          </div>
-          <div class="mapVisual">
-            <div class="routeLine"></div>
-            <span class="truckPoint p1">🚚</span>
-            <span class="truckPoint p2">🚛</span>
-            <span class="truckPoint p3">🚚</span>
-            <span class="city c1">Zárate</span>
-            <span class="city c2">Buenos Aires</span>
-            <span class="city c3">Rosario</span>
-          </div>
+        <div class="glassPanel chartPanel">
+          <div class="panelHead"><h3>Tránsitos por cliente</h3></div>
+          <div id="chartCliente" class="compactChart"></div>
+        </div>
+
+        <div class="glassPanel chartPanel">
+          <div class="panelHead"><h3>Tránsitos por origen</h3></div>
+          <div id="chartOrigen" class="compactChart"></div>
+        </div>
+
+        <div class="glassPanel chartPanel">
+          <div class="panelHead"><h3>Tránsitos por destino</h3></div>
+          <div id="chartDestino" class="compactChart"></div>
         </div>
       </div>
 
@@ -270,7 +258,7 @@
     <footer class="appFooter">
       <span>🛡 Sistema seguro</span>
       <span>© 2025 ELTA Tracking Solutions</span>
-      <span>Versión 1.2.1</span>
+      <span>Versión 1.2.2</span>
     </footer>
   </main>
 </section>
