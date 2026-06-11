@@ -42,7 +42,7 @@
   <footer class="loginFooter">
     <span>🛡 Sistema seguro</span>
     <span>© 2025 ELTA Tracking Solutions</span>
-    <span>Versión 1.2.16</span>
+    <span>Versión 1.2.17</span>
   </footer>
 </section>
 
@@ -87,7 +87,7 @@
       <div class="headerTitle">
         <h1>Track Manager</h1>
         <p>Panel tráfico / coordinación</p>
-        <span>Versión 1.2.16</span>
+        <span>Versión 1.2.17</span>
       </div>
 
       <div class="headerActions">
@@ -195,6 +195,10 @@
 
     <section id="mapa" class="panel">
       <div class="sectionTitle"><h2>Seguimiento</h2><p>Unidades activas y ubicación operativa</p></div>
+      <div class="seguimientoFilters">
+        <input id="segEmb" placeholder="Embarque" oninput="renderMapa()">
+        <select id="segCli" onchange="renderMapa()"><option value="">Todos los clientes</option></select>
+      </div>
       <div class="seguimientoLayout">
         <div class="glassPanel trackingMapPanel">
           <div id="realMap" class="realMap"></div>
@@ -260,7 +264,7 @@
     <footer class="appFooter">
       <span>🛡 Sistema seguro</span>
       <span>© 2025 ELTA Tracking Solutions</span>
-      <span>Versión 1.2.16</span>
+      <span>Versión 1.2.17</span>
     </footer>
   </main>
 </section>

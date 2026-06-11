@@ -1,0 +1,1 @@
+ELTA Track Manager Web V1.2.17 - Seguimiento: marcador numerico reducido al 50% y filtros por cliente/embarque.
