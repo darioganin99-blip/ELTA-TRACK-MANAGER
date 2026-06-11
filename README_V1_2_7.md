@@ -1,1 +1,0 @@
-ELTA Track Manager Web V1.2.7 - Solo vista Transitos: selects desde base, estado Todos/Abiertos/Cerrados, chofer, ultima posicion y alertas a la derecha.
