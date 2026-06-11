@@ -1,0 +1,1 @@
+ELTA Track Manager Web V1.2.13 - Seguimiento: fix render mapa Leaflet e informacion visible por localidad/provincia sin coordenadas en panel.

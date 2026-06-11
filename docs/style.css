@@ -1974,3 +1974,11 @@ select option:hover{
 .eltaTruckMarker{font-size:26px!important;text-shadow:0 2px 6px rgba(0,0,0,.7)!important}
 @media(max-width:1100px){.seguimientoLayout{grid-template-columns:1fr!important}.trackingMapPanel,.trackingSidePanel{min-height:auto!important;max-height:none!important}.realMap{height:460px!important;min-height:460px!important}}
 @media(max-width:640px){.trackingData{grid-template-columns:1fr!important}.realMap{height:360px!important;min-height:360px!important}}
+
+/* ===== V1.2.13 - Seguimiento: fix mapa y ocultar coordenadas ===== */
+.trackingMapPanel{position:relative!important;overflow:hidden!important}
+.realMap{display:block!important;position:relative!important;z-index:1!important;background:#dbeafe!important}
+.realMap .leaflet-container,.leaflet-container{width:100%!important;height:100%!important;background:#dbeafe!important}
+.trackingData{grid-template-columns:1fr 1fr!important}
+.trackingData .locationLine{grid-column:1 / -1!important;font-size:13px!important;color:#ffffff!important}
+.trackingData .coordLine{display:none!important}
