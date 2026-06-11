@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
 
 
 
-/* ===== V1.2.6 overrides ===== */
+/* ===== V1.2.7 overrides ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -364,7 +364,7 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.6 - Graficos barra compactos ===== */
+/* ===== V1.2.7 - Graficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -418,7 +418,7 @@ function renderPieChart(id,data,limit=4){
 
 
 
-/* ===== V1.2.6 - Transitos filtros/chofer/posicion/alertas ===== */
+/* ===== V1.2.7 - Solo vista Tránsitos ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -434,16 +434,8 @@ function fillSelect(id, values, label){
   if([...el.options].some(o=>o.value===current))el.value=current;
 }
 function refreshFilters(){
-  let flotasBase=[
-    ...trs.map(flota),
-    ...users.map(userFlota)
-  ];
-  let clientesBase=[
-    ...trs.map(t=>ruta(t).cliente),
-    ...clientes.map(c=>c.nombre||c.cliente||c.razonSocial||c.id)
-  ];
-  fillSelect("fFlo", flotasBase, "Todas las flotas");
-  fillSelect("fCli", clientesBase, "Todos los clientes");
+  fillSelect("fFlo", [...trs.map(flota), ...users.map(userFlota)], "Todas las flotas");
+  fillSelect("fCli", [...trs.map(t=>ruta(t).cliente), ...clientes.map(c=>c.nombre||c.cliente||c.razonSocial||c.id)], "Todos los clientes");
 }
 function valFrom(obj, keys){
   for(let k of keys){
@@ -505,19 +497,17 @@ function transitAlertsHtml(t){
     </div>`;
   }).join("")+`</div>`;
 }
-function collectAlerts(){
-  let alerts=[];
-  trs.forEach(t=>(t.alerts||[]).forEach(a=>alerts.push({t,a})));
-  alerts.sort((x,y)=>tv(y.a.time||y.a.fecha||y.a.createdAt||y.a.ts)-tv(x.a.time||x.a.fecha||x.a.createdAt||x.a.ts));
-  return alerts;
-}
 
 async function refresh(){
   [trs,users,clientes,origenes,destinos,embarques]=await Promise.all([
     read("transitos"),read("usuarios"),read("clientes"),read("origenes"),read("destinos"),read("embarque")
   ]);
   refreshFilters();
-  renderDash();renderTransitos();renderMapa();renderRep();renderUnits();renderDrivers();renderClients();renderAlerts();
+  renderDash();renderTransitos();renderMapa();renderRep();
+  if(typeof renderUnits==="function")renderUnits();
+  if(typeof renderDrivers==="function")renderDrivers();
+  if(typeof renderClients==="function")renderClients();
+  if(typeof renderAlerts==="function")renderAlerts();
 }
 
 function card(t){
@@ -549,37 +539,4 @@ function filt(t){
         (!f||flota(t)===f||String(t?.user?.fleet||"")===f)&&
         (!c||String(ruta(t).cliente||"")===c)&&
         (!s||(s==="abierto"?openT(t):!openT(t)));
-}
-
-function renderDashAlerts(){
-  let alerts=collectAlerts();
-  if(!alerts.length){q("dashAlerts").innerHTML='<div class="alertEmpty">Sin alertas activas.</div>';return;}
-  q("dashAlerts").innerHTML=`<div class="alertListCompact">`+alerts.map(x=>{
-    let tipo=esc(x.a.tipo||x.a.type||x.a.motivo||"Alerta");
-    return `<div class="alertCard">
-      <div class="alertTop"><span>⚠️ ${tipo}</span><span>${alertDate(x.a)}</span></div>
-      <div class="alertInfo">
-        <div><b>Emb.:</b> ${esc(x.t.embarque||"-")}</div>
-        <div><b>Flota:</b> ${esc(flota(x.t)||"-")}</div>
-        <div><b>Km:</b> ${esc(alertKm(x.a))}</div>
-        <div><b>Estado:</b> ${openT(x.t)?"En tránsito":"Finalizado"}</div>
-        <div class="fullLine"><b>Localidad:</b> ${esc(alertLoc(x.a,x.t))}</div>
-      </div>
-    </div>`;
-  }).join("")+`</div>`;
-}
-
-function renderAlerts(){
-  let alerts=collectAlerts();
-  q("alertList").innerHTML=alerts.map(x=>`<div class="item">
-    <div class="top"><span>⚠️ ${esc(x.a.tipo||x.a.type||x.a.motivo||"Alerta")}</span><span class="badge">Emb. ${esc(x.t.embarque||"-")}</span></div>
-    <div class="metaGrid">
-      <div><b>Flota:</b> ${esc(flota(x.t)||"-")}</div>
-      <div><b>Km:</b> ${esc(alertKm(x.a))}</div>
-      <div><b>Fecha/Hora:</b> ${alertDate(x.a)}</div>
-      <div><b>Estado:</b> ${openT(x.t)?"En tránsito":"Finalizado"}</div>
-      <div><b>Chofer:</b> ${esc(driverName(x.t))}</div>
-      <div class="fullLine"><b>Localidad:</b> ${esc(alertLoc(x.a,x.t))}</div>
-    </div>
-  </div>`).join("")||'<div class="item">Sin alertas registradas.</div>';
 }

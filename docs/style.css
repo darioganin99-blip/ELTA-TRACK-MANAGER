@@ -1325,19 +1325,20 @@ body.sidebarCollapsed .sideNav button{
 }
 
 
-/* ===== V1.2.6 - Vista Transitos: filtros, chofer, posicion y alertas a la derecha ===== */
-
+/* ===== V1.2.7 - Solo vista Tránsitos ===== */
+.transitosFilters,
 .filters{
   grid-template-columns:1fr 1fr 1fr 170px !important;
 }
 
+.transitosFilters select,
 .filters select{
   cursor:pointer !important;
 }
 
 .transitCard{
   display:grid !important;
-  grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr) !important;
+  grid-template-columns:minmax(0,1.06fr) minmax(300px,.94fr) !important;
   gap:16px !important;
   align-items:start !important;
 }
@@ -1393,7 +1394,8 @@ body.sidebarCollapsed .sideNav button{
   color:rgba(255,255,255,.76) !important;
 }
 
-.transitAlertItem .fullLine{
+.transitAlertItem .fullLine,
+.item .fullLine{
   grid-column:1 / -1 !important;
 }
 
@@ -1415,10 +1417,6 @@ body.sidebarCollapsed .sideNav button{
   line-height:1.18 !important;
 }
 
-.item .fullLine{
-  grid-column:1 / -1 !important;
-}
-
 @media(max-width:1050px){
   .transitCard{
     grid-template-columns:1fr !important;
@@ -1432,12 +1430,14 @@ body.sidebarCollapsed .sideNav button{
 }
 
 @media(max-width:900px){
+  .transitosFilters,
   .filters{
     grid-template-columns:1fr 1fr !important;
   }
 }
 
 @media(max-width:640px){
+  .transitosFilters,
   .filters{
     grid-template-columns:1fr !important;
   }
