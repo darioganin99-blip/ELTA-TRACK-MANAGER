@@ -60,47 +60,6 @@ function renderEstadoChart(abiertos,cerrados,total){
   </div>`;
 }
 
-
-function palette(i){
-  return ["#4cc63f","#1e88e5","#facc15","#ef4444","#8b5cf6","#14b8a6","#f97316","#94a3b8"][i%8];
-}
-function renderPieChart(id, data, limit=4){
-  let el=q(id);
-  if(!el)return;
-  let entries=Object.entries(data).filter(([k,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,limit);
-  let total=Object.values(data).reduce((a,b)=>a+b,0);
-  if(!entries.length||!total){
-    el.innerHTML='<div class="chartEmpty">Sin información disponible.</div>';
-    return;
-  }
-  let acc=0;
-  let stops=entries.map(([k,v],i)=>{
-    let start=acc;
-    let pct=(v/total)*100;
-    acc+=pct;
-    return `${palette(i)} ${start}% ${acc}%`;
-  }).join(",");
-  el.innerHTML=`<div class="pieChartBlock">
-    <div class="pieChart" style="background:conic-gradient(${stops})">
-      <div class="pieCenter"><b>${total}</b><small>Total</small></div>
-    </div>
-    <div class="pieLegend">
-      ${entries.map(([k,v],i)=>{
-        let pct=Math.round((v/total)*100);
-        return `<div class="pieLegendRow">
-          <span class="swatch" style="background:${palette(i)}"></span>
-          <span class="name" title="${esc(k)}">${esc(k)}</span>
-          <span class="val">${v}</span>
-          <span class="pct">${pct}%</span>
-        </div>`;
-      }).join("")}
-    </div>
-  </div>`;
-}
-function renderEstadoPie(abiertos,cerrados,total){
-  renderPieChart("chartEstado", {"En tránsito":abiertos,"Finalizado":cerrados}, 2);
-}
-
 async function login(){
   try{
     init();
@@ -162,10 +121,10 @@ function renderDash(){
   if(q("headerAlertCount"))q("headerAlertCount").innerText=totalAlerts;
   if(q("kf"))q("kf").innerText=users.filter(u=>String(u.role||"").toLowerCase()==="flota").length || new Set(trs.map(flota).filter(Boolean)).size;
 
-  renderEstadoPie(abiertos.length,cerrados.length,trs.length);
-  renderPieChart("chartCliente", countBy(trs,t=>ruta(t).cliente), 4);
-  renderPieChart("chartOrigen", countBy(trs,t=>ruta(t).origen), 4);
-  renderPieChart("chartDestino", countBy(trs,t=>ruta(t).destino), 4);
+  renderEstadoChart(abiertos.length,cerrados.length,trs.length);
+  renderBarChart("chartCliente", countBy(trs,t=>ruta(t).cliente), 4);
+  renderBarChart("chartOrigen", countBy(trs,t=>ruta(t).origen), 4);
+  renderBarChart("chartDestino", countBy(trs,t=>ruta(t).destino), 4);
 
   if(q("donutTotal"))q("donutTotal").innerText=trs.length;
   if(q("legOpen"))q("legOpen").innerText=abiertos.length;
@@ -178,7 +137,6 @@ function renderDash(){
 }
 
 function renderDashTable(){
-  if(!trs.length){if(q("dashTable")){q("dashTable").classList.add("emptyTable");q("dashTable").innerHTML="Sin información de tránsitos.";}return;}else{q("dashTable")?.classList.remove("emptyTable")}
   let rows=trs.slice().sort((a,b)=>tv(b.start?.time||b.start)-tv(a.start?.time||a.start)).slice(0,10);
   q("dashTable").innerHTML=`<table>
     <thead><tr><th>Embarque</th><th>Cliente</th><th>Origen</th><th>Destino</th><th>Flota</th><th>Estado</th><th>Actualizado</th></tr></thead>
@@ -192,7 +150,6 @@ function renderDashAlerts(){
   let alerts=[];
   trs.forEach(t=>(t.alerts||[]).forEach(a=>alerts.push({t,a})));
   alerts.sort((x,y)=>tv(y.a.time||y.a.fecha)-tv(x.a.time||x.a.fecha));
-  if(!alerts.length){q("dashAlerts").innerHTML='<div class="alertEmpty">Sin alertas activas.</div>';return;}
   q("dashAlerts").innerHTML=(alerts.slice(0,3).map(x=>`<div class="alertLine">• ${esc(x.a.tipo||x.a.type||x.a.motivo||"Alerta")} - Flota ${esc(flota(x.t)||"-")} - Emb. ${esc(x.t.embarque||"-")}</div>`).join(""))||'<div class="alertLine">Sin alertas activas.</div>';
 }
 
