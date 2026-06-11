@@ -1950,3 +1950,27 @@ select option:hover{
   background:#2f80ed !important;
   color:#ffffff !important;
 }
+
+/* ===== V1.2.12 - SOLO vista Seguimiento: mapa real + panel derecho ===== */
+.seguimientoLayout{display:grid!important;grid-template-columns:minmax(0,1.45fr) minmax(360px,.75fr)!important;gap:14px!important;align-items:start!important}
+.trackingMapPanel{min-height:650px!important;padding:10px!important}
+.realMap{width:100%!important;height:630px!important;min-height:630px!important;border-radius:12px!important;overflow:hidden!important;border:1px solid rgba(255,255,255,.15)!important;background:#102432!important}
+.trackingSidePanel{min-height:650px!important;max-height:650px!important;overflow:hidden!important;display:flex!important;flex-direction:column!important}
+.trackingFleetList{overflow:auto!important;padding-right:4px!important;display:flex!important;flex-direction:column!important;gap:10px!important}
+.trackingCard{border:1px solid rgba(76,198,63,.55)!important;border-radius:11px!important;background:rgba(20,39,54,.84)!important;padding:12px!important;color:white!important}
+.trackingCardTop{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;margin-bottom:8px!important}
+.trackingFleetTitle{font-size:16px!important;font-weight:900!important;color:#f8fafc!important}
+.trackingState{border-radius:999px!important;padding:4px 10px!important;font-size:12px!important;font-weight:900!important;background:rgba(76,198,63,.24)!important;color:#8df27c!important}
+.trackingState.closed{background:rgba(148,163,184,.25)!important;color:#d5dde8!important}
+.trackingData{display:grid!important;grid-template-columns:1fr 1fr!important;gap:3px 10px!important;font-size:11.5px!important;line-height:1.2!important;color:#d3dce7!important}
+.trackingData b{color:#f6f8fb!important}.trackingData .fullLine{grid-column:1 / -1!important}
+.trackingAlerts{margin-top:9px!important;border-top:1px solid rgba(255,255,255,.12)!important;padding-top:8px!important}
+.trackingAlerts h4{margin:0 0 7px!important;font-size:12px!important;color:white!important}
+.trackingAlertItem{border:1px solid rgba(255,255,255,.10)!important;background:rgba(255,255,255,.055)!important;border-radius:8px!important;padding:7px 8px!important;margin-bottom:6px!important;font-size:10.5px!important;color:#d3dce7!important}
+.trackingAlertTop{display:flex!important;justify-content:space-between!important;gap:8px!important;font-weight:900!important;color:white!important;margin-bottom:4px!important}
+.mapPopup{font-family:Arial,Helvetica,sans-serif!important;font-size:12px!important;line-height:1.25!important}.mapPopup b{font-weight:900!important}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#172838!important;color:white!important}
+.leaflet-control-zoom a{color:#111827!important}
+.eltaTruckMarker{font-size:26px!important;text-shadow:0 2px 6px rgba(0,0,0,.7)!important}
+@media(max-width:1100px){.seguimientoLayout{grid-template-columns:1fr!important}.trackingMapPanel,.trackingSidePanel{min-height:auto!important;max-height:none!important}.realMap{height:460px!important;min-height:460px!important}}
+@media(max-width:640px){.trackingData{grid-template-columns:1fr!important}.realMap{height:360px!important;min-height:360px!important}}

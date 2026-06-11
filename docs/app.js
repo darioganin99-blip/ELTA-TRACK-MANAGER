@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
 
 
 
-/* ===== V1.2.11 overrides ===== */
+/* ===== V1.2.12 overrides ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -364,7 +364,7 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.11 - Graficos barra compactos ===== */
+/* ===== V1.2.12 - Graficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -416,7 +416,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.11 - Reaseguro gráficos barra compactos ===== */
+/* ===== V1.2.12 - Reaseguro gráficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -468,7 +468,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.11 - Dashboard 4 gráficos + últimas alertas compactas ===== */
+/* ===== V1.2.12 - Dashboard 4 gráficos + últimas alertas compactas ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -540,7 +540,7 @@ function renderDashAlerts(){
 
 
 
-/* ===== V1.2.11 - SOLO vista Tránsitos: tarjeta como imagen ===== */
+/* ===== V1.2.12 - SOLO vista Tránsitos: tarjeta como imagen ===== */
 
 function valFrom(obj, keys){
   for(let k of keys){
@@ -628,7 +628,7 @@ function card(t){
 
 
 
-/* ===== V1.2.11 - Localidad/provincia desde coordenadas conocidas ===== */
+/* ===== V1.2.12 - Localidad/provincia desde coordenadas conocidas ===== */
 function parseCoordPair(txt){
   let s=String(txt||"");
   let m=s.match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
@@ -720,4 +720,64 @@ function card(t){
       ${transitAlertsCompact(t)}
     </div>
   </div>`;
+}
+
+
+
+/* ===== V1.2.12 - SOLO vista Seguimiento: mapa real GPS ===== */
+let seguimientoMap=null;
+let seguimientoMarkers=[];
+
+function getPosObj(t){
+  let u=lastU(t)||{};
+  let sources=[u.gps,u.ultimaPosicion,u.position,u.location,u.posicion,t.ultimaPosicion,t.lastPosition,t.position,t.location,t.posicion,u].filter(Boolean);
+  for(let s of sources){
+    let lat=valFrom(s,["lat","latitude","latitud"]);
+    let lng=valFrom(s,["lng","lon","longitude","longitud"]);
+    if(lat&&lng&&!isNaN(Number(lat))&&!isNaN(Number(lng)))return {lat:Number(lat),lng:Number(lng),src:s};
+    let coord=valFrom(s,["ubicacion","address","direccion","formatted_address"]);
+    let pair=parseCoordPair(coord);
+    if(pair)return {lat:pair.lat,lng:pair.lng,src:s};
+  }
+  return null;
+}
+function trackingAlertsHtml(t){
+  let arr=(t.alerts||[]).slice();
+  arr.sort((a,b)=>tv(b.time||b.fecha||b.createdAt||b.ts)-tv(a.time||a.fecha||a.createdAt||a.ts));
+  if(!arr.length)return '<div class="trackingAlertItem">Sin alertas registradas.</div>';
+  return arr.map(a=>{
+    let tipo=esc(a.tipo||a.type||a.motivo||"Alerta");
+    return `<div class="trackingAlertItem"><div class="trackingAlertTop"><span>⚠️ ${tipo}</span><span>${alertDate(a)}</span></div><div><b>Localidad:</b> ${esc(alertLoc(a,t))}</div><div><b>Km:</b> ${esc(alertKm(a))}</div></div>`;
+  }).join("");
+}
+function trackingCard(t){
+  let o=openT(t),r=ruta(t),pos=getPosObj(t);
+  return `<div class="trackingCard"><div class="trackingCardTop"><div class="trackingFleetTitle">🚚 Flota ${esc(flota(t)||"-")}</div><span class="trackingState ${o?"":"closed"}">${o?"Abierto":"Finalizado"}</span></div><div class="trackingData"><div><b>Emb.:</b> ${esc(t.embarque||"-")}</div><div><b>Chofer:</b> ${esc(typeof driverName==="function"?driverName(t):"-")}</div><div class="fullLine"><b>Ubicación:</b> ${esc(locFull(t))}</div><div><b>Cliente:</b> ${esc(r.cliente||"-")}</div><div><b>Destino:</b> ${esc(r.destino||"-")}</div><div><b>Últ. reporte:</b> ${fd((lastU(t)||{}).time||(lastU(t)||{}).fecha||(lastU(t)||{}).createdAt)}</div><div><b>Coordenadas:</b> ${pos?`${pos.lat.toFixed(6)}, ${pos.lng.toFixed(6)}`:"-"}</div></div><div class="trackingAlerts"><h4>⚠️ Alertas del tránsito</h4>${trackingAlertsHtml(t)}</div></div>`;
+}
+function initSeguimientoMap(items){
+  if(typeof L==="undefined"||!q("realMap"))return;
+  let withPos=items.map(t=>({t,pos:getPosObj(t)})).filter(x=>x.pos);
+  if(!seguimientoMap){
+    seguimientoMap=L.map("realMap",{zoomControl:true});
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"&copy; OpenStreetMap"}).addTo(seguimientoMap);
+  }
+  seguimientoMarkers.forEach(m=>m.remove());
+  seguimientoMarkers=[];
+  if(!withPos.length){seguimientoMap.setView([-34.6037,-58.3816],8);setTimeout(()=>seguimientoMap.invalidateSize(),150);return;}
+  let bounds=[];
+  withPos.forEach(({t,pos})=>{
+    let icon=L.divIcon({className:"eltaTruckMarker",html:"🚚",iconSize:[28,28],iconAnchor:[14,14]});
+    let marker=L.marker([pos.lat,pos.lng],{icon}).addTo(seguimientoMap);
+    marker.bindPopup(`<div class="mapPopup"><b>Flota ${esc(flota(t)||"-")}</b><br>Emb.: ${esc(t.embarque||"-")}<br>Ubicación: ${esc(locFull(t))}<br>Cliente: ${esc(ruta(t).cliente||"-")}<br>Estado: ${openT(t)?"Abierto":"Finalizado"}</div>`);
+    seguimientoMarkers.push(marker);
+    bounds.push([pos.lat,pos.lng]);
+  });
+  if(bounds.length===1)seguimientoMap.setView(bounds[0],12); else seguimientoMap.fitBounds(bounds,{padding:[35,35]});
+  setTimeout(()=>seguimientoMap.invalidateSize(),150);
+}
+function renderMapa(){
+  let items=trs.filter(openT);
+  if(!items.length)items=trs.slice().sort((a,b)=>tv(b.start?.time||b.start)-tv(a.start?.time||a.start)).slice(0,20);
+  if(q("mapList"))q("mapList").innerHTML=items.map(trackingCard).join("")||'<div class="trackingCard">No hay flotas para mostrar.</div>';
+  initSeguimientoMap(items);
 }

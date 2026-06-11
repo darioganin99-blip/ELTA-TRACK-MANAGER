@@ -1,0 +1,1 @@
+ELTA Track Manager Web V1.2.12 - Solo vista Seguimiento: mapa real OpenStreetMap/Leaflet con posiciones GPS y panel derecho con datos de flota, transito y alertas.

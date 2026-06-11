@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ELTA Track Manager</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="style.css">
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -41,7 +42,7 @@
   <footer class="loginFooter">
     <span>🛡 Sistema seguro</span>
     <span>© 2025 ELTA Tracking Solutions</span>
-    <span>Versión 1.2.11</span>
+    <span>Versión 1.2.12</span>
   </footer>
 </section>
 
@@ -86,7 +87,7 @@
       <div class="headerTitle">
         <h1>Track Manager</h1>
         <p>Panel tráfico / coordinación</p>
-        <span>Versión 1.2.11</span>
+        <span>Versión 1.2.12</span>
       </div>
 
       <div class="headerActions">
@@ -194,18 +195,18 @@
 
     <section id="mapa" class="panel">
       <div class="sectionTitle"><h2>Seguimiento</h2><p>Unidades activas y ubicación operativa</p></div>
-      <div class="glassPanel mapPanel wide">
-        <div class="mapVisual big">
-          <div class="routeLine"></div>
-          <span class="truckPoint p1">🚚</span>
-          <span class="truckPoint p2">🚛</span>
-          <span class="truckPoint p3">🚚</span>
-          <span class="city c1">Zárate</span>
-          <span class="city c2">Buenos Aires</span>
-          <span class="city c3">Rosario</span>
+      <div class="seguimientoLayout">
+        <div class="glassPanel trackingMapPanel">
+          <div id="realMap" class="realMap"></div>
+        </div>
+        <div class="glassPanel trackingSidePanel">
+          <div class="panelHead">
+            <h3>Flotas en seguimiento</h3>
+            <button onclick="refresh()">Actualizar</button>
+          </div>
+          <div id="mapList" class="trackingFleetList"></div>
         </div>
       </div>
-      <div class="glassPanel"><div id="mapList" class="cardList"></div></div>
     </section>
 
     <section id="coordinacion" class="panel">
@@ -259,11 +260,12 @@
     <footer class="appFooter">
       <span>🛡 Sistema seguro</span>
       <span>© 2025 ELTA Tracking Solutions</span>
-      <span>Versión 1.2.11</span>
+      <span>Versión 1.2.12</span>
     </footer>
   </main>
 </section>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
