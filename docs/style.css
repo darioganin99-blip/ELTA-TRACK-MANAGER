@@ -2342,3 +2342,35 @@ select option:hover{
   background:rgba(20,39,54,.55) !important;
   font-size:13px !important;
 }
+
+
+/* ===== V1.2.20 - Transitos: ultimo reporte / Unidades-Choferes mejorado ===== */
+
+#transitos .lastReportLine{
+  grid-column:1 / -1 !important;
+  margin-top:6px !important;
+  padding:7px 10px !important;
+  border-radius:8px !important;
+  background:rgba(76,198,63,.16) !important;
+  border:1px solid rgba(76,198,63,.45) !important;
+  color:#ffffff !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+}
+#transitos .lastReportLine b{color:#8df27c !important;}
+
+.unitFilters{display:flex !important;gap:8px !important;margin-top:10px !important;flex-wrap:wrap !important;}
+.unitFilters button{border:1px solid rgba(255,255,255,.18) !important;background:rgba(255,255,255,.07) !important;color:#dbe4ef !important;border-radius:999px !important;padding:7px 12px !important;font-size:12px !important;font-weight:900 !important;cursor:pointer !important;}
+.unitFilters button.active{background:rgba(76,198,63,.28) !important;color:#8df27c !important;border-color:rgba(76,198,63,.55) !important;}
+
+.fleetUserCard{min-height:168px !important;}
+.fleetUserRole{display:none !important;}
+.fleetUserStatus{border-radius:999px !important;padding:4px 10px !important;font-size:11px !important;font-weight:900 !important;white-space:nowrap !important;}
+.fleetUserStatus.inTransit{background:rgba(76,198,63,.24) !important;color:#8df27c !important;}
+.fleetUserStatus.noTransit{background:rgba(148,163,184,.20) !important;color:#d8e0eb !important;}
+
+.fleetUserTransit{margin-top:10px !important;padding-top:9px !important;border-top:1px solid rgba(255,255,255,.12) !important;font-size:11px !important;line-height:1.25 !important;color:#d3dce7 !important;}
+.fleetUserTransit b{color:white !important;}
+.fleetUserTransit .openTransitBox{margin-top:6px !important;padding:8px !important;border-radius:8px !important;background:rgba(76,198,63,.10) !important;border:1px solid rgba(76,198,63,.28) !important;}
+.fleetUserTransit .lastReportMini{margin-top:6px !important;color:#8df27c !important;font-weight:900 !important;}
+.fleetUserEmptyHint{border:1px dashed rgba(255,255,255,.18) !important;border-radius:12px !important;padding:18px !important;color:rgba(255,255,255,.76) !important;background:rgba(20,39,54,.55) !important;font-size:13px !important;}

@@ -42,7 +42,7 @@
   <footer class="loginFooter">
     <span>🛡 Sistema seguro</span>
     <span>© 2025 ELTA Tracking Solutions</span>
-    <span>Versión 1.2.19</span>
+    <span>Versión 1.2.20</span>
   </footer>
 </section>
 
@@ -87,7 +87,7 @@
       <div class="headerTitle">
         <h1>Track Manager</h1>
         <p>Panel tráfico / coordinación</p>
-        <span>Versión 1.2.19</span>
+        <span>Versión 1.2.20</span>
       </div>
 
       <div class="headerActions">
@@ -219,7 +219,14 @@
       <div class="sectionTitle"><h2>Unidades / Choferes</h2><p>Usuarios registrados con rol flota</p></div>
       <div class="glassPanel">
         <div class="panelHead">
-          <h3>Flotas registradas</h3>
+          <div>
+            <h3>Flotas registradas</h3>
+            <div class="unitFilters">
+              <button class="active" data-unit-filter="todas" onclick="setUnitFilter('todas')">Todas</button>
+              <button data-unit-filter="transito" onclick="setUnitFilter('transito')">En tránsito</button>
+              <button data-unit-filter="sin" onclick="setUnitFilter('sin')">Sin tránsito</button>
+            </div>
+          </div>
           <button onclick="refresh()">Actualizar</button>
         </div>
         <div id="unitsList" class="fleetUsersGrid"></div>
@@ -264,7 +271,7 @@
     <footer class="appFooter">
       <span>🛡 Sistema seguro</span>
       <span>© 2025 ELTA Tracking Solutions</span>
-      <span>Versión 1.2.19</span>
+      <span>Versión 1.2.20</span>
     </footer>
   </main>
 </section>
