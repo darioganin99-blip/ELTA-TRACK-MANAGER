@@ -2582,3 +2582,53 @@ select option:hover{
     grid-template-columns:1fr !important;
   }
 }
+
+
+/* ===== V1.2.26 - Clientes / Destinos mejoras solicitadas ===== */
+
+.clientData,
+.destinationData{
+  grid-template-columns:1fr 1fr !important;
+}
+
+.destinationCard{
+  min-height:145px !important;
+}
+
+.destinationData .fullLine{
+  grid-column:1 / -1 !important;
+}
+
+.destinationCoords{
+  margin-top:9px !important;
+  padding:9px 10px !important;
+  border-radius:9px !important;
+  background:rgba(59,130,246,.10) !important;
+  border:1px solid rgba(96,165,250,.28) !important;
+  color:#dbeafe !important;
+  font-size:12px !important;
+  font-weight:800 !important;
+}
+
+.clientContactBox{
+  margin-top:8px !important;
+  padding:8px 10px !important;
+  border-radius:9px !important;
+  background:rgba(76,198,63,.10) !important;
+  border:1px solid rgba(76,198,63,.24) !important;
+  color:#d3dce7 !important;
+  font-size:12px !important;
+}
+
+.clientContactBox b,
+.destinationData b,
+.destinationCoords b{
+  color:white !important;
+}
+
+@media(max-width:640px){
+  .clientData,
+  .destinationData{
+    grid-template-columns:1fr !important;
+  }
+}

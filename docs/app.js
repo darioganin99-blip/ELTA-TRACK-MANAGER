@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
 
 
 
-/* ===== V1.2.25 overrides ===== */
+/* ===== V1.2.26 overrides ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -364,7 +364,7 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.25 - Graficos barra compactos ===== */
+/* ===== V1.2.26 - Graficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -416,7 +416,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.25 - Reaseguro gráficos barra compactos ===== */
+/* ===== V1.2.26 - Reaseguro gráficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -468,7 +468,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.25 - Dashboard 4 gráficos + últimas alertas compactas ===== */
+/* ===== V1.2.26 - Dashboard 4 gráficos + últimas alertas compactas ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -540,7 +540,7 @@ function renderDashAlerts(){
 
 
 
-/* ===== V1.2.25 - SOLO vista Tránsitos: tarjeta como imagen ===== */
+/* ===== V1.2.26 - SOLO vista Tránsitos: tarjeta como imagen ===== */
 
 function valFrom(obj, keys){
   for(let k of keys){
@@ -628,7 +628,7 @@ function card(t){
 
 
 
-/* ===== V1.2.25 - Localidad/provincia desde coordenadas conocidas ===== */
+/* ===== V1.2.26 - Localidad/provincia desde coordenadas conocidas ===== */
 function parseCoordPair(txt){
   let s=String(txt||"");
   let m=s.match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
@@ -724,7 +724,7 @@ function card(t){
 
 
 
-/* ===== V1.2.25 - SOLO vista Seguimiento: mapa real GPS ===== */
+/* ===== V1.2.26 - SOLO vista Seguimiento: mapa real GPS ===== */
 let seguimientoMap=null;
 let seguimientoMarkers=[];
 
@@ -784,7 +784,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.25 - Seguimiento: fix mapa y localidad/provincia ===== */
+/* ===== V1.2.26 - Seguimiento: fix mapa y localidad/provincia ===== */
 function trackingCard(t){
   let o=openT(t),r=ruta(t),pos=getPosObj(t);
   return `<div class="trackingCard">
@@ -863,7 +863,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.25 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
+/* ===== V1.2.26 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -946,7 +946,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.25 - Seguimiento: marcador numerico estilo etiqueta ===== */
+/* ===== V1.2.26 - Seguimiento: marcador numerico estilo etiqueta ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -1021,7 +1021,7 @@ function initSeguimientoMap(items){
 
 
 
-/* ===== V1.2.25 - Seguimiento: solo numero, zoom con todas las flotas, ultimo reporte resaltado ===== */
+/* ===== V1.2.26 - Seguimiento: solo numero, zoom con todas las flotas, ultimo reporte resaltado ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -1132,7 +1132,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.25 - Seguimiento: filtros cliente/embarque + marker 50% ===== */
+/* ===== V1.2.26 - Seguimiento: filtros cliente/embarque + marker 50% ===== */
 
 function refreshSeguimientoFilters(){
   let cli=q("segCli");
@@ -1233,7 +1233,7 @@ function initSeguimientoMap(items){
 
 
 
-/* ===== V1.2.25 - Solo transitos abiertos + Unidades/Choferes por usuarios role=flota ===== */
+/* ===== V1.2.26 - Solo transitos abiertos + Unidades/Choferes por usuarios role=flota ===== */
 
 function isFlotaUser(u){
   return String(u.role||u.rol||"").toLowerCase().trim()==="flota";
@@ -1330,7 +1330,7 @@ function renderCoordinacion(){}
 
 
 
-/* ===== V1.2.25 - Unidades / Choferes: usuarios role flota flexible ===== */
+/* ===== V1.2.26 - Unidades / Choferes: usuarios role flota flexible ===== */
 
 function normRoleValue(v){
   return String(v||"").toLowerCase().trim();
@@ -1424,7 +1424,7 @@ function renderDrivers(){
 
 
 
-/* ===== V1.2.25 - Correcciones Transitos y Unidades / Choferes ===== */
+/* ===== V1.2.26 - Correcciones Transitos y Unidades / Choferes ===== */
 
 let unitFilterMode="todas";
 
@@ -1575,7 +1575,7 @@ function card(t){
 
 
 
-/* ===== V1.2.25 - Fix filtros Unidades / Choferes + Tractor/Batea ===== */
+/* ===== V1.2.26 - Fix filtros Unidades / Choferes + Tractor/Batea ===== */
 
 window.unitFilterMode = window.unitFilterMode || "todas";
 
@@ -1722,7 +1722,7 @@ function renderDrivers(){ renderUnits(); }
 
 
 
-/* ===== V1.2.25 - Dashboard y Tránsitos muestran abiertos + finalizados ===== */
+/* ===== V1.2.26 - Dashboard y Tránsitos muestran abiertos + finalizados ===== */
 
 function transitUpdatedValue(t){
   let u = typeof lastU==="function" ? (lastU(t)||{}) : {};
@@ -1807,7 +1807,7 @@ function renderRep(){
 
 
 
-/* ===== V1.2.25 - Clientes / Destinos sin JSON visible ===== */
+/* ===== V1.2.26 - Clientes / Destinos sin JSON visible ===== */
 
 function firstValue(obj, keys){
   for(let k of keys){
@@ -1955,7 +1955,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.25 - Fix render Clientes / Destinos ===== */
+/* ===== V1.2.26 - Fix render Clientes / Destinos ===== */
 
 function safeArr(v){
   return Array.isArray(v) ? v : [];
@@ -2115,7 +2115,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.25 - Fix campo Tractor desde usuarios.tractor ===== */
+/* ===== V1.2.26 - Fix campo Tractor desde usuarios.tractor ===== */
 
 function pickTextValue(obj, keys){
   for(let k of keys){
@@ -2206,3 +2206,197 @@ function renderUnits(){
 }
 
 function renderDrivers(){ renderUnits(); }
+
+
+
+
+/* ===== V1.2.26 - Clientes contacto/telefono + Destinos horarios/coordenadas ===== */
+
+function isCoordTextV1226(v){
+  let s=String(v||"").trim();
+  return /^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/.test(s);
+}
+
+function parseCoordV1226(v){
+  let s=String(v||"").trim();
+  let m=s.match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
+  return m ? {lat:Number(m[1]),lng:Number(m[2])} : null;
+}
+
+function firstValueV1226(obj, keys){
+  for(let k of keys){
+    let v=obj&&obj[k];
+    if(v!==undefined && v!==null && String(v).trim()!=="") return String(v).trim();
+  }
+  return "";
+}
+
+function activeTextV1226(x){
+  return x?.activo===false || x?.active===false || String(x?.estado||"").toLowerCase()==="inactivo" ? "Inactivo" : "Activo";
+}
+
+function activeClassV1226(x){
+  return activeTextV1226(x)==="Activo" ? "" : " inactive";
+}
+
+function clientNameV1226(c){
+  return firstValueV1226(c,["nombre","cliente","razonSocial","razon_social","name","id"]) || "-";
+}
+
+function clientContactV1226(c){
+  return firstValueV1226(c,["contacto","contact","responsable","referente","personaContacto"]) || "-";
+}
+
+function clientPhoneV1226(c){
+  return firstValueV1226(c,["telefono","teléfono","phone","tel","celular","mobile"]) || "-";
+}
+
+function renderClients(){
+  let el=q("clientsList");
+  if(!el)return;
+  let list=(Array.isArray(clientes)?clientes:[]).slice().sort((a,b)=>clientNameV1226(a).localeCompare(clientNameV1226(b),"es"));
+  el.innerHTML=list.map(c=>`<div class="clientCard">
+    <div class="clientTop">
+      <div class="clientName">🏢 ${esc(clientNameV1226(c))}</div>
+      <span class="clientStatus${activeClassV1226(c)}">${activeTextV1226(c)}</span>
+    </div>
+    <div class="clientData">
+      <div><b>ID:</b> ${esc(c.id||clientNameV1226(c))}</div>
+      <div><b>Estado:</b> ${activeTextV1226(c)}</div>
+    </div>
+    <div class="clientContactBox">
+      <div><b>Contacto:</b> ${esc(clientContactV1226(c))}</div>
+      <div><b>Teléfono:</b> ${esc(clientPhoneV1226(c))}</div>
+    </div>
+  </div>`).join("") || '<div class="clientCard">No hay clientes registrados.</div>';
+}
+
+function coordTextFromObjV1226(d){
+  let ubic=firstValueV1226(d,["coordenadas","coord","coords","ubicacion"]);
+  if(isCoordTextV1226(ubic))return ubic;
+  let lat=firstValueV1226(d,["lat","latitude","latitud"]);
+  let lng=firstValueV1226(d,["lng","lon","longitude","longitud"]);
+  if(lat&&lng)return `${lat}, ${lng}`;
+  let gps=d?.gps||d?.ubicacionGPS||d?.posicion||d?.location||{};
+  lat=firstValueV1226(gps,["lat","latitude","latitud"]);
+  lng=firstValueV1226(gps,["lng","lon","longitude","longitud"]);
+  if(lat&&lng)return `${lat}, ${lng}`;
+  return isCoordTextV1226(ubic) ? ubic : "";
+}
+
+function knownLocalidadFromCoordsV1226(coords){
+  let p=parseCoordV1226(coords);
+  if(!p)return "";
+  let refs=[
+    {lat:-25.510092864116338,lng:-54.62630028465641,localidad:"Ciudad del Este",pais:"Paraguay"},
+    {lat:-34.0910132,lng:-59.0895417,localidad:"Zárate",pais:"Argentina"},
+    {lat:-34.3512317,lng:-58.8042567,localidad:"Belén de Escobar",pais:"Argentina"},
+    {lat:-34.6160377,lng:-58.4588818,localidad:"Caballito",pais:"Argentina"},
+    {lat:-33.4489,lng:-70.6693,localidad:"Santiago",pais:"Chile"},
+    {lat:-34.9011,lng:-56.1645,localidad:"Montevideo",pais:"Uruguay"}
+  ];
+  let best=null, bestD=999999;
+  refs.forEach(r=>{
+    let d=Math.hypot((p.lat-r.lat)*111,(p.lng-r.lng)*111);
+    if(d<bestD){bestD=d;best=r;}
+  });
+  return bestD<=40 ? best.localidad : "";
+}
+
+function knownPaisFromCoordsV1226(coords){
+  let p=parseCoordV1226(coords);
+  if(!p)return "";
+  if(p.lat<-17 && p.lat>-28 && p.lng<-53 && p.lng>-63)return "Paraguay";
+  if(p.lat<-17 && p.lat>-56 && p.lng<-66 && p.lng>-76)return "Chile";
+  if(p.lat<-21 && p.lat>-56 && p.lng<-53 && p.lng>-74)return "Argentina";
+  if(p.lat<-30 && p.lat>-35.5 && p.lng<-53 && p.lng>-59)return "Uruguay";
+  return "";
+}
+
+function destinationNameV1226(d){
+  let name=firstValueV1226(d,["nombre","destino","name","id"]);
+  if(name && !isCoordTextV1226(name))return name;
+  return "Destino sin nombre";
+}
+
+function destinationLocalidadV1226(d){
+  let loc=firstValueV1226(d,["localidad","city","ciudad"]);
+  if(loc && !isCoordTextV1226(loc))return loc;
+  let coords=coordTextFromObjV1226(d);
+  return knownLocalidadFromCoordsV1226(coords) || "-";
+}
+
+function destinationPaisV1226(d){
+  let pais=firstValueV1226(d,["pais","country"]);
+  if(pais && !isCoordTextV1226(pais))return pais;
+  let coords=coordTextFromObjV1226(d);
+  return knownPaisFromCoordsV1226(coords) || "-";
+}
+
+function destinationHorariosV1226(d){
+  return firstValueV1226(d,["horarios","horario","hours","ventanaHoraria","ventana_horaria"]) || "-";
+}
+
+function collectDestinosV1226(){
+  let map=new Map();
+
+  (Array.isArray(destinos)?destinos:[]).forEach(d=>{
+    let key=d.id || destinationNameV1226(d) || coordTextFromObjV1226(d);
+    if(key)map.set(key,{...d,id:d.id||key});
+  });
+
+  (Array.isArray(trs)?trs:[]).forEach(t=>{
+    let r=ruta(t)||{};
+    let name=r.destino||t.destino||"";
+    if(name && !map.has(name)){
+      map.set(name,{
+        id:name,
+        nombre:name,
+        localidad:r.localidadDestino||r.destinoLocalidad||"",
+        pais:r.paisDestino||"",
+        horarios:r.horariosDestino||"",
+        coordenadas:r.coordenadasDestino||"",
+        lat:r.destinoLat||t.destinoLat||"",
+        lng:r.destinoLng||t.destinoLng||"",
+        activo:true
+      });
+    }
+  });
+
+  return [...map.values()].sort((a,b)=>destinationNameV1226(a).localeCompare(destinationNameV1226(b),"es"));
+}
+
+function renderDestinos(){
+  let el=q("destinosList");
+  if(!el)return;
+  let list=collectDestinosV1226();
+  el.innerHTML=list.map(d=>{
+    let coords=coordTextFromObjV1226(d);
+    return `<div class="destinationCard">
+      <div class="destinationTop">
+        <div class="destinationName">📍 ${esc(destinationNameV1226(d))}</div>
+        <span class="destinationStatus${activeClassV1226(d)}">${activeTextV1226(d)}</span>
+      </div>
+      <div class="destinationData">
+        <div><b>Localidad:</b> ${esc(destinationLocalidadV1226(d))}</div>
+        <div><b>País:</b> ${esc(destinationPaisV1226(d))}</div>
+        <div class="fullLine"><b>Horarios:</b> ${esc(destinationHorariosV1226(d))}</div>
+      </div>
+      <div class="destinationCoords"><b>Coordenadas:</b> ${esc(coords||"-")}</div>
+    </div>`;
+  }).join("") || '<div class="destinationCard">No hay destinos registrados.</div>';
+}
+
+function renderClientes(){
+  renderClients();
+  renderDestinos();
+}
+
+const _tab_v1226 = tab;
+tab = function(id){
+  _tab_v1226(id);
+  if(id==="clientes"){
+    renderClients();
+    renderDestinos();
+  }
+};
