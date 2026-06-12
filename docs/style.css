@@ -544,7 +544,7 @@ body.sidebarCollapsed .sideNav button{
 
 
 
-/* ===== V1.2.1 - Dashboard mas compacto y mas alto ===== */
+/* ===== V1.2.40 - Torre de Control mas compacto y mas alto ===== */
 
 /* Subir todo el contenido principal */
 .dashboardShell{
@@ -585,7 +585,7 @@ body.sidebarCollapsed .sideNav button{
   min-width:42px !important;
 }
 
-/* Dashboard más arriba y con menos aire */
+/* Torre de Control más arriba y con menos aire */
 .sectionTitle{
   margin-top:0 !important;
   margin-bottom:8px !important;
@@ -772,7 +772,7 @@ body.sidebarCollapsed .sideNav button{
 }
 
 
-/* ===== V1.2.2 - Dashboard con graficos compactos y sin mapa ===== */
+/* ===== V1.2.40 - Torre de Control con graficos compactos y sin mapa ===== */
 .chartsGrid{
   display:grid !important;
   grid-template-columns:repeat(4,1fr) !important;
@@ -919,7 +919,7 @@ body.sidebarCollapsed .sideNav button{
 }
 
 
-/* ===== V1.2.3 - Linea logo + graficos torta + bloques con informacion ===== */
+/* ===== V1.2.40 - Linea logo + graficos torta + bloques con informacion ===== */
 
 /* Línea debajo del logo ELTA del menú */
 .brandBox{
@@ -1112,7 +1112,7 @@ body.sidebarCollapsed .sideNav button{
 }
 
 
-/* ===== V1.2.4 - filtros selectores + posicion + alertas completas ===== */
+/* ===== V1.2.40 - filtros selectores + posicion + alertas completas ===== */
 
 .filters{
   grid-template-columns:1fr 1fr 1fr 180px !important;
@@ -1197,7 +1197,7 @@ body.sidebarCollapsed .sideNav button{
 }
 
 
-/* ===== V1.2.5 - Volver a graficos de barras compactos ===== */
+/* ===== V1.2.40 - Volver a graficos de barras compactos ===== */
 
 .chartPanel{
   min-height:218px !important;
@@ -1325,7 +1325,7 @@ body.sidebarCollapsed .sideNav button{
 }
 
 
-/* ===== V1.2.8 - Rollback visual según captura ===== */
+/* ===== V1.2.40 - Rollback visual según captura ===== */
 
 /* Vista general igual a la versión aprobada */
 .dashboardShell{
@@ -1608,7 +1608,7 @@ body.sidebarCollapsed .dashboardShell{
 }
 
 
-/* ===== V1.2.9 - Dashboard: 4 gráficos en una línea + últimas alertas compactas ===== */
+/* ===== V1.2.40 - Torre de Control: 4 gráficos en una línea + últimas alertas compactas ===== */
 
 /* 4 gráficos siempre en una línea en escritorio */
 .chartsGrid{
@@ -1777,7 +1777,7 @@ body.sidebarCollapsed .dashboardShell{
 }
 
 
-/* ===== V1.2.10 - SOLO vista Tránsitos: tarjeta como imagen ===== */
+/* ===== V1.2.40 - SOLO vista Tránsitos: tarjeta como imagen ===== */
 
 #transitos .cardList{
   gap:12px !important;
@@ -1926,7 +1926,7 @@ body.sidebarCollapsed .dashboardShell{
 }
 
 
-/* ===== V1.2.11 - Combos visibles y localidad/provincia ===== */
+/* ===== V1.2.40 - Combos visibles y localidad/provincia ===== */
 select,
 .filters select,
 #transitos select,
@@ -1951,7 +1951,7 @@ select option:hover{
   color:#ffffff !important;
 }
 
-/* ===== V1.2.12 - SOLO vista Seguimiento: mapa real + panel derecho ===== */
+/* ===== V1.2.40 - SOLO vista Seguimiento: mapa real + panel derecho ===== */
 .seguimientoLayout{display:grid!important;grid-template-columns:minmax(0,1.45fr) minmax(360px,.75fr)!important;gap:14px!important;align-items:start!important}
 .trackingMapPanel{min-height:650px!important;padding:10px!important}
 .realMap{width:100%!important;height:630px!important;min-height:630px!important;border-radius:12px!important;overflow:hidden!important;border:1px solid rgba(255,255,255,.15)!important;background:#102432!important}
@@ -1975,7 +1975,7 @@ select option:hover{
 @media(max-width:1100px){.seguimientoLayout{grid-template-columns:1fr!important}.trackingMapPanel,.trackingSidePanel{min-height:auto!important;max-height:none!important}.realMap{height:460px!important;min-height:460px!important}}
 @media(max-width:640px){.trackingData{grid-template-columns:1fr!important}.realMap{height:360px!important;min-height:360px!important}}
 
-/* ===== V1.2.13 - Seguimiento: fix mapa y ocultar coordenadas ===== */
+/* ===== V1.2.40 - Seguimiento: fix mapa y ocultar coordenadas ===== */
 .trackingMapPanel{position:relative!important;overflow:hidden!important}
 .realMap{display:block!important;position:relative!important;z-index:1!important;background:#dbeafe!important}
 .realMap .leaflet-container,.leaflet-container{width:100%!important;height:100%!important;background:#dbeafe!important}
@@ -1984,7 +1984,7 @@ select option:hover{
 .trackingData .coordLine{display:none!important}
 
 
-/* ===== V1.2.14 - Seguimiento: zoom a todas las flotas + numero en marcador ===== */
+/* ===== V1.2.40 - Seguimiento: zoom a todas las flotas + numero en marcador ===== */
 
 .eltaFleetMarker{
   position:relative !important;
@@ -2029,7 +2029,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.15 - Seguimiento: marcador numerico sin camion ===== */
+/* ===== V1.2.40 - Seguimiento: marcador numerico sin camion ===== */
 
 .eltaFleetMarkerWrap{
   background:transparent !important;
@@ -2105,7 +2105,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.16 - Seguimiento: marcador solo número + zoom + último reporte ===== */
+/* ===== V1.2.40 - Seguimiento: marcador solo número + zoom + último reporte ===== */
 
 /* eliminar cualquier camion remanente dentro del mapa */
 .eltaFleetMarker .truckIcon,
@@ -2194,7 +2194,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.17 - Seguimiento: marcador 50% + filtros cliente/embarque ===== */
+/* ===== V1.2.40 - Seguimiento: marcador 50% + filtros cliente/embarque ===== */
 
 .seguimientoFilters{
   display:grid !important;
@@ -2248,7 +2248,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.18 - Menus: quitar Coordinacion, unir Unidades/Conductores, solo abiertos ===== */
+/* ===== V1.2.40 - Menus: quitar Coordinacion, unir Unidades/Conductores, solo abiertos ===== */
 
 .fleetUsersGrid{
   display:grid !important;
@@ -2316,7 +2316,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.19 - Unidades / Choferes fix datos role flota ===== */
+/* ===== V1.2.40 - Unidades / Choferes fix datos role flota ===== */
 
 .fleetUserCard{
   min-height:150px !important;
@@ -2344,7 +2344,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.20 - Transitos: ultimo reporte / Unidades-Choferes mejorado ===== */
+/* ===== V1.2.40 - Transitos: ultimo reporte / Unidades-Choferes mejorado ===== */
 
 #transitos .lastReportLine{
   grid-column:1 / -1 !important;
@@ -2376,7 +2376,7 @@ select option:hover{
 .fleetUserEmptyHint{border:1px dashed rgba(255,255,255,.18) !important;border-radius:12px !important;padding:18px !important;color:rgba(255,255,255,.76) !important;background:rgba(20,39,54,.55) !important;font-size:13px !important;}
 
 
-/* ===== V1.2.21 - Fix Unidades / Choferes ===== */
+/* ===== V1.2.40 - Fix Unidades / Choferes ===== */
 
 .fleetUserRole,
 .fleetUserTop .fleetUserRole,
@@ -2426,7 +2426,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.22 - Dashboard y Tránsitos sin filtro oculto de abiertos ===== */
+/* ===== V1.2.40 - Torre de Control y Tránsitos sin filtro oculto de abiertos ===== */
 
 .statusBadge.closed,
 .badge.closed,
@@ -2445,7 +2445,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.23 - Clientes / Destinos ===== */
+/* ===== V1.2.40 - Clientes / Destinos ===== */
 
 .clientesDestinosGrid{
   display:grid !important;
@@ -2552,7 +2552,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.24 - Fix datos Clientes / Destinos ===== */
+/* ===== V1.2.40 - Fix datos Clientes / Destinos ===== */
 
 .clientesDestinosGrid{
   display:grid !important;
@@ -2584,7 +2584,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.26 - Clientes / Destinos mejoras solicitadas ===== */
+/* ===== V1.2.40 - Clientes / Destinos mejoras solicitadas ===== */
 
 .clientData,
 .destinationData{
@@ -2634,7 +2634,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.27 - Destinos contacto / telefonos + sin duplicados ===== */
+/* ===== V1.2.40 - Destinos contacto / telefonos + sin duplicados ===== */
 
 .destinationContactBox{
   margin-top:9px !important;
@@ -2660,7 +2660,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.28 - Alertas: estado/verificacion + graficos compactos ===== */
+/* ===== V1.2.40 - Alertas: estado/verificacion + graficos compactos ===== */
 
 .alertFilters{
   display:flex !important;
@@ -2849,7 +2849,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.29 - Destinos: estado por color de tarjeta, sin texto Activo/Inactivo ===== */
+/* ===== V1.2.40 - Destinos: estado por color de tarjeta, sin texto Activo/Inactivo ===== */
 
 .destinationStatus,
 .destinationTop .destinationStatus{
@@ -2903,7 +2903,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.30 - Alertas mejoras visuales y boton verificada ===== */
+/* ===== V1.2.40 - Alertas mejoras visuales y boton verificada ===== */
 
 .alertChartsGrid{
   grid-template-columns:repeat(4,minmax(0,1fr)) !important;
@@ -3044,7 +3044,7 @@ select option:hover{
 }
 
 
-/* ===== V1.2.31 - Clientes: estado por color de tarjeta, sin texto Activo/Inactivo ===== */
+/* ===== V1.2.40 - Clientes: estado por color de tarjeta, sin texto Activo/Inactivo ===== */
 
 .clientStatus,
 .clientTop .clientStatus{
@@ -3100,7 +3100,7 @@ select option:hover{
   display:none !important;
 }
 
-/* ===== V1.2.32 - Alertas fix contador, KM y detalle ===== */
+/* ===== V1.2.40 - Alertas fix contador, KM y detalle ===== */
 .alertItemCard{grid-template-columns:minmax(0,1fr) 150px!important}
 .alertTransitDetail{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:6px 12px!important;margin-top:8px!important;padding-top:8px!important;border-top:1px solid rgba(255,255,255,.10)!important;font-size:11px!important;color:#d3dce7!important}
 .alertTransitDetail b{color:#fff!important}
@@ -3113,7 +3113,7 @@ select option:hover{
 @media(max-width:760px){.alertTransitDetail,.alertItemMeta{grid-template-columns:1fr!important}}
 
 
-/* ===== V1.2.33 - Alertas visual: pendientes naranja, textos blancos e iconos ===== */
+/* ===== V1.2.40 - Alertas visual: pendientes naranja, textos blancos e iconos ===== */
 
 .alertPendingBadge{
   color:#ffffff !important;
@@ -3208,7 +3208,7 @@ select option:hover{
   color:#ffffff !important;
 }
 
-/* ===== V1.2.34 - Menu Clima ===== */
+/* ===== V1.2.40 - Menu Clima ===== */
 .climaLayout{display:grid!important;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr)!important;gap:14px!important;align-items:start!important}
 .climaRight{display:flex!important;flex-direction:column!important;gap:14px!important}
 .weatherCards{display:flex!important;flex-direction:column!important;gap:12px!important}
@@ -3229,7 +3229,7 @@ select option:hover{
 @media(max-width:700px){.weatherData,.weatherFleetTransit{grid-template-columns:1fr!important}}
 
 
-/* ===== V1.2.35 - Clima: fix datos e iconos ===== */
+/* ===== V1.2.40 - Clima: fix datos e iconos ===== */
 .weatherCards{
   min-height:80px !important;
 }
@@ -3283,7 +3283,7 @@ select option:hover{
   border-color:rgba(76,198,63,.30) !important;
 }
 
-/* ===== V1.2.36 - Clima real por coordenadas ===== */
+/* ===== V1.2.40 - Clima real por coordenadas ===== */
 .weatherCoords{display:none!important}
 .weatherProvider{margin-top:8px!important;font-size:10px!important;color:rgba(219,234,254,.72)!important;font-weight:700!important}
 .weatherCard.weatherClosed{border-color:rgba(245,158,11,.62)!important;background:linear-gradient(135deg,rgba(20,39,54,.90),rgba(91,63,25,.66))!important;box-shadow:inset 5px 0 0 rgba(245,158,11,.95)!important}
@@ -3294,7 +3294,7 @@ select option:hover{
 .weatherLoading{min-height:80px!important}
 
 
-/* ===== V1.2.37 - Clima: layout invertido, tarjetas compactas, menu icono ===== */
+/* ===== V1.2.40 - Clima: layout invertido, tarjetas compactas, menu icono ===== */
 
 .climaLayoutV1237{
   display:grid !important;
@@ -3420,7 +3420,7 @@ nav:not(:hover) .climaMenuBtn b{
 }
 
 
-/* ===== V1.2.38 - Clima: menu icono + colores tarjetas ===== */
+/* ===== V1.2.40 - Clima: menu icono + colores tarjetas ===== */
 
 /* Corregir item Clima en sidebar: mismo comportamiento que los otros menus */
 .climaMenuBtn{
@@ -3534,7 +3534,7 @@ nav:not(:hover) .climaMenuBtn b{
 }
 
 
-/* ===== V1.2.39 - Fix definitivo menu Clima ===== */
+/* ===== V1.2.40 - Fix definitivo menu Clima ===== */
 
 button[onclick*="clima"]{
   display:flex !important;
