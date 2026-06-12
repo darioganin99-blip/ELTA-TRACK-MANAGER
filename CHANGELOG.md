@@ -1,8 +1,8 @@
 # Changelog
 
-## 1.2.35
-- Clima: corregida carga/render de datos al abrir el menú.
-- Clima: agregados iconos en tarjetas de destinos, pasos y flotas.
-
-## 1.2.34
-- Menú Clima agregado.
+## 1.2.36
+- Clima: se eliminan coordenadas visibles.
+- Clima: consulta real por coordenadas usando Open-Meteo.
+- Clima: iconos por código meteorológico.
+- Paso Los Libertadores: verde operativo / naranja verificar según condición climática.
+- Flotas: clima real según última posición GPS.
