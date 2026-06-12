@@ -3532,3 +3532,86 @@ nav:not(:hover) .climaMenuBtn b{
   content:"🌦️";
   font-size:22px;
 }
+
+
+/* ===== V1.2.39 - Fix definitivo menu Clima ===== */
+
+button[onclick*="clima"]{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:14px !important;
+  min-height:54px !important;
+  padding:12px 16px !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+
+button[onclick*="clima"] span{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:28px !important;
+  min-width:28px !important;
+  height:28px !important;
+  line-height:1 !important;
+  font-size:20px !important;
+  margin:0 !important;
+  padding:0 !important;
+  transform:none !important;
+}
+
+button[onclick*="clima"] b{
+  display:inline-block !important;
+  margin:0 !important;
+  padding:0 !important;
+  line-height:1.05 !important;
+  white-space:normal !important;
+  transform:none !important;
+  position:static !important;
+}
+
+.climaMenuBtn{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:14px !important;
+  min-height:54px !important;
+  padding:12px 16px !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  cursor:pointer !important;
+}
+
+.climaMenuBtn span{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:28px !important;
+  min-width:28px !important;
+  height:28px !important;
+  font-size:20px !important;
+}
+
+.climaMenuBtn b{
+  display:inline-block !important;
+  font-weight:900 !important;
+  color:inherit !important;
+}
+
+@media(min-width:701px){
+  aside[style*="width: 80px"] button b,
+  aside[style*="width:80px"] button b,
+  .sidebar.collapsed button b,
+  .side.collapsed button b{
+    display:none !important;
+  }
+
+  aside[style*="width: 80px"] button,
+  aside[style*="width:80px"] button,
+  .sidebar.collapsed button,
+  .side.collapsed button{
+    justify-content:center !important;
+    gap:0 !important;
+  }
+}
