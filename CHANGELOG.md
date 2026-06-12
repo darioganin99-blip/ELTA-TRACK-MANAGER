@@ -1,8 +1,8 @@
 # Changelog
 
+## 1.2.35
+- Clima: corregida carga/render de datos al abrir el menú.
+- Clima: agregados iconos en tarjetas de destinos, pasos y flotas.
+
 ## 1.2.34
-- Menú Reportes eliminado.
 - Menú Clima agregado.
-- Clima por destinos registrados.
-- Situación Paso Los Libertadores.
-- Clima y detalle por flota según última posición GPS.
