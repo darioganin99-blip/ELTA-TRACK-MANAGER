@@ -2374,3 +2374,72 @@ select option:hover{
 .fleetUserTransit .openTransitBox{margin-top:6px !important;padding:8px !important;border-radius:8px !important;background:rgba(76,198,63,.10) !important;border:1px solid rgba(76,198,63,.28) !important;}
 .fleetUserTransit .lastReportMini{margin-top:6px !important;color:#8df27c !important;font-weight:900 !important;}
 .fleetUserEmptyHint{border:1px dashed rgba(255,255,255,.18) !important;border-radius:12px !important;padding:18px !important;color:rgba(255,255,255,.76) !important;background:rgba(20,39,54,.55) !important;font-size:13px !important;}
+
+
+/* ===== V1.2.21 - Fix Unidades / Choferes ===== */
+
+.fleetUserRole,
+.fleetUserTop .fleetUserRole,
+.fleetUserCard .fleetUserRole,
+.fleetUserCard span.fleetUserRole{
+  display:none !important;
+  visibility:hidden !important;
+}
+
+.unitFilters button{
+  min-width:108px !important;
+}
+
+.unitFilters button.active{
+  background:#1f7a35 !important;
+  color:#8dff74 !important;
+  border-color:#4cc63f !important;
+}
+
+.fleetAssetBox{
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:6px !important;
+  margin:9px 0 8px !important;
+}
+
+.fleetAsset{
+  border:1px solid rgba(76,198,63,.30) !important;
+  background:rgba(76,198,63,.10) !important;
+  border-radius:8px !important;
+  padding:7px 8px !important;
+  font-size:12px !important;
+}
+
+.fleetAsset b{
+  color:#8df27c !important;
+}
+
+.fleetUserData .roleLine{
+  display:none !important;
+}
+
+@media(max-width:700px){
+  .fleetAssetBox{
+    grid-template-columns:1fr !important;
+  }
+}
+
+
+/* ===== V1.2.22 - Dashboard y Tránsitos sin filtro oculto de abiertos ===== */
+
+.statusBadge.closed,
+.badge.closed,
+.transitBadge.closed{
+  background:rgba(148,163,184,.28) !important;
+  color:#dbe4ef !important;
+}
+
+.statusBadge.open{
+  background:rgba(76,198,63,.24) !important;
+  color:#8df27c !important;
+}
+
+#transitos .filters select{
+  color-scheme:dark !important;
+}
