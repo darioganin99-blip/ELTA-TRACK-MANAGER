@@ -2632,3 +2632,29 @@ select option:hover{
     grid-template-columns:1fr !important;
   }
 }
+
+
+/* ===== V1.2.27 - Destinos contacto / telefonos + sin duplicados ===== */
+
+.destinationContactBox{
+  margin-top:9px !important;
+  padding:8px 10px !important;
+  border-radius:9px !important;
+  background:rgba(76,198,63,.10) !important;
+  border:1px solid rgba(76,198,63,.24) !important;
+  color:#d3dce7 !important;
+  font-size:12px !important;
+  line-height:1.3 !important;
+}
+
+.destinationContactBox b{
+  color:#ffffff !important;
+}
+
+.destinationData{
+  grid-template-columns:1fr 1fr !important;
+}
+
+.destinationData .fullLine{
+  grid-column:1 / -1 !important;
+}

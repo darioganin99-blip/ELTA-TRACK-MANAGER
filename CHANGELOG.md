@@ -1,11 +1,9 @@
 # Changelog
 
-## 1.2.26
-- Clientes: agregados Contacto y Teléfono.
-- Destinos: agregado Horarios.
-- Destinos: se quitan Municipio y Provincia.
-- Destinos: coordenadas solo en campo Coordenadas.
-- Destinos: Localidad ya no muestra coordenadas.
+## 1.2.27
+- Destinos: se agregan Contacto y Teléfonos desde la base.
+- Destinos: se evita duplicar destinos reconstruidos desde tránsitos.
+- Destinos: se leen solo desde la colección destinos.
 
-## 1.2.25
-- Fix Tractor desde usuarios.tractor.
+## 1.2.26
+- Clientes / Destinos mejoras de campos.
