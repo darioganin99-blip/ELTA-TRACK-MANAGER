@@ -3111,3 +3111,99 @@ select option:hover{
 .alertVerifyBtn:active{transform:scale(.98)!important}
 @media(max-width:1200px){.alertTransitDetail,.alertItemMeta{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:760px){.alertTransitDetail,.alertItemMeta{grid-template-columns:1fr!important}}
+
+
+/* ===== V1.2.33 - Alertas visual: pendientes naranja, textos blancos e iconos ===== */
+
+.alertPendingBadge{
+  color:#ffffff !important;
+  font-weight:1000 !important;
+}
+
+.alertPendingBadge.pending{
+  background:rgba(245,158,11,.22) !important;
+  color:#ffffff !important;
+  border-color:rgba(245,158,11,.58) !important;
+  box-shadow:0 0 0 1px rgba(245,158,11,.12) inset !important;
+}
+
+.alertPendingBadge.ok,
+.alertVerifiedInfo{
+  background:rgba(34,197,94,.20) !important;
+  color:#ffffff !important;
+  border-color:rgba(34,197,94,.50) !important;
+}
+
+.alertVerifyBtn{
+  background:#22c55e !important;
+  color:#ffffff !important;
+  font-weight:1000 !important;
+}
+
+.alertBarValue,
+.alertBarPct{
+  color:#ffffff !important;
+  font-weight:1000 !important;
+  font-size:12px !important;
+}
+
+.alertBarValue span:first-child::after{
+  content:" |";
+  opacity:.75;
+}
+
+.alertFleetCard.hasPending{
+  border-color:rgba(245,158,11,.72) !important;
+  box-shadow:inset 5px 0 0 rgba(245,158,11,.95),0 0 0 1px rgba(245,158,11,.12) !important;
+}
+
+.alertFleetCard.noPending{
+  border-color:rgba(34,197,94,.42) !important;
+  box-shadow:inset 5px 0 0 rgba(34,197,94,.75),0 0 0 1px rgba(34,197,94,.10) !important;
+}
+
+.alertTypeIcon{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:28px !important;
+  height:28px !important;
+  border-radius:9px !important;
+  margin-right:8px !important;
+  background:rgba(255,255,255,.09) !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+  font-size:16px !important;
+  flex:0 0 auto !important;
+}
+
+.alertItemTop span{
+  display:flex !important;
+  align-items:center !important;
+}
+
+.alertItemCard.pendingAlert{
+  border-color:rgba(245,158,11,.32) !important;
+  background:rgba(245,158,11,.055) !important;
+}
+
+.alertItemCard.verifiedAlert{
+  border-color:rgba(34,197,94,.22) !important;
+  background:rgba(34,197,94,.045) !important;
+}
+
+.alertChartTitle{
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+}
+
+.alertBarLabel{
+  display:flex !important;
+  align-items:center !important;
+  gap:5px !important;
+}
+
+.alertMenuPendingBadge{
+  background:#f59e0b !important;
+  color:#ffffff !important;
+}

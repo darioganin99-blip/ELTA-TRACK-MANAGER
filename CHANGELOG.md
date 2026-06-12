@@ -1,6 +1,10 @@
 # Changelog
 
+## 1.2.33
+- Alertas: pendientes en color naranja.
+- Alertas: textos de badges/botones en blanco.
+- Alertas: porcentajes de gráficos en blanco.
+- Alertas: icono por tipo de alerta solo en menú Alertas.
+
 ## 1.2.32
-- Alertas: corregido contador de campana al marcar verificadas.
-- Alertas: búsqueda ampliada de KM.
-- Alertas: agregado chofer y detalle completo del tránsito.
+- Alertas: contador, KM, chofer y detalle completo.
