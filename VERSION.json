@@ -1,5 +1,6 @@
 {
-  "version": "1.2.40",
+  "version": "1.2.42",
   "app": "ITS Intelligent Traffic System",
-  "subtitle": "Centro de monitoreo y coordinación logística"
+  "subtitle": "Centro de monitoreo y coordinación logística",
+  "notes": "Incluye campana titilante, clima/GPS, alertas, Paso Los Libertadores, correo real, menú y tarjetas compactas."
 }

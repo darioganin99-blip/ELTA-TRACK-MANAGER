@@ -3990,3 +3990,189 @@ tab = function(id){
   normalizeClimaMenu();
   if(id==="clima" && typeof ensureClimaDataAndRender==="function")ensureClimaDataAndRender();
 };
+
+/* ===== V1.2.41 - Titilar campana cuando hay alertas sin verificar ===== */
+function updateAlertBellBlink(){
+  let pending=0;
+  try{
+    pending=typeof pendingAlertsCount==="function" ? pendingAlertsCount() : 0;
+  }catch(e){pending=0;}
+
+  document.querySelectorAll(".alertBell").forEach(btn=>{
+    btn.classList.toggle("hasUnverifiedAlerts", pending>0);
+    btn.title = pending>0 ? `${pending} alertas sin verificar` : "Ver alertas";
+  });
+
+  let headerCount=q("headerAlertCount");
+  if(headerCount)headerCount.innerText=pending;
+}
+
+const _renderDash_v1241 = typeof renderDash==="function" ? renderDash : null;
+if(_renderDash_v1241){
+  renderDash=function(){
+    _renderDash_v1241();
+    updateAlertBellBlink();
+  };
+}
+
+const _renderBadge_v1241 = typeof renderBadge==="function" ? renderBadge : null;
+renderBadge=function(){
+  if(_renderBadge_v1241){
+    try{_renderBadge_v1241();}catch(e){}
+  }
+  updateAlertBellBlink();
+};
+
+document.addEventListener("DOMContentLoaded",updateAlertBellBlink);
+setTimeout(updateAlertBellBlink,300);
+
+/* ===== V1.2.42 - Mejoras completas del documento 12/06 ===== */
+const ELTA_APP_VERSION="1.2.42";
+let currentUserDoc=null;
+
+function updateAppVersionLabels(){
+  document.querySelectorAll(".loginFooter span, .headerTitle span, .appFooter span").forEach(el=>{
+    if(/Versi[oó]n/i.test(el.textContent||"")) el.textContent=`Versión ${ELTA_APP_VERSION}`;
+  });
+}
+
+function userEmailValue(u,id){
+  return String(u?.correo||u?.email||u?.mail||u?.correoElectronico||u?.e_mail||id||"").trim();
+}
+function updateAdminBoxUser(u,id){
+  const name=String(u?.nombre||u?.name||u?.usuario||id||"Administrador").trim();
+  const email=userEmailValue(u,id);
+  const box=document.querySelector(".adminBox");
+  if(!box)return;
+  const b=box.querySelector("b");
+  const small=box.querySelector("small");
+  const av=box.querySelector(".adminAvatar");
+  if(b)b.textContent=name;
+  if(small)small.textContent=email||"-";
+  if(av)av.textContent=(name||id||"A").trim().charAt(0).toUpperCase();
+}
+
+async function login(){
+  try{
+    init();
+    let u=q("user").value.trim(),p=q("pass").value.trim();
+    let d=await db.collection("usuarios").doc(u).get();
+    if(!d.exists)return q("msg").innerText="Usuario no existe";
+    let x=d.data(),r=String(x.role||x.rol||"").toLowerCase();
+    if(x.pass!==p)return q("msg").innerText="PASS incorrecto";
+    if(!["admin","trafico","coordinador"].includes(r))return q("msg").innerText="Sin permiso Admin";
+    currentUserDoc={...x,id:u};
+    q("login").classList.remove("active");
+    q("app").classList.add("active");
+    updateAppVersionLabels();
+    updateAdminBoxUser(x,u);
+    await refresh();
+    updateAppVersionLabels();
+    updateAdminBoxUser(x,u);
+  }catch(e){console.log(e);q("msg").innerText="Error Firebase / configuración";}
+}
+
+document.addEventListener("DOMContentLoaded",()=>{updateAppVersionLabels();});
+setTimeout(updateAppVersionLabels,200);
+
+function weatherCardReal(title,subtitle,c,w,extra="",cls="",iconOverride="",statusHtml=""){
+  let icon=iconOverride||w.icon||"🌦️";
+  let tempValue=(w.temp===undefined||w.temp===null)?"-":w.temp;
+  return `<div class="weatherCard ${cls}">
+    <div class="weatherCardTop">
+      <div class="weatherTitleWrap">
+        <span class="weatherIconBadge">${icon}</span>
+        <div class="weatherTitleText">
+          <div class="weatherTitle">${title}</div>
+          <div class="weatherDesc">${w.icon||""} ${esc(w.desc||"-")}</div>
+          ${statusHtml}
+        </div>
+      </div>
+      <div class="weatherTemp"><span>${esc(tempValue)}°</span><span class="weatherTempIcon">${w.icon||""}</span></div>
+    </div>
+    <div class="weatherData">
+      <div><b>Ubicación:</b> ${esc(subtitle||"-")}</div>
+      <div><b>Sensación:</b> ${esc(w.sens)}°</div>
+      <div><b>Viento:</b> ${esc(w.wind)} km/h</div>
+      <div><b>Actualizado:</b> ${fd(new Date().toISOString())}</div>
+    </div>
+    ${extra}
+  </div>`;
+}
+
+function passIsClosedByWeather(w){
+  let code=Number(w.code);
+  return code===45 || code===48 || code>=65 || code>=71 || Number(w.temp)<=0 || Number(w.wind)>=45;
+}
+async function renderWeatherPasses(){
+  let el=q("weatherPasses");
+  if(!el)return;
+  el.innerHTML='<div class="weatherLoading">Consultando clima del Paso Los Libertadores...</div>';
+  let paso={lat:-32.824,lng:-70.086,text:"-32.824, -70.086"};
+  let w=await fetchWeatherByCoords(paso);
+  let closed=passIsClosedByWeather(w);
+  let status=closed?"PASO CERRADO":"PASO OPERATIVO";
+  let cls=closed?"weatherClosed passClosedRed":"weatherOpen";
+  let badge=`<span class="weatherStatusBadge ${closed?"closed":"open"}">${closed?"🔴":"🟢"} ${status}</span>`;
+  el.innerHTML=weatherCardReal("Paso Los Libertadores","Argentina / Chile",paso,w,"",cls,"",badge);
+}
+
+async function renderWeatherFleets(){
+  let el=q("weatherFleets");
+  if(!el)return;
+  let abiertos=Array.isArray(trs)?trs.filter(openT):[];
+  if(!abiertos.length){el.innerHTML='<div class="weatherLoading">No hay flotas en tránsito.</div>';return;}
+  el.innerHTML='<div class="weatherLoading">Consultando clima de última posición GPS de flotas...</div>';
+  let html=[];
+  for(let t of abiertos){
+    let c=lastGpsCoords(t);
+    let w=await fetchWeatherByCoords(c);
+    let rt=ruta(t)||{};
+    let upd=typeof lastGpsTimeV1237==="function"?lastGpsTimeV1237(t):(typeof transitUpdatedValue==="function"?transitUpdatedValue(t):(t.updatedAt||t.start?.time||t.start));
+    let gpsLoc=typeof lastGpsLocalidadV1237==="function"?lastGpsLocalidadV1237(t):(typeof locFull==="function"?locFull(t):"-");
+    let extra=`<div class="weatherFleetTransit compactWeatherFleet">
+      <div><b>Chofer:</b> ${esc(typeof driverName==="function"?driverName(t):"-")}</div>
+      <div><b>Embarque:</b> ${esc(t.embarque||"-")}</div>
+      <div><b>Cliente:</b> ${esc(rt.cliente||"-")}</div>
+      <div><b>Origen:</b> ${esc(rt.origen||"-")}</div>
+      <div><b>Destino:</b> ${esc(rt.destino||"-")}</div>
+      <div><b>Últ. reporte GPS:</b> ${fd(upd)}</div>
+      <div><b>Localidad GPS:</b> ${esc(gpsLoc||"-")}</div>
+      <div><b>GPS:</b> ${c?"Reportado":"Sin coordenadas"}</div>
+    </div>`;
+    html.push(weatherCardReal(`Flota ${esc(flota(t)||"-")}`,gpsLoc||"-",c,w,extra,"fleetWeatherCard","🚚"));
+  }
+  el.innerHTML=html.join("");
+}
+
+function collectAlertRowsForRenderV1242(){
+  if(typeof collectAlertRows==="function")return collectAlertRows();
+  let rows=[];
+  (trs||[]).forEach(t=>(t.alerts||[]).forEach((a,idx)=>rows.push({t,a,idx,verified:typeof isAlertVerified==="function"?isAlertVerified(t,a,idx):false,id:typeof normalizeAlertIdV1232==="function"?normalizeAlertIdV1232(t,a,idx):`${t.embarque||""}_${idx}`})));
+  return rows;
+}
+function renderAlerts(){
+  let el=q("alertCards")||q("alertList");
+  if(!el)return;
+  let rows=collectAlertRowsForRenderV1242();
+  rows=rows.filter(r=>{
+    if(window.alertFilterMode==="pendientes" && r.verified)return false;
+    if(window.alertFilterMode==="verificadas" && !r.verified)return false;
+    return true;
+  });
+  let by={};
+  rows.forEach(r=>{let f=flota(r.t)||"-";(by[f]=by[f]||[]).push(r);});
+  el.innerHTML=Object.entries(by).map(([fleet,list])=>{
+    let pend=list.filter(r=>!r.verified).length,total=list.length;
+    return `<div class="alertFleetCard ${pend?"hasPending":"noPending"}">
+      <div class="alertFleetTop"><div class="alertFleetTitle">🚚 Flota ${esc(fleet)}</div><div class="alertFleetSummary"><span class="alertPendingBadge ${pend?"pending":"ok"}">${pend} pendientes</span><span class="alertPendingBadge ok">${total} total</span></div></div>
+      ${list.map(r=>{let info=typeof alertVerifiedInfo==="function"?alertVerifiedInfo(r.t,r.a,r.idx):{};let rt=ruta(r.t)||{};let id=String(r.id||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'");return `<div class="alertItemCard ${r.verified?"verifiedAlert":"pendingAlert"}"><div class="alertItemContent"><div class="alertItemTop"><span>⚠️ ${esc(typeof alertTipo==="function"?alertTipo(r.a):(r.a.tipo||r.a.type||r.a.motivo||"Alerta"))}</span></div><div class="alertItemMeta"><div><b>Embarque:</b> ${esc(r.t.embarque||"-")}</div><div><b>Km:</b> <span class="alertKmHighlight">${esc(typeof alertKmValue==="function"?alertKmValue(r.a,r.t):alertKm(r.a))}</span></div><div><b>Fecha/hora:</b> ${typeof alertDateValue==="function"?alertDateValue(r.a):alertDate(r.a)}</div><div><b>Localidad:</b> ${esc(typeof alertLocationValue==="function"?alertLocationValue(r.a,r.t):alertLoc(r.a,r.t))}</div></div><div class="alertTransitDetail"><div class="alertChoferLine"><b>Chofer:</b> ${esc(typeof alertChoferValue==="function"?alertChoferValue(r.t):(typeof driverName==="function"?driverName(r.t):"-"))}</div><div><b>Cliente:</b> ${esc(rt.cliente||"-")}</div><div><b>Origen:</b> ${esc(rt.origen||"-")}</div><div><b>Destino:</b> ${esc(rt.destino||"-")}</div><div><b>Estado:</b> ${openT(r.t)?"En tránsito":"Finalizado"}</div><div><b>Inicio:</b> ${fd(r.t.start?.time||r.t.start)}</div><div><b>Últ. reporte:</b> ${fd(typeof transitUpdatedV1232==="function"?transitUpdatedV1232(r.t):(lastU(r.t)||{}).time)}</div><div><b>Lote/Carga:</b> ${esc(r.t.lote||r.t.carga||"-")}</div></div></div><div class="alertItemAction">${r.verified?`<span class="alertVerifiedInfo">Verificada${info.fecha?`<br>${fd(info.fecha)}`:""}</span>`:`<button class="alertVerifyBtn" onclick="markAlertVerifiedById('${id}')">Verificar</button>`}</div></div>`;}).join("")}
+    </div>`;
+  }).join("")||'<div class="alertEmpty">Sin alertas registradas.</div>';
+  if(typeof updateAlertBellBlink==="function")updateAlertBellBlink();
+}
+
+const _renderDash_v1242 = typeof renderDash==="function" ? renderDash : null;
+if(_renderDash_v1242){
+  renderDash=function(){_renderDash_v1242();updateAppVersionLabels();if(typeof updateAlertBellBlink==="function")updateAlertBellBlink();};
+}
