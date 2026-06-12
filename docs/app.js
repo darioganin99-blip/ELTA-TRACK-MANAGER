@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
 
 
 
-/* ===== V1.2.22 overrides ===== */
+/* ===== V1.2.23 overrides ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -364,7 +364,7 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.22 - Graficos barra compactos ===== */
+/* ===== V1.2.23 - Graficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -416,7 +416,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.22 - Reaseguro gráficos barra compactos ===== */
+/* ===== V1.2.23 - Reaseguro gráficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -468,7 +468,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.22 - Dashboard 4 gráficos + últimas alertas compactas ===== */
+/* ===== V1.2.23 - Dashboard 4 gráficos + últimas alertas compactas ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -540,7 +540,7 @@ function renderDashAlerts(){
 
 
 
-/* ===== V1.2.22 - SOLO vista Tránsitos: tarjeta como imagen ===== */
+/* ===== V1.2.23 - SOLO vista Tránsitos: tarjeta como imagen ===== */
 
 function valFrom(obj, keys){
   for(let k of keys){
@@ -628,7 +628,7 @@ function card(t){
 
 
 
-/* ===== V1.2.22 - Localidad/provincia desde coordenadas conocidas ===== */
+/* ===== V1.2.23 - Localidad/provincia desde coordenadas conocidas ===== */
 function parseCoordPair(txt){
   let s=String(txt||"");
   let m=s.match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
@@ -724,7 +724,7 @@ function card(t){
 
 
 
-/* ===== V1.2.22 - SOLO vista Seguimiento: mapa real GPS ===== */
+/* ===== V1.2.23 - SOLO vista Seguimiento: mapa real GPS ===== */
 let seguimientoMap=null;
 let seguimientoMarkers=[];
 
@@ -784,7 +784,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.22 - Seguimiento: fix mapa y localidad/provincia ===== */
+/* ===== V1.2.23 - Seguimiento: fix mapa y localidad/provincia ===== */
 function trackingCard(t){
   let o=openT(t),r=ruta(t),pos=getPosObj(t);
   return `<div class="trackingCard">
@@ -863,7 +863,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.22 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
+/* ===== V1.2.23 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -946,7 +946,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.22 - Seguimiento: marcador numerico estilo etiqueta ===== */
+/* ===== V1.2.23 - Seguimiento: marcador numerico estilo etiqueta ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -1021,7 +1021,7 @@ function initSeguimientoMap(items){
 
 
 
-/* ===== V1.2.22 - Seguimiento: solo numero, zoom con todas las flotas, ultimo reporte resaltado ===== */
+/* ===== V1.2.23 - Seguimiento: solo numero, zoom con todas las flotas, ultimo reporte resaltado ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -1132,7 +1132,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.22 - Seguimiento: filtros cliente/embarque + marker 50% ===== */
+/* ===== V1.2.23 - Seguimiento: filtros cliente/embarque + marker 50% ===== */
 
 function refreshSeguimientoFilters(){
   let cli=q("segCli");
@@ -1233,7 +1233,7 @@ function initSeguimientoMap(items){
 
 
 
-/* ===== V1.2.22 - Solo transitos abiertos + Unidades/Choferes por usuarios role=flota ===== */
+/* ===== V1.2.23 - Solo transitos abiertos + Unidades/Choferes por usuarios role=flota ===== */
 
 function isFlotaUser(u){
   return String(u.role||u.rol||"").toLowerCase().trim()==="flota";
@@ -1330,7 +1330,7 @@ function renderCoordinacion(){}
 
 
 
-/* ===== V1.2.22 - Unidades / Choferes: usuarios role flota flexible ===== */
+/* ===== V1.2.23 - Unidades / Choferes: usuarios role flota flexible ===== */
 
 function normRoleValue(v){
   return String(v||"").toLowerCase().trim();
@@ -1424,7 +1424,7 @@ function renderDrivers(){
 
 
 
-/* ===== V1.2.22 - Correcciones Transitos y Unidades / Choferes ===== */
+/* ===== V1.2.23 - Correcciones Transitos y Unidades / Choferes ===== */
 
 let unitFilterMode="todas";
 
@@ -1575,7 +1575,7 @@ function card(t){
 
 
 
-/* ===== V1.2.22 - Fix filtros Unidades / Choferes + Tractor/Batea ===== */
+/* ===== V1.2.23 - Fix filtros Unidades / Choferes + Tractor/Batea ===== */
 
 window.unitFilterMode = window.unitFilterMode || "todas";
 
@@ -1722,7 +1722,7 @@ function renderDrivers(){ renderUnits(); }
 
 
 
-/* ===== V1.2.22 - Dashboard y Tránsitos muestran abiertos + finalizados ===== */
+/* ===== V1.2.23 - Dashboard y Tránsitos muestran abiertos + finalizados ===== */
 
 function transitUpdatedValue(t){
   let u = typeof lastU==="function" ? (lastU(t)||{}) : {};
@@ -1803,3 +1803,151 @@ function renderRep(){
      <div class="item"><b>Finalizados:</b> ${trs.filter(t=>!openT(t)).length}</div>
      <div class="item"><b>Por flota:</b><br>${Object.entries(by).map(([k,v])=>`${esc(k)}: ${v}`).join("<br>")||"-"}</div>`;
 }
+
+
+
+
+/* ===== V1.2.23 - Clientes / Destinos sin JSON visible ===== */
+
+function firstValue(obj, keys){
+  for(let k of keys){
+    let v=obj&&obj[k];
+    if(v!==undefined && v!==null && String(v).trim()!=="")return String(v).trim();
+  }
+  return "";
+}
+
+function activeText(x){
+  return x?.activo===false || x?.active===false || String(x?.estado||"").toLowerCase()==="inactivo" ? "Inactivo" : "Activo";
+}
+
+function activeClass(x){
+  return activeText(x)==="Activo" ? "" : " inactive";
+}
+
+function clientName(c){
+  return firstValue(c,["nombre","cliente","razonSocial","razon_social","name","id"]) || "-";
+}
+
+function renderClients(){
+  if(!q("clientsList"))return;
+  let list=(clientes||[]).slice().sort((a,b)=>clientName(a).localeCompare(clientName(b),"es"));
+  q("clientsList").innerHTML=list.map(c=>`<div class="clientCard">
+    <div class="clientTop">
+      <div class="clientName">🏢 ${esc(clientName(c))}</div>
+      <span class="clientStatus${activeClass(c)}">${activeText(c)}</span>
+    </div>
+    <div class="clientData">
+      <div><b>ID:</b> ${esc(c.id||clientName(c))}</div>
+      <div><b>Estado:</b> ${activeText(c)}</div>
+    </div>
+  </div>`).join("")||'<div class="clientCard">No hay clientes registrados.</div>';
+}
+
+function coordTextFromObj(d){
+  let lat=firstValue(d,["lat","latitude","latitud"]);
+  let lng=firstValue(d,["lng","lon","longitude","longitud"]);
+  if(lat&&lng)return `${lat}, ${lng}`;
+  let gps=d?.gps||d?.ubicacion||d?.posicion||d?.location||{};
+  lat=firstValue(gps,["lat","latitude","latitud"]);
+  lng=firstValue(gps,["lng","lon","longitude","longitud"]);
+  if(lat&&lng)return `${lat}, ${lng}`;
+  let txt=firstValue(d,["coordenadas","coord","coords"]);
+  if(txt)return txt;
+  return "";
+}
+
+function destinationName(d){
+  return firstValue(d,["nombre","destino","name","ubicacion","localidad","id"]) || "-";
+}
+
+function destinationLocalidad(d){
+  return firstValue(d,["localidad","city","ciudad","ubicacion","nombre"]) || "-";
+}
+
+function destinationMunicipio(d){
+  return firstValue(d,["municipio","partido","comuna","departamento"]) || "-";
+}
+
+function destinationProvincia(d){
+  return firstValue(d,["provincia","state","region","regionProvincia"]) || "-";
+}
+
+function destinationPais(d){
+  return firstValue(d,["pais","country"]) || "-";
+}
+
+/* Combina colección destinos + destinos usados en tránsitos para no perder datos */
+function collectDestinos(){
+  let map=new Map();
+
+  (destinos||[]).forEach(d=>{
+    let id=destinationName(d);
+    if(id)map.set(id,{...d,id:d.id||id});
+  });
+
+  (trs||[]).forEach(t=>{
+    let r=ruta(t)||{};
+    let name=r.destino||t.destino||"";
+    if(name && !map.has(name)){
+      map.set(name,{
+        id:name,
+        destino:name,
+        localidad:r.localidadDestino||r.destinoLocalidad||"",
+        municipio:r.municipioDestino||"",
+        provincia:r.provinciaDestino||"",
+        pais:r.paisDestino||"",
+        lat:r.destinoLat||t.destinoLat||"",
+        lng:r.destinoLng||t.destinoLng||"",
+        activo:true
+      });
+    }
+  });
+
+  return [...map.values()].sort((a,b)=>destinationName(a).localeCompare(destinationName(b),"es"));
+}
+
+function renderDestinos(){
+  if(!q("destinosList"))return;
+  let list=collectDestinos();
+  q("destinosList").innerHTML=list.map(d=>{
+    let coords=coordTextFromObj(d);
+    return `<div class="destinationCard">
+      <div class="destinationTop">
+        <div class="destinationName">📍 ${esc(destinationName(d))}</div>
+        <span class="destinationStatus${activeClass(d)}">${activeText(d)}</span>
+      </div>
+      <div class="destinationData">
+        <div><b>Localidad:</b> ${esc(destinationLocalidad(d))}</div>
+        <div><b>Municipio:</b> ${esc(destinationMunicipio(d))}</div>
+        <div><b>Provincia:</b> ${esc(destinationProvincia(d))}</div>
+        <div><b>País:</b> ${esc(destinationPais(d))}</div>
+      </div>
+      <div class="destinationCoords"><b>Coordenadas:</b> ${esc(coords||"-")}</div>
+    </div>`;
+  }).join("")||'<div class="destinationCard">No hay destinos registrados.</div>';
+}
+
+/* Compatibilidad: si la app llama renderClients o renderClientes */
+function renderClientes(){
+  renderClients();
+  renderDestinos();
+}
+
+/* Sobrescribir refresh para asegurar render de destinos sin tocar el resto */
+const _refresh_v1223 = refresh;
+refresh = async function(){
+  await _refresh_v1223();
+  renderClients();
+  renderDestinos();
+};
+
+/* Cuando se ingresa a Clientes / Destinos */
+const _tab_v1223 = tab;
+tab = function(id){
+  _tab_v1223(id);
+  if(id==="clientes"){
+    renderClients();
+    renderDestinos();
+  }
+};

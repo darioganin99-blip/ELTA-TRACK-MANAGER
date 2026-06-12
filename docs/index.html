@@ -42,7 +42,7 @@
   <footer class="loginFooter">
     <span>🛡 Sistema seguro</span>
     <span>© 2025 ELTA Tracking Solutions</span>
-    <span>Versión 1.2.22</span>
+    <span>Versión 1.2.23</span>
   </footer>
 </section>
 
@@ -63,7 +63,7 @@
       
       <button onclick="tab('unidades')">🚛 <span>Unidades / Choferes</span></button>
       
-      <button onclick="tab('clientes')">🏢 <span>Clientes</span></button>
+      <button onclick="tab('clientes')">🏢 <span>Clientes / Destinos</span></button>
       <button onclick="tab('reportes')">📊 <span>Reportes</span></button>
       <button onclick="tab('alertas')">🔔 <span>Alertas</span></button>
       <button onclick="tab('abm')">⚙️ <span>Configuración</span></button>
@@ -87,7 +87,7 @@
       <div class="headerTitle">
         <h1>Track Manager</h1>
         <p>Panel tráfico / coordinación</p>
-        <span>Versión 1.2.22</span>
+        <span>Versión 1.2.23</span>
       </div>
 
       <div class="headerActions">
@@ -236,8 +236,22 @@
     
 
     <section id="clientes" class="panel">
-      <div class="sectionTitle"><h2>Clientes</h2><p>Clientes registrados</p></div>
-      <div class="glassPanel"><div id="clientList" class="cardList"></div></div>
+      <div class="sectionTitle"><h2>Clientes / Destinos</h2><p>Clientes y destinos registrados</p></div>
+      <div class="clientesDestinosGrid">
+        <div class="glassPanel">
+          <div class="panelHead">
+            <h3>Clientes registrados</h3>
+            <button onclick="refresh()">Actualizar</button>
+          </div>
+          <div id="clientsList" class="clientCards"></div>
+        </div>
+        <div class="glassPanel">
+          <div class="panelHead">
+            <h3>Destinos registrados</h3>
+          </div>
+          <div id="destinosList" class="destinationCards"></div>
+        </div>
+      </div>
     </section>
 
     <section id="alertas" class="panel">
@@ -271,7 +285,7 @@
     <footer class="appFooter">
       <span>🛡 Sistema seguro</span>
       <span>© 2025 ELTA Tracking Solutions</span>
-      <span>Versión 1.2.22</span>
+      <span>Versión 1.2.23</span>
     </footer>
   </main>
 </section>

@@ -2443,3 +2443,110 @@ select option:hover{
 #transitos .filters select{
   color-scheme:dark !important;
 }
+
+
+/* ===== V1.2.23 - Clientes / Destinos ===== */
+
+.clientesDestinosGrid{
+  display:grid !important;
+  grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr) !important;
+  gap:14px !important;
+  align-items:start !important;
+}
+
+.clientCards,
+.destinationCards{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:12px !important;
+}
+
+.clientCard,
+.destinationCard{
+  border:1px solid rgba(255,255,255,.15) !important;
+  border-radius:14px !important;
+  background:rgba(20,39,54,.84) !important;
+  color:white !important;
+  padding:15px 16px !important;
+}
+
+.clientTop,
+.destinationTop{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  margin-bottom:10px !important;
+}
+
+.clientName,
+.destinationName{
+  font-size:18px !important;
+  font-weight:900 !important;
+  color:#f8fafc !important;
+}
+
+.clientStatus,
+.destinationStatus{
+  border-radius:999px !important;
+  padding:5px 12px !important;
+  background:rgba(76,198,63,.23) !important;
+  color:#8df27c !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+  white-space:nowrap !important;
+}
+
+.clientStatus.inactive,
+.destinationStatus.inactive{
+  background:rgba(148,163,184,.22) !important;
+  color:#dbe4ef !important;
+}
+
+.clientData,
+.destinationData{
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:6px 14px !important;
+  font-size:12px !important;
+  line-height:1.25 !important;
+  color:#d3dce7 !important;
+}
+
+.clientData b,
+.destinationData b{
+  color:#ffffff !important;
+}
+
+.clientData .fullLine,
+.destinationData .fullLine{
+  grid-column:1 / -1 !important;
+}
+
+.destinationCoords{
+  margin-top:9px !important;
+  padding:8px 10px !important;
+  border-radius:9px !important;
+  background:rgba(59,130,246,.10) !important;
+  border:1px solid rgba(96,165,250,.25) !important;
+  color:#dbeafe !important;
+  font-size:12px !important;
+  font-weight:800 !important;
+}
+
+.noJsonText{
+  display:none !important;
+}
+
+@media(max-width:1050px){
+  .clientesDestinosGrid{
+    grid-template-columns:1fr !important;
+  }
+}
+
+@media(max-width:640px){
+  .clientData,
+  .destinationData{
+    grid-template-columns:1fr !important;
+  }
+}
