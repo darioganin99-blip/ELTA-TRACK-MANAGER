@@ -3042,3 +3042,72 @@ select option:hover{
     justify-content:flex-start !important;
   }
 }
+
+
+/* ===== V1.2.31 - Clientes: estado por color de tarjeta, sin texto Activo/Inactivo ===== */
+
+.clientStatus,
+.clientTop .clientStatus{
+  display:none !important;
+  visibility:hidden !important;
+}
+
+.clientCard{
+  border-width:1.5px !important;
+}
+
+.clientCard.clientActive{
+  border-color:rgba(76,198,63,.55) !important;
+  box-shadow:inset 4px 0 0 rgba(76,198,63,.95), 0 0 0 1px rgba(76,198,63,.08) !important;
+  background:linear-gradient(135deg,rgba(20,39,54,.90),rgba(20,58,42,.76)) !important;
+}
+
+.clientCard.clientInactive{
+  border-color:rgba(148,163,184,.40) !important;
+  box-shadow:inset 4px 0 0 rgba(148,163,184,.85), 0 0 0 1px rgba(148,163,184,.08) !important;
+  background:linear-gradient(135deg,rgba(20,39,54,.82),rgba(55,65,81,.62)) !important;
+  opacity:.86 !important;
+}
+
+.clientCard.clientInactive .clientName,
+.clientCard.clientInactive .clientData,
+.clientCard.clientInactive .clientContactBox{
+  color:rgba(255,255,255,.72) !important;
+}
+
+.clientCard.clientActive .clientName::after{
+  content:"";
+  display:inline-block;
+  width:9px;
+  height:9px;
+  margin-left:10px;
+  border-radius:50%;
+  background:#4cc63f;
+  box-shadow:0 0 8px rgba(76,198,63,.9);
+}
+
+.clientCard.clientInactive .clientName::after{
+  content:"";
+  display:inline-block;
+  width:9px;
+  height:9px;
+  margin-left:10px;
+  border-radius:50%;
+  background:#94a3b8;
+}
+
+.clientData .clientEstadoLine{
+  display:none !important;
+}
+
+/* ===== V1.2.32 - Alertas fix contador, KM y detalle ===== */
+.alertItemCard{grid-template-columns:minmax(0,1fr) 150px!important}
+.alertTransitDetail{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:6px 12px!important;margin-top:8px!important;padding-top:8px!important;border-top:1px solid rgba(255,255,255,.10)!important;font-size:11px!important;color:#d3dce7!important}
+.alertTransitDetail b{color:#fff!important}
+.alertItemMeta{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.alertKmHighlight{color:#8df27c!important;font-weight:1000!important}
+.alertChoferLine{color:#dbeafe!important;font-weight:800!important}
+.alertVerifyBtn{background:#2f8d34!important}
+.alertVerifyBtn:active{transform:scale(.98)!important}
+@media(max-width:1200px){.alertTransitDetail,.alertItemMeta{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:760px){.alertTransitDetail,.alertItemMeta{grid-template-columns:1fr!important}}
