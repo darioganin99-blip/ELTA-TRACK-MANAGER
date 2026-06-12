@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
 
 
 
-/* ===== V1.2.29 overrides ===== */
+/* ===== V1.2.30 overrides ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -364,7 +364,7 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.29 - Graficos barra compactos ===== */
+/* ===== V1.2.30 - Graficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -416,7 +416,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.29 - Reaseguro gráficos barra compactos ===== */
+/* ===== V1.2.30 - Reaseguro gráficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -468,7 +468,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.29 - Dashboard 4 gráficos + últimas alertas compactas ===== */
+/* ===== V1.2.30 - Dashboard 4 gráficos + últimas alertas compactas ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -540,7 +540,7 @@ function renderDashAlerts(){
 
 
 
-/* ===== V1.2.29 - SOLO vista Tránsitos: tarjeta como imagen ===== */
+/* ===== V1.2.30 - SOLO vista Tránsitos: tarjeta como imagen ===== */
 
 function valFrom(obj, keys){
   for(let k of keys){
@@ -628,7 +628,7 @@ function card(t){
 
 
 
-/* ===== V1.2.29 - Localidad/provincia desde coordenadas conocidas ===== */
+/* ===== V1.2.30 - Localidad/provincia desde coordenadas conocidas ===== */
 function parseCoordPair(txt){
   let s=String(txt||"");
   let m=s.match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
@@ -724,7 +724,7 @@ function card(t){
 
 
 
-/* ===== V1.2.29 - SOLO vista Seguimiento: mapa real GPS ===== */
+/* ===== V1.2.30 - SOLO vista Seguimiento: mapa real GPS ===== */
 let seguimientoMap=null;
 let seguimientoMarkers=[];
 
@@ -784,7 +784,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.29 - Seguimiento: fix mapa y localidad/provincia ===== */
+/* ===== V1.2.30 - Seguimiento: fix mapa y localidad/provincia ===== */
 function trackingCard(t){
   let o=openT(t),r=ruta(t),pos=getPosObj(t);
   return `<div class="trackingCard">
@@ -863,7 +863,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.29 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
+/* ===== V1.2.30 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -946,7 +946,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.29 - Seguimiento: marcador numerico estilo etiqueta ===== */
+/* ===== V1.2.30 - Seguimiento: marcador numerico estilo etiqueta ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -1021,7 +1021,7 @@ function initSeguimientoMap(items){
 
 
 
-/* ===== V1.2.29 - Seguimiento: solo numero, zoom con todas las flotas, ultimo reporte resaltado ===== */
+/* ===== V1.2.30 - Seguimiento: solo numero, zoom con todas las flotas, ultimo reporte resaltado ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -1132,7 +1132,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.29 - Seguimiento: filtros cliente/embarque + marker 50% ===== */
+/* ===== V1.2.30 - Seguimiento: filtros cliente/embarque + marker 50% ===== */
 
 function refreshSeguimientoFilters(){
   let cli=q("segCli");
@@ -1233,7 +1233,7 @@ function initSeguimientoMap(items){
 
 
 
-/* ===== V1.2.29 - Solo transitos abiertos + Unidades/Choferes por usuarios role=flota ===== */
+/* ===== V1.2.30 - Solo transitos abiertos + Unidades/Choferes por usuarios role=flota ===== */
 
 function isFlotaUser(u){
   return String(u.role||u.rol||"").toLowerCase().trim()==="flota";
@@ -1330,7 +1330,7 @@ function renderCoordinacion(){}
 
 
 
-/* ===== V1.2.29 - Unidades / Choferes: usuarios role flota flexible ===== */
+/* ===== V1.2.30 - Unidades / Choferes: usuarios role flota flexible ===== */
 
 function normRoleValue(v){
   return String(v||"").toLowerCase().trim();
@@ -1424,7 +1424,7 @@ function renderDrivers(){
 
 
 
-/* ===== V1.2.29 - Correcciones Transitos y Unidades / Choferes ===== */
+/* ===== V1.2.30 - Correcciones Transitos y Unidades / Choferes ===== */
 
 let unitFilterMode="todas";
 
@@ -1575,7 +1575,7 @@ function card(t){
 
 
 
-/* ===== V1.2.29 - Fix filtros Unidades / Choferes + Tractor/Batea ===== */
+/* ===== V1.2.30 - Fix filtros Unidades / Choferes + Tractor/Batea ===== */
 
 window.unitFilterMode = window.unitFilterMode || "todas";
 
@@ -1722,7 +1722,7 @@ function renderDrivers(){ renderUnits(); }
 
 
 
-/* ===== V1.2.29 - Dashboard y Tránsitos muestran abiertos + finalizados ===== */
+/* ===== V1.2.30 - Dashboard y Tránsitos muestran abiertos + finalizados ===== */
 
 function transitUpdatedValue(t){
   let u = typeof lastU==="function" ? (lastU(t)||{}) : {};
@@ -1807,7 +1807,7 @@ function renderRep(){
 
 
 
-/* ===== V1.2.29 - Clientes / Destinos sin JSON visible ===== */
+/* ===== V1.2.30 - Clientes / Destinos sin JSON visible ===== */
 
 function firstValue(obj, keys){
   for(let k of keys){
@@ -1955,7 +1955,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.29 - Fix render Clientes / Destinos ===== */
+/* ===== V1.2.30 - Fix render Clientes / Destinos ===== */
 
 function safeArr(v){
   return Array.isArray(v) ? v : [];
@@ -2115,7 +2115,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.29 - Fix campo Tractor desde usuarios.tractor ===== */
+/* ===== V1.2.30 - Fix campo Tractor desde usuarios.tractor ===== */
 
 function pickTextValue(obj, keys){
   for(let k of keys){
@@ -2210,7 +2210,7 @@ function renderDrivers(){ renderUnits(); }
 
 
 
-/* ===== V1.2.29 - Clientes contacto/telefono + Destinos horarios/coordenadas ===== */
+/* ===== V1.2.30 - Clientes contacto/telefono + Destinos horarios/coordenadas ===== */
 
 function isCoordTextV1226(v){
   let s=String(v||"").trim();
@@ -2404,7 +2404,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.29 - Destinos solo desde coleccion destinos + contacto/telefonos ===== */
+/* ===== V1.2.30 - Destinos solo desde coleccion destinos + contacto/telefonos ===== */
 
 function textOrDefaultV1227(v){
   let s=String(v ?? "").trim();
@@ -2581,7 +2581,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.29 - Alertas con estado verificada/pendiente ===== */
+/* ===== V1.2.30 - Alertas con estado verificada/pendiente ===== */
 
 window.alertFilterMode = window.alertFilterMode || "pendientes";
 
@@ -2777,7 +2777,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.29 - Render destinos sin texto Activo/Inactivo ===== */
+/* ===== V1.2.30 - Render destinos sin texto Activo/Inactivo ===== */
 
 function destinationStateClassV1229(d){
   let inactive = d?.activo===false || d?.active===false || String(d?.estado||"").toLowerCase()==="inactivo";
@@ -2828,4 +2828,172 @@ function renderDestinos(){
       <div class="destinationCoords"><b>Coordenadas:</b> ${esc(coords||"-")}</div>
     </div>`;
   }).join("") || '<div class="destinationCard">No hay destinos registrados.</div>';
+}
+
+
+
+
+/* ===== V1.2.30 - Alertas: graficos con cantidad/% y boton funcional ===== */
+
+function alertUniqueIdV1230(t,a,idx){
+  return String(a.id||a.alertaId||`${t.embarque||""}_${flota(t)||""}_${alertTipo(a)}_${a.time||a.fecha||a.createdAt||a.ts||idx}`);
+}
+
+function markAlertVerifiedById(id){
+  let store=alertSeenStore();
+  let user=(window.currentUser?.user||window.currentUser?.id||window.currentUser?.nombre||"admin");
+  store[id]={verificada:true,por:user,fecha:new Date().toISOString()};
+  saveAlertSeenStore(store);
+  renderAlerts();
+  renderBadge?.();
+}
+
+function isAlertVerified(t,a,idx){
+  let id=alertUniqueIdV1230(t,a,idx);
+  let local=alertSeenStore();
+  return a.verificada===true || a.vista===true || a.verificado===true || local[id]?.verificada===true;
+}
+
+function alertVerifiedInfo(t,a,idx){
+  let id=alertUniqueIdV1230(t,a,idx);
+  let local=alertSeenStore();
+  let por=a.verificadaPor||a.vistaPor||local[id]?.por||"";
+  let fecha=a.verificadaFecha||a.vistaFecha||local[id]?.fecha||"";
+  return {por,fecha};
+}
+
+function collectOpenAlerts(){
+  let rows=[];
+  trs.filter(openT).forEach(t=>{
+    (t.alerts||[]).forEach((a,idx)=>{
+      let verified=isAlertVerified(t,a,idx);
+      if(window.alertFilterMode==="pendientes" && verified)return;
+      if(window.alertFilterMode==="verificadas" && !verified)return;
+      rows.push({
+        t,a,idx,verified,
+        id:alertUniqueIdV1230(t,a,idx)
+      });
+    });
+  });
+  return rows.sort((x,y)=>tv(y.a.time||y.a.fecha||y.a.createdAt||y.a.ts)-tv(x.a.time||x.a.fecha||x.a.createdAt||x.a.ts));
+}
+
+function countBy(rows,fn){
+  let out={};
+  rows.forEach(r=>{
+    let k=fn(r)||"-";
+    out[k]=(out[k]||0)+1;
+  });
+  return out;
+}
+
+function barChartHtml(title, counts){
+  let entries=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  let total=entries.reduce((a,b)=>a+b[1],0);
+  let max=Math.max(1,...entries.map(x=>x[1]));
+  return `<div class="alertChartCard">
+    <div class="alertChartTitle">${title}</div>
+    <div class="alertChartTotals">
+      <div class="alertTotalBox">
+        <div class="alertTotalNumber">${total}</div>
+        <div class="alertTotalLabel">Total</div>
+      </div>
+      <div class="alertTotalBox">
+        <div class="alertTotalNumber">${entries.length}</div>
+        <div class="alertTotalLabel">Categorías</div>
+      </div>
+    </div>
+    ${entries.length?entries.map(([k,v])=>{
+      let pct=total?Math.round(v/total*100):0;
+      return `<div class="alertBarRow">
+        <div class="alertBarLabel" title="${esc(k)}">${esc(k)}</div>
+        <div class="alertBarTrack"><div class="alertBarFill" style="width:${Math.max(5,Math.round(v/max*100))}%"></div></div>
+        <div class="alertBarValue"><span>${v}</span><span class="alertBarPct">${pct}%</span></div>
+      </div>`;
+    }).join(""):'<div class="alertEmpty">Sin datos.</div>'}
+  </div>`;
+}
+
+function renderAlertCharts(rows){
+  if(!q("alertCharts"))return;
+  let controlRows=rows.filter(r=>alertTipo(r.a).toLowerCase().includes("control"));
+  q("alertCharts").innerHTML=[
+    barChartHtml("Tipo de alertas", countBy(rows,r=>alertTipo(r.a))),
+    barChartHtml("Alertas por flota", countBy(rows,r=>`Flota ${flota(r.t)||"-"}`)),
+    barChartHtml("Alertas por embarque", countBy(rows,r=>`Emb. ${r.t.embarque||"-"}`)),
+    barChartHtml("Control de carga por flota", countBy(controlRows,r=>`Flota ${flota(r.t)||"-"}`))
+  ].join("");
+}
+
+function renderAlertCards(rows){
+  if(!q("alertCards"))return;
+  let byFleet={};
+  rows.forEach(r=>{
+    let key=flota(r.t)||"-";
+    (byFleet[key]=byFleet[key]||[]).push(r);
+  });
+
+  let html=Object.entries(byFleet).sort((a,b)=>a[0].localeCompare(b[0],"es",{numeric:true})).map(([fleet,list])=>{
+    let pend=list.filter(r=>!r.verified).length;
+    let total=list.length;
+    return `<div class="alertFleetCard ${pend?"hasPending":"noPending"}">
+      <div class="alertFleetTop">
+        <div class="alertFleetTitle">🚚 Flota ${esc(fleet)}</div>
+        <div class="alertFleetSummary">
+          <span class="alertPendingBadge ${pend?"":"ok"}">${pend} pendientes</span>
+          <span class="alertPendingBadge ok">${total} total</span>
+        </div>
+      </div>
+      ${list.map(r=>{
+        let info=alertVerifiedInfo(r.t,r.a,r.idx);
+        return `<div class="alertItemCard">
+          <div class="alertItemContent">
+            <div class="alertItemTop">
+              <span>⚠️ ${esc(alertTipo(r.a))}</span>
+            </div>
+            <div class="alertItemMeta">
+              <div><b>Embarque:</b> ${esc(r.t.embarque||"-")}</div>
+              <div><b>Km:</b> ${esc(alertKmValue(r.a))}</div>
+              <div><b>Fecha/hora:</b> ${alertDateValue(r.a)}</div>
+              <div><b>Localidad:</b> ${esc(alertLocationValue(r.a,r.t))}</div>
+            </div>
+          </div>
+          <div class="alertItemAction">
+            ${r.verified
+              ? `<span class="alertVerifiedInfo">Verificada${info.fecha?`<br>${fd(info.fecha)}`:""}</span>`
+              : `<button class="alertVerifyBtn" onclick="markAlertVerifiedById('${String(r.id).replace(/\\/g,"\\\\").replace(/'/g,"\\'")}')">Marcar<br>verificada</button>`
+            }
+          </div>
+        </div>`;
+      }).join("")}
+    </div>`;
+  }).join("");
+
+  q("alertCards").innerHTML=html||'<div class="alertEmpty">No hay alertas para el filtro seleccionado.</div>';
+}
+
+function pendingAlertsCount(){
+  let count=0;
+  trs.filter(openT).forEach(t=>{
+    (t.alerts||[]).forEach((a,idx)=>{
+      if(!isAlertVerified(t,a,idx))count++;
+    });
+  });
+  return count;
+}
+
+renderBadge = function(){
+  let n=pendingAlertsCount();
+  document.querySelectorAll(".badgeCount,.alertBadge,.topAlertCount,#alertCount,#badgeAlertas").forEach(el=>el.textContent=n);
+  let common=document.querySelector(".bell .count");
+  if(common)common.textContent=n;
+};
+
+function renderAlerts(){
+  document.querySelectorAll(".alertFilters button").forEach(b=>{
+    b.classList.toggle("active", b.dataset.alertFilter===window.alertFilterMode);
+  });
+  let rows=collectOpenAlerts();
+  renderAlertCharts(rows);
+  renderAlertCards(rows);
 }

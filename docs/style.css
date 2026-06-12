@@ -2901,3 +2901,144 @@ select option:hover{
   border-radius:50%;
   background:#94a3b8;
 }
+
+
+/* ===== V1.2.30 - Alertas mejoras visuales y boton verificada ===== */
+
+.alertChartsGrid{
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+}
+
+.alertChartCard{
+  min-height:185px !important;
+}
+
+.alertChartTotals{
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:8px !important;
+  margin-bottom:10px !important;
+}
+
+.alertTotalBox{
+  border:1px solid rgba(255,255,255,.13) !important;
+  background:rgba(255,255,255,.06) !important;
+  border-radius:10px !important;
+  padding:8px !important;
+}
+
+.alertTotalNumber{
+  font-size:24px !important;
+  font-weight:1000 !important;
+  color:#8df27c !important;
+  line-height:1 !important;
+}
+
+.alertTotalLabel{
+  font-size:11px !important;
+  color:#d3dce7 !important;
+  margin-top:4px !important;
+}
+
+.alertBarRow{
+  grid-template-columns:minmax(86px,.8fr) minmax(0,1fr) 68px !important;
+}
+
+.alertBarValue{
+  display:flex !important;
+  justify-content:flex-end !important;
+  gap:5px !important;
+  align-items:center !important;
+}
+
+.alertBarPct{
+  color:#9ae6b4 !important;
+  font-size:10px !important;
+  font-weight:900 !important;
+}
+
+.alertFleetCard{
+  border-color:rgba(255,193,7,.42) !important;
+}
+
+.alertFleetCard.hasPending{
+  box-shadow:inset 4px 0 0 rgba(255,193,7,.95) !important;
+}
+
+.alertFleetCard.noPending{
+  border-color:rgba(76,198,63,.35) !important;
+  box-shadow:inset 4px 0 0 rgba(76,198,63,.72) !important;
+}
+
+.alertFleetSummary{
+  display:flex !important;
+  gap:8px !important;
+  align-items:center !important;
+  flex-wrap:wrap !important;
+}
+
+.alertPendingBadge{
+  min-width:112px !important;
+  text-align:center !important;
+}
+
+.alertPendingBadge.ok{
+  background:rgba(76,198,63,.18) !important;
+  color:#8df27c !important;
+  border-color:rgba(76,198,63,.40) !important;
+}
+
+.alertItemCard{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) 150px !important;
+  gap:12px !important;
+  align-items:center !important;
+}
+
+.alertItemContent{
+  min-width:0 !important;
+}
+
+.alertItemAction{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  height:100% !important;
+}
+
+.alertVerifyBtn{
+  width:136px !important;
+  min-height:38px !important;
+  white-space:normal !important;
+  line-height:1.1 !important;
+}
+
+.alertVerifiedInfo{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:136px !important;
+  min-height:38px !important;
+  border-radius:999px !important;
+  background:rgba(76,198,63,.15) !important;
+  border:1px solid rgba(76,198,63,.32) !important;
+  text-align:center !important;
+}
+
+@media(max-width:1200px){
+  .alertChartsGrid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+
+@media(max-width:760px){
+  .alertChartsGrid{
+    grid-template-columns:1fr !important;
+  }
+  .alertItemCard{
+    grid-template-columns:1fr !important;
+  }
+  .alertItemAction{
+    justify-content:flex-start !important;
+  }
+}
