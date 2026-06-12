@@ -2847,3 +2847,57 @@ select option:hover{
   .alertChartsGrid{grid-template-columns:1fr !important;}
   .alertItemMeta{grid-template-columns:1fr !important;}
 }
+
+
+/* ===== V1.2.29 - Destinos: estado por color de tarjeta, sin texto Activo/Inactivo ===== */
+
+.destinationStatus,
+.destinationTop .destinationStatus{
+  display:none !important;
+  visibility:hidden !important;
+}
+
+.destinationCard{
+  border-width:1.5px !important;
+}
+
+.destinationCard.destinationActive{
+  border-color:rgba(76,198,63,.55) !important;
+  box-shadow:inset 4px 0 0 rgba(76,198,63,.95), 0 0 0 1px rgba(76,198,63,.08) !important;
+  background:linear-gradient(135deg,rgba(20,39,54,.90),rgba(20,58,42,.76)) !important;
+}
+
+.destinationCard.destinationInactive{
+  border-color:rgba(148,163,184,.40) !important;
+  box-shadow:inset 4px 0 0 rgba(148,163,184,.85), 0 0 0 1px rgba(148,163,184,.08) !important;
+  background:linear-gradient(135deg,rgba(20,39,54,.82),rgba(55,65,81,.62)) !important;
+  opacity:.86 !important;
+}
+
+.destinationCard.destinationInactive .destinationName,
+.destinationCard.destinationInactive .destinationData,
+.destinationCard.destinationInactive .destinationContactBox,
+.destinationCard.destinationInactive .destinationCoords{
+  color:rgba(255,255,255,.72) !important;
+}
+
+.destinationCard.destinationActive .destinationName::after{
+  content:"";
+  display:inline-block;
+  width:9px;
+  height:9px;
+  margin-left:10px;
+  border-radius:50%;
+  background:#4cc63f;
+  box-shadow:0 0 8px rgba(76,198,63,.9);
+}
+
+.destinationCard.destinationInactive .destinationName::after{
+  content:"";
+  display:inline-block;
+  width:9px;
+  height:9px;
+  margin-left:10px;
+  border-radius:50%;
+  background:#94a3b8;
+}

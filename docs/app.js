@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
 
 
 
-/* ===== V1.2.28 overrides ===== */
+/* ===== V1.2.29 overrides ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -364,7 +364,7 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.28 - Graficos barra compactos ===== */
+/* ===== V1.2.29 - Graficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -416,7 +416,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.28 - Reaseguro gráficos barra compactos ===== */
+/* ===== V1.2.29 - Reaseguro gráficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -468,7 +468,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.28 - Dashboard 4 gráficos + últimas alertas compactas ===== */
+/* ===== V1.2.29 - Dashboard 4 gráficos + últimas alertas compactas ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -540,7 +540,7 @@ function renderDashAlerts(){
 
 
 
-/* ===== V1.2.28 - SOLO vista Tránsitos: tarjeta como imagen ===== */
+/* ===== V1.2.29 - SOLO vista Tránsitos: tarjeta como imagen ===== */
 
 function valFrom(obj, keys){
   for(let k of keys){
@@ -628,7 +628,7 @@ function card(t){
 
 
 
-/* ===== V1.2.28 - Localidad/provincia desde coordenadas conocidas ===== */
+/* ===== V1.2.29 - Localidad/provincia desde coordenadas conocidas ===== */
 function parseCoordPair(txt){
   let s=String(txt||"");
   let m=s.match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
@@ -724,7 +724,7 @@ function card(t){
 
 
 
-/* ===== V1.2.28 - SOLO vista Seguimiento: mapa real GPS ===== */
+/* ===== V1.2.29 - SOLO vista Seguimiento: mapa real GPS ===== */
 let seguimientoMap=null;
 let seguimientoMarkers=[];
 
@@ -784,7 +784,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.28 - Seguimiento: fix mapa y localidad/provincia ===== */
+/* ===== V1.2.29 - Seguimiento: fix mapa y localidad/provincia ===== */
 function trackingCard(t){
   let o=openT(t),r=ruta(t),pos=getPosObj(t);
   return `<div class="trackingCard">
@@ -863,7 +863,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.28 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
+/* ===== V1.2.29 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -946,7 +946,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.28 - Seguimiento: marcador numerico estilo etiqueta ===== */
+/* ===== V1.2.29 - Seguimiento: marcador numerico estilo etiqueta ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -1021,7 +1021,7 @@ function initSeguimientoMap(items){
 
 
 
-/* ===== V1.2.28 - Seguimiento: solo numero, zoom con todas las flotas, ultimo reporte resaltado ===== */
+/* ===== V1.2.29 - Seguimiento: solo numero, zoom con todas las flotas, ultimo reporte resaltado ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -1132,7 +1132,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.28 - Seguimiento: filtros cliente/embarque + marker 50% ===== */
+/* ===== V1.2.29 - Seguimiento: filtros cliente/embarque + marker 50% ===== */
 
 function refreshSeguimientoFilters(){
   let cli=q("segCli");
@@ -1233,7 +1233,7 @@ function initSeguimientoMap(items){
 
 
 
-/* ===== V1.2.28 - Solo transitos abiertos + Unidades/Choferes por usuarios role=flota ===== */
+/* ===== V1.2.29 - Solo transitos abiertos + Unidades/Choferes por usuarios role=flota ===== */
 
 function isFlotaUser(u){
   return String(u.role||u.rol||"").toLowerCase().trim()==="flota";
@@ -1330,7 +1330,7 @@ function renderCoordinacion(){}
 
 
 
-/* ===== V1.2.28 - Unidades / Choferes: usuarios role flota flexible ===== */
+/* ===== V1.2.29 - Unidades / Choferes: usuarios role flota flexible ===== */
 
 function normRoleValue(v){
   return String(v||"").toLowerCase().trim();
@@ -1424,7 +1424,7 @@ function renderDrivers(){
 
 
 
-/* ===== V1.2.28 - Correcciones Transitos y Unidades / Choferes ===== */
+/* ===== V1.2.29 - Correcciones Transitos y Unidades / Choferes ===== */
 
 let unitFilterMode="todas";
 
@@ -1575,7 +1575,7 @@ function card(t){
 
 
 
-/* ===== V1.2.28 - Fix filtros Unidades / Choferes + Tractor/Batea ===== */
+/* ===== V1.2.29 - Fix filtros Unidades / Choferes + Tractor/Batea ===== */
 
 window.unitFilterMode = window.unitFilterMode || "todas";
 
@@ -1722,7 +1722,7 @@ function renderDrivers(){ renderUnits(); }
 
 
 
-/* ===== V1.2.28 - Dashboard y Tránsitos muestran abiertos + finalizados ===== */
+/* ===== V1.2.29 - Dashboard y Tránsitos muestran abiertos + finalizados ===== */
 
 function transitUpdatedValue(t){
   let u = typeof lastU==="function" ? (lastU(t)||{}) : {};
@@ -1807,7 +1807,7 @@ function renderRep(){
 
 
 
-/* ===== V1.2.28 - Clientes / Destinos sin JSON visible ===== */
+/* ===== V1.2.29 - Clientes / Destinos sin JSON visible ===== */
 
 function firstValue(obj, keys){
   for(let k of keys){
@@ -1955,7 +1955,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.28 - Fix render Clientes / Destinos ===== */
+/* ===== V1.2.29 - Fix render Clientes / Destinos ===== */
 
 function safeArr(v){
   return Array.isArray(v) ? v : [];
@@ -2115,7 +2115,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.28 - Fix campo Tractor desde usuarios.tractor ===== */
+/* ===== V1.2.29 - Fix campo Tractor desde usuarios.tractor ===== */
 
 function pickTextValue(obj, keys){
   for(let k of keys){
@@ -2210,7 +2210,7 @@ function renderDrivers(){ renderUnits(); }
 
 
 
-/* ===== V1.2.28 - Clientes contacto/telefono + Destinos horarios/coordenadas ===== */
+/* ===== V1.2.29 - Clientes contacto/telefono + Destinos horarios/coordenadas ===== */
 
 function isCoordTextV1226(v){
   let s=String(v||"").trim();
@@ -2404,7 +2404,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.28 - Destinos solo desde coleccion destinos + contacto/telefonos ===== */
+/* ===== V1.2.29 - Destinos solo desde coleccion destinos + contacto/telefonos ===== */
 
 function textOrDefaultV1227(v){
   let s=String(v ?? "").trim();
@@ -2581,7 +2581,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.28 - Alertas con estado verificada/pendiente ===== */
+/* ===== V1.2.29 - Alertas con estado verificada/pendiente ===== */
 
 window.alertFilterMode = window.alertFilterMode || "pendientes";
 
@@ -2773,3 +2773,59 @@ tab = function(id){
   _tab_v1228(id);
   if(id==="alertas")renderAlerts();
 };
+
+
+
+
+/* ===== V1.2.29 - Render destinos sin texto Activo/Inactivo ===== */
+
+function destinationStateClassV1229(d){
+  let inactive = d?.activo===false || d?.active===false || String(d?.estado||"").toLowerCase()==="inactivo";
+  return inactive ? "destinationInactive" : "destinationActive";
+}
+
+function renderDestinos(){
+  let el=q("destinosList");
+  if(!el)return;
+
+  let list = typeof collectDestinosV1227==="function" ? collectDestinosV1227()
+           : (typeof collectDestinosV1226==="function" ? collectDestinosV1226()
+           : (Array.isArray(destinos)?destinos:[]));
+
+  el.innerHTML=list.map(d=>{
+    let coords = typeof coordTextFromObjV1227==="function" ? coordTextFromObjV1227(d)
+              : (typeof coordTextFromObjV1226==="function" ? coordTextFromObjV1226(d) : "");
+    let name = typeof destinationNameV1227==="function" ? destinationNameV1227(d)
+             : (typeof destinationNameV1226==="function" ? destinationNameV1226(d) : (d.id||d.nombre||"-"));
+    let localidad = typeof destinationLocalidadV1227==="function" ? destinationLocalidadV1227(d)
+                  : (typeof destinationLocalidadV1226==="function" ? destinationLocalidadV1226(d) : (d.localidad||"-"));
+    let pais = typeof destinationPaisV1227==="function" ? destinationPaisV1227(d)
+             : (typeof destinationPaisV1226==="function" ? destinationPaisV1226(d) : (d.pais||"-"));
+    let horarios = typeof destinationHorariosV1227==="function" ? destinationHorariosV1227(d)
+                 : (typeof destinationHorariosV1226==="function" ? destinationHorariosV1226(d) : (d.horarios||"-"));
+    let contacto = typeof destinationContactoV1227==="function" ? destinationContactoV1227(d)
+                 : (typeof destinationContactoV1226==="function" ? destinationContactoV1226(d) : (d.contacto||""));
+    let telefonos = typeof destinationTelefonosV1227==="function" ? destinationTelefonosV1227(d)
+                  : (typeof destinationTelefonosV1226==="function" ? destinationTelefonosV1226(d) : (d.telefonos||d.telefono||""));
+    let textDefault = typeof textOrDefaultV1227==="function" ? textOrDefaultV1227 : (v=>String(v||"").trim()||"No informado");
+
+    return `<div class="destinationCard ${destinationStateClassV1229(d)}">
+      <div class="destinationTop">
+        <div class="destinationName">📍 ${esc(name)}</div>
+      </div>
+
+      <div class="destinationData">
+        <div><b>Localidad:</b> ${esc(localidad)}</div>
+        <div><b>País:</b> ${esc(pais)}</div>
+        <div class="fullLine"><b>Horarios:</b> ${esc(horarios)}</div>
+      </div>
+
+      <div class="destinationContactBox">
+        <div><b>Contacto:</b> ${esc(textDefault(contacto))}</div>
+        <div><b>Teléfonos:</b> ${esc(textDefault(telefonos))}</div>
+      </div>
+
+      <div class="destinationCoords"><b>Coordenadas:</b> ${esc(coords||"-")}</div>
+    </div>`;
+  }).join("") || '<div class="destinationCard">No hay destinos registrados.</div>';
+}
