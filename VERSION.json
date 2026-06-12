@@ -1,6 +1,6 @@
 {
-  "version": "1.2.42",
+  "version": "1.2.43",
   "app": "ITS Intelligent Traffic System",
   "subtitle": "Centro de monitoreo y coordinación logística",
-  "notes": "Incluye campana titilante, clima/GPS, alertas, Paso Los Libertadores, correo real, menú y tarjetas compactas."
+  "notes": "Dashboard: Alertas activas cuenta solo alertas sin verificar de tránsitos abiertos. Mantiene mejoras v1.2.42."
 }

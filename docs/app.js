@@ -4027,7 +4027,7 @@ document.addEventListener("DOMContentLoaded",updateAlertBellBlink);
 setTimeout(updateAlertBellBlink,300);
 
 /* ===== V1.2.42 - Mejoras completas del documento 12/06 ===== */
-const ELTA_APP_VERSION="1.2.42";
+const ELTA_APP_VERSION="1.2.43";
 let currentUserDoc=null;
 
 function updateAppVersionLabels(){
@@ -4176,3 +4176,56 @@ const _renderDash_v1242 = typeof renderDash==="function" ? renderDash : null;
 if(_renderDash_v1242){
   renderDash=function(){_renderDash_v1242();updateAppVersionLabels();if(typeof updateAlertBellBlink==="function")updateAlertBellBlink();};
 }
+
+
+/* ===== V1.2.43 - Dashboard: Alertas activas solo de tránsitos abiertos ===== */
+function activeOpenTransitAlertsRowsV1243(){
+  let rows=[];
+  try{
+    (Array.isArray(trs)?trs:[]).filter(openT).forEach(t=>{
+      (t.alerts||[]).forEach((a,idx)=>{
+        let verified=typeof isAlertVerified==="function" ? isAlertVerified(t,a,idx) : false;
+        if(!verified)rows.push({t,a,idx,verified});
+      });
+    });
+  }catch(e){rows=[];}
+  return rows.sort((x,y)=>tv(y.a.time||y.a.fecha||y.a.createdAt||y.a.ts)-tv(x.a.time||x.a.fecha||x.a.createdAt||x.a.ts));
+}
+
+function pendingAlertsCount(){
+  return activeOpenTransitAlertsRowsV1243().length;
+}
+
+function updateDashboardOpenAlertsV1243(){
+  let rows=activeOpenTransitAlertsRowsV1243();
+  let n=rows.length;
+  ["kal","headerAlertCount","legAlert"].forEach(id=>{let el=q(id); if(el)el.innerText=n;});
+  if(q("dashAlerts")){
+    q("dashAlerts").innerHTML=rows.slice(0,3).map(x=>{
+      let tipo=esc(typeof alertTipo==="function"?alertTipo(x.a):(x.a.tipo||x.a.type||x.a.motivo||"Alerta"));
+      let fecha=typeof alertDateValue==="function"?alertDateValue(x.a):(typeof alertDate==="function"?alertDate(x.a):fd(x.a.time||x.a.fecha||x.a.createdAt||x.a.ts));
+      return `<div class="alertLine">• ${tipo} · Emb. ${esc(x.t.embarque||"-")} · Flota ${esc(flota(x.t)||"-")} · ${fecha}</div>`;
+    }).join("") || '<div class="alertEmpty">Sin alertas activas en tránsitos abiertos.</div>';
+  }
+  if(typeof updateAlertBellBlink==="function")updateAlertBellBlink();
+}
+
+const _renderDash_v1243 = typeof renderDash==="function" ? renderDash : null;
+if(_renderDash_v1243){
+  renderDash=function(){
+    _renderDash_v1243();
+    updateDashboardOpenAlertsV1243();
+    if(typeof updateAppVersionLabels==="function")updateAppVersionLabels();
+  };
+}
+
+const _refresh_v1243 = typeof refresh==="function" ? refresh : null;
+if(_refresh_v1243){
+  refresh=async function(){
+    await _refresh_v1243();
+    updateDashboardOpenAlertsV1243();
+  };
+}
+
+document.addEventListener("DOMContentLoaded",()=>setTimeout(updateDashboardOpenAlertsV1243,250));
+setTimeout(updateDashboardOpenAlertsV1243,700);
