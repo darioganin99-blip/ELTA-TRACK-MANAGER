@@ -3292,3 +3292,129 @@ select option:hover{
 .weatherStatusBadge.open{background:rgba(34,197,94,.22)!important;border:1px solid rgba(34,197,94,.48)!important}
 .weatherStatusBadge.closed{background:rgba(245,158,11,.24)!important;border:1px solid rgba(245,158,11,.58)!important}
 .weatherLoading{min-height:80px!important}
+
+
+/* ===== V1.2.37 - Clima: layout invertido, tarjetas compactas, menu icono ===== */
+
+.climaLayoutV1237{
+  display:grid !important;
+  grid-template-columns:minmax(0,1.12fr) minmax(360px,.88fr) !important;
+  gap:14px !important;
+  align-items:start !important;
+}
+
+.climaLayoutV1237 .climaLeft{
+  order:1 !important;
+}
+
+.climaLayoutV1237 .climaRight{
+  order:2 !important;
+}
+
+.compactWeatherCards .weatherCard{
+  padding:10px 12px !important;
+  border-radius:12px !important;
+}
+
+.compactWeatherCards .weatherCardTop{
+  margin-bottom:7px !important;
+}
+
+.compactWeatherCards .weatherIconBadge{
+  width:32px !important;
+  height:32px !important;
+  min-width:32px !important;
+  border-radius:10px !important;
+  font-size:18px !important;
+  margin-right:8px !important;
+}
+
+.compactWeatherCards .weatherTitle{
+  font-size:14px !important;
+}
+
+.compactWeatherCards .weatherDesc{
+  font-size:12px !important;
+  margin-top:2px !important;
+}
+
+.compactWeatherCards .weatherTemp{
+  font-size:25px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:4px !important;
+}
+
+.compactWeatherCards .weatherData{
+  grid-template-columns:1fr 1fr !important;
+  gap:4px 8px !important;
+  font-size:11px !important;
+}
+
+.compactWeatherCards .weatherProvider{
+  display:none !important;
+}
+
+.weatherTemp{
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  white-space:nowrap !important;
+}
+
+.weatherTempIcon{
+  font-size:.70em !important;
+  line-height:1 !important;
+}
+
+.fleetWeatherCard .weatherTemp{
+  font-size:30px !important;
+}
+
+.fleetWeatherCard{
+  padding:12px 14px !important;
+}
+
+.fleetWeatherCard .weatherIconBadge{
+  width:36px !important;
+  height:36px !important;
+  font-size:20px !important;
+}
+
+.fleetWeatherCard .weatherFleetTransit{
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+}
+
+.climaMenuBtn b{
+  pointer-events:none !important;
+}
+
+/* Cuando sidebar esta en modo iconos, ocultar solo el texto del menu Clima */
+.sidebar:not(:hover) .climaMenuBtn b,
+.side:not(:hover) .climaMenuBtn b,
+nav:not(:hover) .climaMenuBtn b{
+  display:none !important;
+}
+
+@media(max-width:1150px){
+  .climaLayoutV1237{
+    grid-template-columns:1fr !important;
+  }
+  .climaLayoutV1237 .climaLeft,
+  .climaLayoutV1237 .climaRight{
+    order:initial !important;
+  }
+}
+
+@media(max-width:900px){
+  .fleetWeatherCard .weatherFleetTransit{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+
+@media(max-width:700px){
+  .compactWeatherCards .weatherData,
+  .fleetWeatherCard .weatherFleetTransit{
+    grid-template-columns:1fr !important;
+  }
+}

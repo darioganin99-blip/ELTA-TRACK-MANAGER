@@ -42,7 +42,7 @@
   <footer class="loginFooter">
     <span>🛡 Sistema seguro</span>
     <span>© 2025 ELTA Tracking Solutions</span>
-    <span>Versión 1.2.36</span>
+    <span>Versión 1.2.37</span>
   </footer>
 </section>
 
@@ -60,7 +60,7 @@
       <button onclick="tab('dash')" class="active">🏠 <span>Dashboard</span></button>
       <button onclick="tab('transitos')">🚚 <span>Tránsitos</span></button>
       <button onclick="tab('mapa')">📍 <span>Seguimiento</span></button>
-<button onclick="tab('clima')"><span>🌦️</span><b>Clima</b></button>
+<button onclick="tab('clima')" class="climaMenuBtn"><span>🌦️</span><b>Clima</b></button>
       
       <button onclick="tab('unidades')">🚛 <span>Unidades / Choferes</span></button>
       
@@ -90,7 +90,7 @@
       <div class="headerTitle">
         <h1>Track Manager</h1>
         <p>Panel tráfico / coordinación</p>
-        <span>Versión 1.2.36</span>
+        <span>Versión 1.2.37</span>
       </div>
 
       <div class="headerActions">
@@ -239,15 +239,24 @@
     
 
     <section id="clima" class="panel">
-      <div class="sectionTitle"><h2>Clima</h2><p>Situación climática por destinos, pasos fronterizos y flotas</p></div>
-      <div class="climaLayout">
+      <div class="sectionTitle"><h2>Clima</h2><p>Situación climática por flotas, pasos fronterizos y destinos</p></div>
+      <div class="climaLayout climaLayoutV1237">
         <div class="glassPanel climaLeft">
-          <div class="panelHead"><h3>Destinos registrados</h3><button onclick="refresh()">Actualizar</button></div>
-          <div id="weatherDestinations" class="weatherCards"></div>
+          <div class="panelHead">
+            <h3>Flotas en tránsito</h3>
+            <button onclick="refresh()">Actualizar</button>
+          </div>
+          <div id="weatherFleets" class="weatherCards"></div>
         </div>
         <div class="climaRight">
-          <div class="glassPanel"><div class="panelHead"><h3>Pasos fronterizos</h3></div><div id="weatherPasses" class="weatherCards"></div></div>
-          <div class="glassPanel"><div class="panelHead"><h3>Flotas en tránsito</h3></div><div id="weatherFleets" class="weatherCards"></div></div>
+          <div class="glassPanel">
+            <div class="panelHead"><h3>Pasos fronterizos</h3></div>
+            <div id="weatherPasses" class="weatherCards compactWeatherCards"></div>
+          </div>
+          <div class="glassPanel">
+            <div class="panelHead"><h3>Destinos registrados</h3></div>
+            <div id="weatherDestinations" class="weatherCards compactWeatherCards"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -310,7 +319,7 @@
     <footer class="appFooter">
       <span>🛡 Sistema seguro</span>
       <span>© 2025 ELTA Tracking Solutions</span>
-      <span>Versión 1.2.36</span>
+      <span>Versión 1.2.37</span>
     </footer>
   </main>
 </section>
