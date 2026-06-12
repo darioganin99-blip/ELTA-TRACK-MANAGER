@@ -2550,3 +2550,35 @@ select option:hover{
     grid-template-columns:1fr !important;
   }
 }
+
+
+/* ===== V1.2.24 - Fix datos Clientes / Destinos ===== */
+
+.clientesDestinosGrid{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  gap:14px !important;
+}
+
+.clientCards,
+.destinationCards{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:12px !important;
+}
+
+.clientCard,
+.destinationCard{
+  min-height:110px !important;
+}
+
+.destinationCard{
+  min-height:160px !important;
+}
+
+@media(max-width:900px){
+  .clientCards,
+  .destinationCards{
+    grid-template-columns:1fr !important;
+  }
+}
