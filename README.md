@@ -1,3 +1,3 @@
 # ELTA Track Manager Web
 
-Versión actual: 1.2.26
+Versión actual: 1.2.27
