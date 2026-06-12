@@ -2658,3 +2658,192 @@ select option:hover{
 .destinationData .fullLine{
   grid-column:1 / -1 !important;
 }
+
+
+/* ===== V1.2.28 - Alertas: estado/verificacion + graficos compactos ===== */
+
+.alertFilters{
+  display:flex !important;
+  gap:8px !important;
+  margin-top:10px !important;
+  flex-wrap:wrap !important;
+}
+
+.alertFilters button{
+  border:1px solid rgba(255,255,255,.18) !important;
+  background:rgba(255,255,255,.07) !important;
+  color:#dbe4ef !important;
+  border-radius:999px !important;
+  padding:7px 12px !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+  cursor:pointer !important;
+}
+
+.alertFilters button.active{
+  background:#1f7a35 !important;
+  color:#8dff74 !important;
+  border-color:#4cc63f !important;
+}
+
+.alertChartsGrid{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:12px !important;
+  margin:14px 0 !important;
+}
+
+.alertChartCard{
+  border:1px solid rgba(255,255,255,.14) !important;
+  border-radius:12px !important;
+  background:rgba(20,39,54,.84) !important;
+  padding:12px !important;
+  color:white !important;
+  min-height:150px !important;
+}
+
+.alertChartTitle{
+  font-size:13px !important;
+  font-weight:900 !important;
+  margin-bottom:10px !important;
+}
+
+.alertBarRow{
+  display:grid !important;
+  grid-template-columns:minmax(70px,.8fr) minmax(0,1fr) 34px !important;
+  align-items:center !important;
+  gap:8px !important;
+  margin:7px 0 !important;
+  font-size:11px !important;
+  color:#d3dce7 !important;
+}
+
+.alertBarLabel{
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  white-space:nowrap !important;
+  font-weight:800 !important;
+}
+
+.alertBarTrack{
+  height:8px !important;
+  border-radius:999px !important;
+  background:rgba(148,163,184,.22) !important;
+  overflow:hidden !important;
+}
+
+.alertBarFill{
+  height:100% !important;
+  border-radius:999px !important;
+  background:linear-gradient(90deg,#7ee12f,#64d0ff) !important;
+}
+
+.alertBarValue{
+  text-align:right !important;
+  font-weight:900 !important;
+  color:#8df27c !important;
+}
+
+.alertFleetCards{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:12px !important;
+}
+
+.alertFleetCard{
+  border:1px solid rgba(255,193,7,.30) !important;
+  border-radius:13px !important;
+  background:rgba(20,39,54,.84) !important;
+  color:white !important;
+  padding:14px !important;
+}
+
+.alertFleetTop{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  margin-bottom:10px !important;
+}
+
+.alertFleetTitle{
+  font-size:17px !important;
+  font-weight:900 !important;
+}
+
+.alertPendingBadge{
+  border-radius:999px !important;
+  padding:5px 11px !important;
+  background:rgba(255,193,7,.18) !important;
+  color:#ffd75c !important;
+  border:1px solid rgba(255,193,7,.35) !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+}
+
+.alertItemCard{
+  border:1px solid rgba(255,255,255,.12) !important;
+  background:rgba(255,255,255,.055) !important;
+  border-radius:10px !important;
+  padding:10px !important;
+  margin:8px 0 !important;
+}
+
+.alertItemTop{
+  display:flex !important;
+  justify-content:space-between !important;
+  align-items:center !important;
+  gap:10px !important;
+  margin-bottom:7px !important;
+  font-size:13px !important;
+  font-weight:900 !important;
+}
+
+.alertItemMeta{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:6px 12px !important;
+  font-size:11px !important;
+  line-height:1.25 !important;
+  color:#d3dce7 !important;
+}
+
+.alertItemMeta b{
+  color:white !important;
+}
+
+.alertVerifyBtn{
+  border:0 !important;
+  border-radius:999px !important;
+  padding:6px 10px !important;
+  background:#1f7a35 !important;
+  color:#8dff74 !important;
+  font-size:11px !important;
+  font-weight:900 !important;
+  cursor:pointer !important;
+}
+
+.alertVerifiedInfo{
+  color:#9ae6b4 !important;
+  font-size:11px !important;
+  font-weight:800 !important;
+}
+
+.alertEmpty{
+  border:1px dashed rgba(255,255,255,.18) !important;
+  border-radius:12px !important;
+  padding:18px !important;
+  color:rgba(255,255,255,.76) !important;
+  background:rgba(20,39,54,.55) !important;
+  font-size:13px !important;
+}
+
+@media(max-width:1200px){
+  .alertChartsGrid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+  .alertItemMeta{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+}
+
+@media(max-width:700px){
+  .alertChartsGrid{grid-template-columns:1fr !important;}
+  .alertItemMeta{grid-template-columns:1fr !important;}
+}

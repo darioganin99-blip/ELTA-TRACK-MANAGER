@@ -42,7 +42,7 @@
   <footer class="loginFooter">
     <span>🛡 Sistema seguro</span>
     <span>© 2025 ELTA Tracking Solutions</span>
-    <span>Versión 1.2.27</span>
+    <span>Versión 1.2.28</span>
   </footer>
 </section>
 
@@ -64,8 +64,9 @@
       <button onclick="tab('unidades')">🚛 <span>Unidades / Choferes</span></button>
       
       <button onclick="tab('clientes')">🏢 <span>Clientes / Destinos</span></button>
+<button onclick="tab('alertas')">🔔 <span>Alertas</span></button>
       <button onclick="tab('reportes')">📊 <span>Reportes</span></button>
-      <button onclick="tab('alertas')">🔔 <span>Alertas</span></button>
+      
       <button onclick="tab('abm')">⚙️ <span>Configuración</span></button>
     </nav>
 
@@ -87,7 +88,7 @@
       <div class="headerTitle">
         <h1>Track Manager</h1>
         <p>Panel tráfico / coordinación</p>
-        <span>Versión 1.2.27</span>
+        <span>Versión 1.2.28</span>
       </div>
 
       <div class="headerActions">
@@ -255,8 +256,22 @@
     </section>
 
     <section id="alertas" class="panel">
-      <div class="sectionTitle"><h2>Alertas</h2><p>Eventos y novedades reportadas</p></div>
-      <div class="glassPanel"><div id="alertList" class="cardList"></div></div>
+      <div class="sectionTitle"><h2>Alertas</h2><p>Alertas pendientes de verificación sobre tránsitos abiertos</p></div>
+      <div class="glassPanel">
+        <div class="panelHead">
+          <div>
+            <h3>Resumen de alertas</h3>
+            <div class="alertFilters">
+              <button class="active" data-alert-filter="pendientes" onclick="setAlertFilter('pendientes')">Pendientes</button>
+              <button data-alert-filter="verificadas" onclick="setAlertFilter('verificadas')">Verificadas</button>
+              <button data-alert-filter="todas" onclick="setAlertFilter('todas')">Todas</button>
+            </div>
+          </div>
+          <button onclick="refresh()">Actualizar</button>
+        </div>
+        <div id="alertCharts" class="alertChartsGrid"></div>
+        <div id="alertCards" class="alertFleetCards"></div>
+      </div>
     </section>
 
     <section id="abm" class="panel">
@@ -285,7 +300,7 @@
     <footer class="appFooter">
       <span>🛡 Sistema seguro</span>
       <span>© 2025 ELTA Tracking Solutions</span>
-      <span>Versión 1.2.27</span>
+      <span>Versión 1.2.28</span>
     </footer>
   </main>
 </section>
