@@ -42,7 +42,7 @@
   <footer class="loginFooter">
     <span>🛡 Sistema seguro</span>
     <span>© 2025 ELTA Tracking Solutions</span>
-    <span>Versión 1.2.33</span>
+    <span>Versión 1.2.34</span>
   </footer>
 </section>
 
@@ -60,13 +60,14 @@
       <button onclick="tab('dash')" class="active">🏠 <span>Dashboard</span></button>
       <button onclick="tab('transitos')">🚚 <span>Tránsitos</span></button>
       <button onclick="tab('mapa')">📍 <span>Seguimiento</span></button>
+<button onclick="tab('clima')"><span>🌦️</span><b>Clima</b></button>
       
       <button onclick="tab('unidades')">🚛 <span>Unidades / Choferes</span></button>
       
       <button onclick="tab('alertas')">🔔 <span>Alertas</span></button>
 <button onclick="tab('clientes')">🏢 <span>Clientes / Destinos</span></button>
 
-      <button onclick="tab('reportes')">📊 <span>Reportes</span></button>
+      
       
       <button onclick="tab('abm')">⚙️ <span>Configuración</span></button>
     </nav>
@@ -89,7 +90,7 @@
       <div class="headerTitle">
         <h1>Track Manager</h1>
         <p>Panel tráfico / coordinación</p>
-        <span>Versión 1.2.33</span>
+        <span>Versión 1.2.34</span>
       </div>
 
       <div class="headerActions">
@@ -237,6 +238,20 @@
 
     
 
+    <section id="clima" class="panel">
+      <div class="sectionTitle"><h2>Clima</h2><p>Situación climática por destinos, pasos fronterizos y flotas</p></div>
+      <div class="climaLayout">
+        <div class="glassPanel climaLeft">
+          <div class="panelHead"><h3>Destinos registrados</h3><button onclick="refresh()">Actualizar</button></div>
+          <div id="weatherDestinations" class="weatherCards"></div>
+        </div>
+        <div class="climaRight">
+          <div class="glassPanel"><div class="panelHead"><h3>Pasos fronterizos</h3></div><div id="weatherPasses" class="weatherCards"></div></div>
+          <div class="glassPanel"><div class="panelHead"><h3>Flotas en tránsito</h3></div><div id="weatherFleets" class="weatherCards"></div></div>
+        </div>
+      </div>
+    </section>
+
     <section id="clientes" class="panel">
       <div class="sectionTitle"><h2>Clientes / Destinos</h2><p>Clientes y destinos registrados</p></div>
       <div class="clientesDestinosGrid">
@@ -290,18 +305,12 @@
       </div>
     </section>
 
-    <section id="reportes" class="panel">
-      <div class="sectionTitle"><h2>Reportes</h2><p>Resumen operativo</p></div>
-      <div class="glassPanel">
-        <div id="rep" class="cardList"></div>
-        <button onclick="copyRep()">Copiar reporte</button>
-      </div>
-    </section>
+    
 
     <footer class="appFooter">
       <span>🛡 Sistema seguro</span>
       <span>© 2025 ELTA Tracking Solutions</span>
-      <span>Versión 1.2.33</span>
+      <span>Versión 1.2.34</span>
     </footer>
   </main>
 </section>

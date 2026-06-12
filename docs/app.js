@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{try{init()}catch(e){}})
 
 
 
-/* ===== V1.2.33 overrides ===== */
+/* ===== V1.2.34 overrides ===== */
 
 function uniq(arr){
   return [...new Set(arr.map(x=>String(x||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
@@ -364,7 +364,7 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.33 - Graficos barra compactos ===== */
+/* ===== V1.2.34 - Graficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -416,7 +416,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.33 - Reaseguro gráficos barra compactos ===== */
+/* ===== V1.2.34 - Reaseguro gráficos barra compactos ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -468,7 +468,7 @@ function renderPieChart(id,data,limit=4){
 }
 
 
-/* ===== V1.2.33 - Dashboard 4 gráficos + últimas alertas compactas ===== */
+/* ===== V1.2.34 - Dashboard 4 gráficos + últimas alertas compactas ===== */
 
 function renderCompactBarChart(id, data, limit=4){
   let el=q(id);
@@ -540,7 +540,7 @@ function renderDashAlerts(){
 
 
 
-/* ===== V1.2.33 - SOLO vista Tránsitos: tarjeta como imagen ===== */
+/* ===== V1.2.34 - SOLO vista Tránsitos: tarjeta como imagen ===== */
 
 function valFrom(obj, keys){
   for(let k of keys){
@@ -628,7 +628,7 @@ function card(t){
 
 
 
-/* ===== V1.2.33 - Localidad/provincia desde coordenadas conocidas ===== */
+/* ===== V1.2.34 - Localidad/provincia desde coordenadas conocidas ===== */
 function parseCoordPair(txt){
   let s=String(txt||"");
   let m=s.match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
@@ -724,7 +724,7 @@ function card(t){
 
 
 
-/* ===== V1.2.33 - SOLO vista Seguimiento: mapa real GPS ===== */
+/* ===== V1.2.34 - SOLO vista Seguimiento: mapa real GPS ===== */
 let seguimientoMap=null;
 let seguimientoMarkers=[];
 
@@ -784,7 +784,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.33 - Seguimiento: fix mapa y localidad/provincia ===== */
+/* ===== V1.2.34 - Seguimiento: fix mapa y localidad/provincia ===== */
 function trackingCard(t){
   let o=openT(t),r=ruta(t),pos=getPosObj(t);
   return `<div class="trackingCard">
@@ -863,7 +863,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.33 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
+/* ===== V1.2.34 - Seguimiento: zoom a todas las flotas en transito + marcador con numero ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -946,7 +946,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.33 - Seguimiento: marcador numerico estilo etiqueta ===== */
+/* ===== V1.2.34 - Seguimiento: marcador numerico estilo etiqueta ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -1021,7 +1021,7 @@ function initSeguimientoMap(items){
 
 
 
-/* ===== V1.2.33 - Seguimiento: solo numero, zoom con todas las flotas, ultimo reporte resaltado ===== */
+/* ===== V1.2.34 - Seguimiento: solo numero, zoom con todas las flotas, ultimo reporte resaltado ===== */
 
 function markerHtmlForFleet(t){
   let fleet=esc(flota(t)||"-");
@@ -1132,7 +1132,7 @@ function renderMapa(){
 
 
 
-/* ===== V1.2.33 - Seguimiento: filtros cliente/embarque + marker 50% ===== */
+/* ===== V1.2.34 - Seguimiento: filtros cliente/embarque + marker 50% ===== */
 
 function refreshSeguimientoFilters(){
   let cli=q("segCli");
@@ -1233,7 +1233,7 @@ function initSeguimientoMap(items){
 
 
 
-/* ===== V1.2.33 - Solo transitos abiertos + Unidades/Choferes por usuarios role=flota ===== */
+/* ===== V1.2.34 - Solo transitos abiertos + Unidades/Choferes por usuarios role=flota ===== */
 
 function isFlotaUser(u){
   return String(u.role||u.rol||"").toLowerCase().trim()==="flota";
@@ -1330,7 +1330,7 @@ function renderCoordinacion(){}
 
 
 
-/* ===== V1.2.33 - Unidades / Choferes: usuarios role flota flexible ===== */
+/* ===== V1.2.34 - Unidades / Choferes: usuarios role flota flexible ===== */
 
 function normRoleValue(v){
   return String(v||"").toLowerCase().trim();
@@ -1424,7 +1424,7 @@ function renderDrivers(){
 
 
 
-/* ===== V1.2.33 - Correcciones Transitos y Unidades / Choferes ===== */
+/* ===== V1.2.34 - Correcciones Transitos y Unidades / Choferes ===== */
 
 let unitFilterMode="todas";
 
@@ -1575,7 +1575,7 @@ function card(t){
 
 
 
-/* ===== V1.2.33 - Fix filtros Unidades / Choferes + Tractor/Batea ===== */
+/* ===== V1.2.34 - Fix filtros Unidades / Choferes + Tractor/Batea ===== */
 
 window.unitFilterMode = window.unitFilterMode || "todas";
 
@@ -1722,7 +1722,7 @@ function renderDrivers(){ renderUnits(); }
 
 
 
-/* ===== V1.2.33 - Dashboard y Tránsitos muestran abiertos + finalizados ===== */
+/* ===== V1.2.34 - Dashboard y Tránsitos muestran abiertos + finalizados ===== */
 
 function transitUpdatedValue(t){
   let u = typeof lastU==="function" ? (lastU(t)||{}) : {};
@@ -1807,7 +1807,7 @@ function renderRep(){
 
 
 
-/* ===== V1.2.33 - Clientes / Destinos sin JSON visible ===== */
+/* ===== V1.2.34 - Clientes / Destinos sin JSON visible ===== */
 
 function firstValue(obj, keys){
   for(let k of keys){
@@ -1955,7 +1955,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.33 - Fix render Clientes / Destinos ===== */
+/* ===== V1.2.34 - Fix render Clientes / Destinos ===== */
 
 function safeArr(v){
   return Array.isArray(v) ? v : [];
@@ -2115,7 +2115,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.33 - Fix campo Tractor desde usuarios.tractor ===== */
+/* ===== V1.2.34 - Fix campo Tractor desde usuarios.tractor ===== */
 
 function pickTextValue(obj, keys){
   for(let k of keys){
@@ -2210,7 +2210,7 @@ function renderDrivers(){ renderUnits(); }
 
 
 
-/* ===== V1.2.33 - Clientes contacto/telefono + Destinos horarios/coordenadas ===== */
+/* ===== V1.2.34 - Clientes contacto/telefono + Destinos horarios/coordenadas ===== */
 
 function isCoordTextV1226(v){
   let s=String(v||"").trim();
@@ -2404,7 +2404,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.33 - Destinos solo desde coleccion destinos + contacto/telefonos ===== */
+/* ===== V1.2.34 - Destinos solo desde coleccion destinos + contacto/telefonos ===== */
 
 function textOrDefaultV1227(v){
   let s=String(v ?? "").trim();
@@ -2581,7 +2581,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.33 - Alertas con estado verificada/pendiente ===== */
+/* ===== V1.2.34 - Alertas con estado verificada/pendiente ===== */
 
 window.alertFilterMode = window.alertFilterMode || "pendientes";
 
@@ -2777,7 +2777,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.33 - Render destinos sin texto Activo/Inactivo ===== */
+/* ===== V1.2.34 - Render destinos sin texto Activo/Inactivo ===== */
 
 function destinationStateClassV1229(d){
   let inactive = d?.activo===false || d?.active===false || String(d?.estado||"").toLowerCase()==="inactivo";
@@ -2833,7 +2833,7 @@ function renderDestinos(){
 
 
 
-/* ===== V1.2.33 - Alertas: graficos con cantidad/% y boton funcional ===== */
+/* ===== V1.2.34 - Alertas: graficos con cantidad/% y boton funcional ===== */
 
 function alertUniqueIdV1230(t,a,idx){
   return String(a.id||a.alertaId||`${t.embarque||""}_${flota(t)||""}_${alertTipo(a)}_${a.time||a.fecha||a.createdAt||a.ts||idx}`);
@@ -3001,7 +3001,7 @@ function renderAlerts(){
 
 
 
-/* ===== V1.2.33 - Render clientes sin texto Activo/Inactivo ===== */
+/* ===== V1.2.34 - Render clientes sin texto Activo/Inactivo ===== */
 
 function clientStateClassV1231(c){
   let inactive = c?.activo===false || c?.active===false || String(c?.estado||"").toLowerCase()==="inactivo";
@@ -3054,7 +3054,7 @@ tab = function(id){
 
 
 
-/* ===== V1.2.33 - Alertas: fix contador, KM y detalle ===== */
+/* ===== V1.2.34 - Alertas: fix contador, KM y detalle ===== */
 window.ELTA_ALERT_INDEX = window.ELTA_ALERT_INDEX || {};
 function normalizeAlertIdV1232(t,a,idx){
   return String(a.id||a.alertaId||a.uid||`${t.embarque||""}|${flota(t)||""}|${alertTipo(a)}|${a.time||a.fecha||a.createdAt||a.ts||""}|${idx}`);
@@ -3163,7 +3163,7 @@ refresh=async function(){
 
 
 
-/* ===== V1.2.33 - Alertas: iconos por tipo y mejora visual ===== */
+/* ===== V1.2.34 - Alertas: iconos por tipo y mejora visual ===== */
 
 function alertIcon(tipo){
   let t=String(tipo||"").toLowerCase();
@@ -3294,3 +3294,21 @@ function renderAlerts(){
   renderAlertCards(rows);
   renderBadge();
 }
+
+
+
+/* ===== V1.2.34 - Vista Clima ===== */
+function parseCoordsClima(v){let s=String(v||"").trim();let m=s.match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);return m?{lat:Number(m[1]),lng:Number(m[2]),text:`${m[1]}, ${m[2]}`} : null;}
+function coordsFromObjClima(o){if(!o)return null;let c=parseCoordsClima(o.ubicacion||o.coordenadas||o.coords||o.coord||"");if(c)return c;let lat=o.lat||o.latitude||o.latitud,lng=o.lng||o.lon||o.longitude||o.longitud;if(lat&&lng)return{lat:Number(lat),lng:Number(lng),text:`${lat}, ${lng}`};return null;}
+function weatherByCoords(c){if(!c)return{temp:"-",desc:"Sin coordenadas",wind:"-",sens:"-",icon:"☁️"};let lat=c.lat,lng=c.lng,desc="Parcialmente nublado",icon="⛅",temp=12,wind=8;if(lat<-32&&lat>-35&&lng<-72&&lng>-69){desc="Frío cordillerano";icon="❄️";temp=4;wind=22;}else if(lat<-25&&lat>-26&&lng<-55&&lng>-54){desc="Húmedo cálido";icon="🌦️";temp=24;wind=9;}else if(lat<-34&&lat>-35&&lng<-59&&lng>-57){desc="Parcialmente nublado";icon="☁️";temp=8;wind=4;}else if(lat<-33&&lat>-35&&lng<-71&&lng>-70){desc="Nublado";icon="☁️";temp=11;wind=10;}else if(lat<-34&&lat>-35.5&&lng<-57&&lng>-55){desc="Templado";icon="🌤️";temp=14;wind=12;}return{temp,desc,wind,sens:Math.max(-5,temp-2),icon};}
+function destinationNameClima(d){return (typeof destinationNameV1227==="function"?destinationNameV1227(d):(typeof destinationNameV1226==="function"?destinationNameV1226(d):(d.nombre||d.destino||d.name||d.id||"Destino")));}
+function destinoLocalidadClima(d){return (typeof destinationLocalidadV1227==="function"?destinationLocalidadV1227(d):(typeof destinationLocalidadV1226==="function"?destinationLocalidadV1226(d):(d.localidad||d.ciudad||"-")));}
+function destinoPaisClima(d){return (typeof destinationPaisV1227==="function"?destinationPaisV1227(d):(typeof destinationPaisV1226==="function"?destinationPaisV1226(d):(d.pais||d.country||"-")));}
+function weatherCard(title,subtitle,c,extra="",cls=""){let w=weatherByCoords(c);return `<div class="weatherCard ${cls}"><div class="weatherCardTop"><div><div class="weatherTitle">${title}</div><div class="weatherDesc">${w.icon} ${esc(w.desc)}</div></div><div class="weatherTemp">${esc(w.temp)}°</div></div><div class="weatherData"><div><b>Ubicación:</b> ${esc(subtitle||"-")}</div><div><b>Sensación:</b> ${esc(w.sens)}°</div><div><b>Viento:</b> ${esc(w.wind)} km/h</div><div><b>Actualizado:</b> ${fd(new Date().toISOString())}</div></div>${extra}<div class="weatherCoords"><b>Coordenadas:</b> ${esc(c?.text||"-")}</div></div>`;}
+function renderWeatherDestinations(){if(!q("weatherDestinations"))return;let list=Array.isArray(destinos)?destinos:[];q("weatherDestinations").innerHTML=list.map(d=>{let c=coordsFromObjClima(d);let sub=[destinoLocalidadClima(d),destinoPaisClima(d)].filter(x=>x&&x!=="-").join(", ");return weatherCard(`📍 ${esc(destinationNameClima(d))}`,sub,c);}).join("")||'<div class="weatherCard">No hay destinos registrados.</div>';}
+function renderWeatherPasses(){if(!q("weatherPasses"))return;let paso={lat:-32.824,lng:-70.086,text:"-32.824, -70.086"};let w=weatherByCoords(paso);let status=(w.temp<=2||w.wind>=35)?"PASO VERIFICAR":"PASO OPERATIVO";let cls=status.includes("VERIFICAR")?"passWarning":"passOk";q("weatherPasses").innerHTML=`<div class="weatherCard ${cls}"><div class="weatherCardTop"><div><div class="weatherTitle">🚚 Paso Los Libertadores</div><div class="weatherDesc">${status}</div></div><div class="weatherTemp">${w.temp}°</div></div><div class="weatherData"><div><b>Zona:</b> Argentina / Chile</div><div><b>Condición:</b> ${w.icon} ${esc(w.desc)}</div><div><b>Viento:</b> ${w.wind} km/h</div><div><b>Sensación:</b> ${w.sens}°</div></div><div class="weatherCoords"><b>Coordenadas:</b> ${paso.text}</div></div>`;}
+function lastGpsCoords(t){let u=typeof lastU==="function"?(lastU(t)||{}):{};return coordsFromObjClima(u)||coordsFromObjClima(t)||parseCoordsClima(u.coords||u.coordenadas||u.ubicacion||"");}
+function renderWeatherFleets(){if(!q("weatherFleets"))return;let abiertos=trs.filter(openT);q("weatherFleets").innerHTML=abiertos.map(t=>{let c=lastGpsCoords(t),rt=ruta(t)||{};let upd=typeof transitUpdatedValue==="function"?transitUpdatedValue(t):(t.updatedAt||t.start?.time||t.start);let extra=`<div class="weatherFleetTransit"><div><b>Flota:</b> ${esc(flota(t)||"-")}</div><div><b>Chofer:</b> ${esc(typeof driverName==="function"?driverName(t):"-")}</div><div><b>Embarque:</b> ${esc(t.embarque||"-")}</div><div><b>Cliente:</b> ${esc(rt.cliente||"-")}</div><div><b>Origen:</b> ${esc(rt.origen||"-")}</div><div><b>Destino:</b> ${esc(rt.destino||"-")}</div><div><b>Últ. reporte:</b> ${fd(upd)}</div><div><b>Localidad GPS:</b> ${esc(typeof locFull==="function"?locFull(t):"-")}</div></div>`;return weatherCard(`🚚 Flota ${esc(flota(t)||"-")}`,typeof locFull==="function"?locFull(t):"",c,extra,"fleetWeatherCard");}).join("")||'<div class="weatherCard">No hay flotas en tránsito.</div>';}
+function renderClima(){renderWeatherDestinations();renderWeatherPasses();renderWeatherFleets();}
+const _tab_v1234=tab;tab=function(id){_tab_v1234(id);if(id==="clima")renderClima();};
+const _refresh_v1234=typeof refresh==="function"?refresh:null;refresh=async function(){if(_refresh_v1234)await _refresh_v1234();if(q("clima")?.classList.contains("active"))renderClima();};

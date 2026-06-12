@@ -3207,3 +3207,23 @@ select option:hover{
   background:#f59e0b !important;
   color:#ffffff !important;
 }
+
+/* ===== V1.2.34 - Menu Clima ===== */
+.climaLayout{display:grid!important;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr)!important;gap:14px!important;align-items:start!important}
+.climaRight{display:flex!important;flex-direction:column!important;gap:14px!important}
+.weatherCards{display:flex!important;flex-direction:column!important;gap:12px!important}
+.weatherCard{border:1px solid rgba(96,165,250,.22)!important;border-radius:14px!important;background:linear-gradient(135deg,rgba(20,39,54,.88),rgba(25,62,83,.66))!important;padding:14px!important;color:white!important}
+.weatherCardTop{display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:12px!important;margin-bottom:10px!important}
+.weatherTitle{font-size:17px!important;font-weight:1000!important}
+.weatherTemp{font-size:34px!important;font-weight:1000!important;color:#fff!important;line-height:1!important}
+.weatherDesc{color:#dbeafe!important;font-weight:900!important;margin-top:4px!important}
+.weatherData{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px 12px!important;font-size:12px!important;color:#d3dce7!important}
+.weatherData b{color:#fff!important}
+.weatherCoords{margin-top:9px!important;padding:8px 10px!important;border-radius:9px!important;background:rgba(59,130,246,.10)!important;border:1px solid rgba(96,165,250,.24)!important;color:#dbeafe!important;font-size:12px!important;font-weight:800!important}
+.passWarning{border-color:rgba(245,158,11,.45)!important;background:linear-gradient(135deg,rgba(20,39,54,.88),rgba(91,63,25,.55))!important}
+.passOk{border-color:rgba(34,197,94,.40)!important;background:linear-gradient(135deg,rgba(20,39,54,.88),rgba(24,75,49,.55))!important}
+.fleetWeatherCard{border-color:rgba(76,198,63,.35)!important}
+.weatherFleetTransit{margin-top:9px!important;padding-top:9px!important;border-top:1px solid rgba(255,255,255,.12)!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:5px 10px!important;font-size:12px!important;color:#d3dce7!important}
+.weatherFleetTransit b{color:#fff!important}
+@media(max-width:1150px){.climaLayout{grid-template-columns:1fr!important}}
+@media(max-width:700px){.weatherData,.weatherFleetTransit{grid-template-columns:1fr!important}}
