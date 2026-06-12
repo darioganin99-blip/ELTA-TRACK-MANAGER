@@ -3418,3 +3418,117 @@ nav:not(:hover) .climaMenuBtn b{
     grid-template-columns:1fr !important;
   }
 }
+
+
+/* ===== V1.2.38 - Clima: menu icono + colores tarjetas ===== */
+
+/* Corregir item Clima en sidebar: mismo comportamiento que los otros menus */
+.climaMenuBtn{
+  display:flex !important;
+  align-items:center !important;
+  gap:12px !important;
+}
+
+.climaMenuBtn .navIcon,
+.climaMenuBtn > span:first-child{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:34px !important;
+  min-width:34px !important;
+  height:34px !important;
+  font-size:22px !important;
+  line-height:1 !important;
+  text-align:center !important;
+}
+
+.climaMenuBtn b{
+  display:inline-block !important;
+  white-space:nowrap !important;
+}
+
+/* Cuando el menu lateral esta angosto, ocultar texto y mantener icono centrado */
+@media(min-width:701px){
+  aside:not(:hover) .climaMenuBtn,
+  .sidebar:not(:hover) .climaMenuBtn,
+  .side:not(:hover) .climaMenuBtn,
+  nav:not(:hover) .climaMenuBtn{
+    justify-content:center !important;
+    gap:0 !important;
+  }
+
+  aside:not(:hover) .climaMenuBtn b,
+  .sidebar:not(:hover) .climaMenuBtn b,
+  .side:not(:hover) .climaMenuBtn b,
+  nav:not(:hover) .climaMenuBtn b{
+    display:none !important;
+    width:0 !important;
+    overflow:hidden !important;
+  }
+}
+
+/* fallback si la barra tiene ancho chico */
+@media(min-width:701px){
+  aside[style*="width: 80px"] .climaMenuBtn b,
+  aside[style*="width:80px"] .climaMenuBtn b,
+  .sidebar.collapsed .climaMenuBtn b,
+  .side.collapsed .climaMenuBtn b{
+    display:none !important;
+  }
+}
+
+/* Diferenciacion de tarjetas: flotas verde operativo, destinos azul, paso naranja/verde */
+.fleetWeatherCard{
+  border-color:rgba(34,197,94,.58) !important;
+  background:linear-gradient(135deg,rgba(12,43,38,.96),rgba(15,74,53,.72)) !important;
+  box-shadow:inset 5px 0 0 rgba(34,197,94,.95), 0 0 0 1px rgba(34,197,94,.10) !important;
+}
+
+.fleetWeatherCard .weatherIconBadge{
+  background:rgba(34,197,94,.20) !important;
+  border-color:rgba(34,197,94,.42) !important;
+}
+
+.destinationWeatherCard{
+  border-color:rgba(96,165,250,.44) !important;
+  background:linear-gradient(135deg,rgba(18,42,68,.96),rgba(25,71,111,.68)) !important;
+  box-shadow:inset 5px 0 0 rgba(96,165,250,.82), 0 0 0 1px rgba(96,165,250,.09) !important;
+}
+
+.destinationWeatherCard .weatherIconBadge{
+  background:rgba(96,165,250,.16) !important;
+  border-color:rgba(96,165,250,.34) !important;
+}
+
+.weatherOpen{
+  border-color:rgba(34,197,94,.58) !important;
+  background:linear-gradient(135deg,rgba(12,43,38,.96),rgba(15,74,53,.72)) !important;
+}
+
+.weatherClosed{
+  border-color:rgba(245,158,11,.75) !important;
+  background:linear-gradient(135deg,rgba(52,38,20,.96),rgba(87,55,18,.70)) !important;
+}
+
+.climaRight .weatherCard{
+  margin-bottom:8px !important;
+}
+
+/* Compactar un poco mas destinos para que se distingan como panel secundario */
+.compactWeatherCards .destinationWeatherCard{
+  padding:9px 11px !important;
+}
+
+.compactWeatherCards .destinationWeatherCard .weatherTemp{
+  font-size:23px !important;
+}
+
+.compactWeatherCards .destinationWeatherCard .weatherTitle{
+  font-size:13px !important;
+}
+
+/* Evitar que quede un bloque verde sin texto/icono */
+.climaMenuBtn:empty::before{
+  content:"🌦️";
+  font-size:22px;
+}

@@ -1,11 +1,8 @@
 # Changelog
 
-## 1.2.37
-- Clima: flotas a la izquierda, pasos/destinos a la derecha.
-- Clima: tarjetas de pasos y destinos más compactas.
-- Clima: icono junto a temperatura.
-- Clima: corrección del menú lateral para Clima.
-- Clima: flotas abiertas usan la última posición GPS reportada.
+## 1.2.38
+- Clima: flotas y destinos diferenciados por color de tarjeta.
+- Clima: corregido item del menú lateral para mostrar solo icono en modo compacto.
 
-## 1.2.36
-- Clima real por coordenadas.
+## 1.2.37
+- Clima: layout y GPS fix.
