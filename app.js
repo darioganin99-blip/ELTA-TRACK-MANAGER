@@ -778,7 +778,7 @@ function initSeguimientoMap(items){
 function renderMapa(){
   let items=trs.filter(openT);
   if(!items.length)items=trs.slice().sort((a,b)=>tv(b.start?.time||b.start)-tv(a.start?.time||a.start)).slice(0,20);
-  if(q("mapList"))q("mapList").innerHTML=items.map(trackingCard).join("")||'<div class="trackingCard">No hay flotas para mostrar.</div>';
+  if(q("mapList"))q("mapList").innerHTML=items.map(trackingCardV1246).join("")||'<div class="trackingCard">No hay flotas para mostrar.</div>';
   initSeguimientoMap(items);
 }
 
@@ -939,7 +939,7 @@ function initSeguimientoMap(items){
 function renderMapa(){
   let abiertos=trs.filter(openT);
   let items=abiertos.length?abiertos:trs.slice().sort((a,b)=>tv(b.start?.time||b.start)-tv(a.start?.time||a.start)).slice(0,20);
-  if(q("mapList"))q("mapList").innerHTML=items.map(trackingCard).join("")||'<div class="trackingCard">No hay flotas para mostrar.</div>';
+  if(q("mapList"))q("mapList").innerHTML=items.map(trackingCardV1246).join("")||'<div class="trackingCard">No hay flotas para mostrar.</div>';
   initSeguimientoMap(items);
 }
 
@@ -1125,7 +1125,7 @@ function initSeguimientoMap(items){
 function renderMapa(){
   let abiertos=trs.filter(openT);
   let items=abiertos.length?abiertos:trs.slice().sort((a,b)=>tv(b.start?.time||b.start)-tv(a.start?.time||a.start)).slice(0,20);
-  if(q("mapList"))q("mapList").innerHTML=items.map(trackingCard).join("")||'<div class="trackingCard">No hay flotas para mostrar.</div>';
+  if(q("mapList"))q("mapList").innerHTML=items.map(trackingCardV1246).join("")||'<div class="trackingCard">No hay flotas para mostrar.</div>';
   initSeguimientoMap(items);
 }
 
@@ -1162,7 +1162,7 @@ function renderMapa(){
   refreshSeguimientoFilters();
   let abiertos=trs.filter(openT).filter(seguimientoFilter);
   let items=abiertos.length ? abiertos : trs.filter(seguimientoFilter).slice().sort((a,b)=>tv(b.start?.time||b.start)-tv(a.start?.time||a.start)).slice(0,20);
-  if(q("mapList"))q("mapList").innerHTML=items.map(trackingCard).join("")||'<div class="trackingCard">No hay flotas para mostrar.</div>';
+  if(q("mapList"))q("mapList").innerHTML=items.map(trackingCardV1246).join("")||'<div class="trackingCard">No hay flotas para mostrar.</div>';
   initSeguimientoMap(items);
 }
 
@@ -1291,7 +1291,7 @@ function filt(t){
 function renderMapa(){
   refreshSeguimientoFilters?.();
   let items=trs.filter(openT).filter(typeof seguimientoFilter==="function"?seguimientoFilter:()=>true);
-  if(q("mapList"))q("mapList").innerHTML=items.map(trackingCard).join("")||'<div class="trackingCard">No hay flotas abiertas para mostrar.</div>';
+  if(q("mapList"))q("mapList").innerHTML=items.map(trackingCardV1246).join("")||'<div class="trackingCard">No hay flotas abiertas para mostrar.</div>';
   initSeguimientoMap(items);
 }
 
@@ -1790,7 +1790,7 @@ function renderMapa(){
     .filter(openT)
     .filter(typeof seguimientoFilter==="function" ? seguimientoFilter : (()=>true));
 
-  if(q("mapList"))q("mapList").innerHTML = items.map(trackingCard).join("") || '<div class="trackingCard">No hay flotas abiertas para mostrar.</div>';
+  if(q("mapList"))q("mapList").innerHTML = items.map(trackingCardV1246).join("") || '<div class="trackingCard">No hay flotas abiertas para mostrar.</div>';
   if(typeof initSeguimientoMap==="function")initSeguimientoMap(items);
 }
 
@@ -4027,7 +4027,7 @@ document.addEventListener("DOMContentLoaded",updateAlertBellBlink);
 setTimeout(updateAlertBellBlink,300);
 
 /* ===== V1.2.42 - Mejoras completas del documento 12/06 ===== */
-const ELTA_APP_VERSION="1.2.45";
+const ELTA_APP_VERSION="1.2.48";
 let currentUserDoc=null;
 
 function updateAppVersionLabels(){
@@ -4231,7 +4231,7 @@ document.addEventListener("DOMContentLoaded",()=>setTimeout(updateDashboardOpenA
 setTimeout(updateDashboardOpenAlertsV1243,700);
 
 /* ===== V1.2.44 - Aplicacion real: mejoras documento + alertas de transitos abiertos ===== */
-const ELTA_APP_VERSION_FINAL="1.2.45";
+var ELTA_APP_VERSION_FINAL="1.2.48";
 function setFinalVersionV1244(){
   document.querySelectorAll(".loginFooter span, .headerTitle span, .appFooter span").forEach(el=>{
     if(/Versi[oó]n/i.test(el.textContent||"")) el.textContent=`Versión ${ELTA_APP_VERSION_FINAL}`;
@@ -4338,7 +4338,7 @@ document.addEventListener("DOMContentLoaded",()=>{setFinalVersionV1244();setTime
 setTimeout(()=>{setFinalVersionV1244();updateDashboardOpenAlertsV1244();},800);
 
 /* ===== V1.2.46 - Ajustes varios 12/06: menu, KM, seguimiento, clima, usuario, clientes/destinos ===== */
-const ELTA_APP_VERSION_FINAL="1.2.47";
+var ELTA_APP_VERSION_FINAL="1.2.48";
 function setVersionV1246(){
   document.querySelectorAll(".loginFooter span,.headerTitle span,.appFooter span").forEach(el=>{
     if(/Versi[oó]n/i.test(el.textContent||"")) el.textContent=`Versión ${ELTA_APP_VERSION_FINAL}`;
@@ -4408,7 +4408,7 @@ function trackingCardV1246(t){
 function renderMapa(){
   if(typeof refreshSeguimientoFilters==="function") refreshSeguimientoFilters();
   let items=(Array.isArray(trs)?trs:[]).filter(openT).filter(typeof seguimientoFilter==="function"?seguimientoFilter:()=>true);
-  if(q("mapList")) q("mapList").innerHTML=items.map(trackingCard).join("") || '<div class="trackingCard">No hay flotas abiertas para mostrar.</div>';
+  if(q("mapList")) q("mapList").innerHTML=items.map(trackingCardV1246).join("") || '<div class="trackingCard">No hay flotas abiertas para mostrar.</div>';
   if(typeof initSeguimientoMap==="function") initSeguimientoMap(items);
 }
 function updateDashboardOpenAlertsV1246(){
