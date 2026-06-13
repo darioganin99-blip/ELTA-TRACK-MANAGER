@@ -3695,3 +3695,47 @@ body.sidebarCollapsed .adminBox div,body.sidebarCollapsed .logoutBtn{display:non
 .alertKmHighlight{color:#a7f3d0!important;font-weight:1000!important;}
 .trackingAlerts h4{font-size:12px!important;margin:0 0 6px!important;color:#fff!important;}
 .trackingAlertItem{font-size:11px!important;}
+
+
+/* ===== V1.2.52 - Ajustes visuales finales ===== */
+.sideNav button[onclick*="dash"] span{font-size:15px!important;white-space:normal!important;line-height:1.08!important}
+.sideNav button[onclick*="clima"]{display:flex!important;align-items:center!important;gap:10px!important;justify-content:flex-start!important;}
+.sideNav button[onclick*="clima"] span{display:inline-flex!important;font-size:18px!important;min-width:24px!important;justify-content:center!important;}
+.sideNav button[onclick*="clima"] b{display:inline!important;color:inherit!important;font-size:15px!important;line-height:1.1!important;font-weight:900!important;}
+body:not(.sidebarCollapsed) .sideNav button[onclick*="clima"] b{display:inline!important;}
+@media(max-width:1000px){.sideNav button[onclick*="clima"] b{display:inline!important;font-size:14px!important}.sideNav button[onclick*="clima"]{justify-content:flex-start!important}}
+
+.weatherCardV1252{position:relative!important;overflow:hidden!important;padding:18px 20px!important;}
+.weatherCardTopV1252{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:18px!important;margin-bottom:10px!important;}
+.weatherTitleWrapV1252{display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important;flex:1!important;}
+.weatherIconBadge{width:30px!important;height:30px!important;min-width:30px!important;border-radius:12px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;background:rgba(255,255,255,.12)!important;font-size:17px!important;}
+.weatherTitleText{min-width:0!important;display:flex!important;align-items:center!important;gap:12px!important;flex-wrap:wrap!important;}
+.weatherTitleV1252{font-size:19px!important;font-weight:900!important;line-height:1.05!important;white-space:nowrap!important;}
+.weatherDescV1252{font-size:17px!important;font-weight:900!important;line-height:1.05!important;white-space:nowrap!important;}
+.weatherTempV1252{margin-left:auto!important;text-align:right!important;min-width:92px!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:7px!important;font-size:38px!important;font-weight:900!important;line-height:1!important;}
+.weatherTempV1252 .weatherTempIcon{font-size:22px!important;line-height:1!important;}
+.weatherDataV1252{display:grid!important;grid-template-columns:1fr 1fr!important;gap:6px 24px!important;font-size:14px!important;line-height:1.25!important;align-items:start!important;}
+.weatherLocationLine{grid-column:1/-1!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+.weatherFleetTransitV1252{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px 24px!important;margin-top:12px!important;padding-top:12px!important;border-top:1px solid rgba(255,255,255,.14)!important;font-size:14px!important;line-height:1.22!important;}
+.weatherFleetTransitV1252 div{min-width:0!important;white-space:normal!important;}
+.weatherProvider{display:none!important;}
+.weatherClosed{border-color:#eab308!important;background:rgba(58,48,24,.72)!important;}
+.weatherStatusBadge.closed{background:rgba(239,68,68,.28)!important;color:#ffe4e6!important;border:1px solid rgba(239,68,68,.85)!important;}
+
+.alertItemCardV1252{display:grid!important;grid-template-columns:1fr 210px!important;gap:16px!important;align-items:center!important;padding:14px 16px!important;overflow:hidden!important;}
+.alertMainV1252{min-width:0!important;}
+.alertItemMetaV1252{display:grid!important;grid-template-columns:110px 100px 120px minmax(160px,1fr)!important;gap:10px 18px!important;align-items:start!important;font-size:14px!important;line-height:1.2!important;}
+.alertItemMetaV1252>div{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+.alertLocalidadLine{white-space:normal!important;}
+.alertActionV1252{display:flex!important;justify-content:center!important;align-items:center!important;}
+.alertVerifyBtn{background:#ffd400!important;color:#000!important;border:0!important;border-radius:12px!important;min-width:150px!important;min-height:48px!important;font-weight:900!important;font-size:15px!important;}
+.alertKmHighlight{color:#fff!important;font-weight:900!important;}
+.trackingAlertItemV1252{overflow:hidden!important;}
+.trackingAlertMeta{display:grid!important;grid-template-columns:1fr 90px!important;gap:10px!important;font-size:12px!important;}
+.trackingAlertMeta>div{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+
+@media(max-width:1200px){
+  .weatherFleetTransitV1252{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  .alertItemCardV1252{grid-template-columns:1fr!important;}
+  .alertItemMetaV1252{grid-template-columns:1fr 1fr!important;}
+}

@@ -3992,7 +3992,7 @@ tab = function(id){
 };
 
 /* ===== V1.2.50 - Publicacion desde docs: version unica + filtros sin cambiar formato ===== */
-const ELTA_APP_VERSION = "1.2.50";
+const ELTA_APP_VERSION = "1.2.52";
 
 function updateVersionLabels(){
   document.querySelectorAll('span, small, p, div').forEach(el=>{
@@ -4202,3 +4202,206 @@ if(_refresh_v1250){
   };
 }
 
+
+
+/* ===== V1.2.52 - Ajustes funcionales solicitados ===== */
+(function(){
+  window.ELTA_VERSION_FINAL = "1.2.52";
+
+  function txt(v){ return String(v ?? "").trim(); }
+  function has(v){ return v !== undefined && v !== null && String(v).trim() !== ""; }
+  function firstDeep(obj, keys){
+    const seen=new Set();
+    function scan(o, depth){
+      if(!o || typeof o !== 'object' || seen.has(o) || depth>4) return '';
+      seen.add(o);
+      for(const k of keys){ if(has(o[k])) return txt(o[k]); }
+      for(const k of ['gps','ubicacion','posicion','position','location','ultimaPosicion','ultPosicion','lastPosition','lastGps','coordinates','coords','data']){
+        const v=o[k];
+        if(v && typeof v==='object'){
+          const r=scan(v, depth+1);
+          if(r) return r;
+        }
+      }
+      return '';
+    }
+    return scan(obj,0);
+  }
+
+  function parseCoordAny(v){
+    if(!has(v)) return null;
+    const s=txt(v);
+    const m=s.match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
+    if(!m) return null;
+    const lat=Number(m[1]), lng=Number(m[2]);
+    return Number.isFinite(lat)&&Number.isFinite(lng) ? {lat,lng,text:`${lat}, ${lng}`} : null;
+  }
+
+  function coordsAny(o){
+    if(!o) return null;
+    if(typeof coordsFromObjClima === 'function'){
+      try{ const c=coordsFromObjClima(o); if(c && Number.isFinite(Number(c.lat)) && Number.isFinite(Number(c.lng))) return {lat:Number(c.lat),lng:Number(c.lng),text:c.text||`${c.lat}, ${c.lng}`}; }catch(e){}
+    }
+    if(typeof o === 'string') return parseCoordAny(o);
+    const lat=firstDeep(o,['lat','latitude','latitud','Lat','LAT','Latitude']);
+    const lng=firstDeep(o,['lng','lon','longitude','longitud','Long','LON','Longitude']);
+    if(has(lat)&&has(lng) && Number.isFinite(Number(lat)) && Number.isFinite(Number(lng))) return {lat:Number(lat),lng:Number(lng),text:`${lat}, ${lng}`};
+    for(const k of ['ubicacion','coordenadas','coords','coord','posicion','position','location','ultimaPosicion','lastPosition']){
+      const c=parseCoordAny(o[k]); if(c) return c;
+    }
+    return null;
+  }
+
+  function candidateReports(t){
+    const arr=[];
+    const push=(x)=>{ if(x && typeof x==='object') arr.push(x); };
+    push(t);
+    ['ultimaPosicion','ultPosicion','lastPosition','lastGps','gps','posicion','position','location','ubicacion'].forEach(k=>push(t?.[k]));
+    ['updates','reportes','reports','ubicaciones','positions','posiciones','gpsHistory','historialGps','tracking','eventos','events'].forEach(k=>{
+      const v=t?.[k];
+      if(Array.isArray(v)) v.forEach(push);
+    });
+    return arr;
+  }
+
+  window.latestGpsReportV1252 = function(t){
+    let best=null, bestTime=-1;
+    candidateReports(t).forEach(o=>{
+      const c=coordsAny(o);
+      if(!c) return;
+      const timeVal = (typeof tv==='function') ? tv(o.time||o.fecha||o.createdAt||o.ts||o.updatedAt||o.updateAt||o.date) : 0;
+      if(timeVal >= bestTime){ best={obj:o,pos:c,time:o.time||o.fecha||o.createdAt||o.ts||o.updatedAt||o.updateAt||o.date}; bestTime=timeVal; }
+    });
+    return best;
+  };
+
+  getPosObj = function(t){
+    const r=window.latestGpsReportV1252(t);
+    return r ? {lat:r.pos.lat,lng:r.pos.lng,src:r.obj} : null;
+  };
+
+  lastGpsCoords = function(t){ const r=window.latestGpsReportV1252(t); return r ? r.pos : null; };
+  lastGpsTimeV1237 = function(t){ const r=window.latestGpsReportV1252(t); return r?.time || (typeof transitUpdatedValue==='function'?transitUpdatedValue(t):(t?.updatedAt||t?.start?.time||t?.start)); };
+  lastGpsLocalidadV1237 = function(t){
+    const r=window.latestGpsReportV1252(t);
+    const o=r?.obj || {};
+    return firstDeep(o,['localidadProvincia','ubicacionTexto','localidadTexto','ciudadProvincia','localidad','city','ciudad','municipio','partido','address','direccion']) || (typeof locFull==='function' ? locFull(t) : '-');
+  };
+  const _locFullPrev1252 = typeof locFull === 'function' ? locFull : null;
+  locFull = function(t){
+    const v=lastGpsLocalidadV1237(t);
+    if(v && v !== '-') return v;
+    return _locFullPrev1252 ? _locFullPrev1252(t) : '-';
+  };
+  loc = function(t){ return locFull(t); };
+
+  function kmFromTransit(t){ return firstDeep(t,['km','kilometro','kilómetro','kmRuta','progresiva','progresivaKm','kmActual','kilometraje','distanceKm','rutaKm']); }
+  function kmFromAlert(a,t){
+    return firstDeep(a,['km','kilometro','kilómetro','kmRuta','progresiva','progresivaKm','kmActual','kilometraje','distanceKm','rutaKm','km_alerta','kmAlerta']) ||
+      firstDeep(a?.gps||a?.ubicacion||a?.posicion||a?.location||{},['km','kilometro','kilómetro','kmRuta','progresiva','progresivaKm']) ||
+      kmFromTransit(t) ||
+      firstDeep(latestGpsReportV1252(t)?.obj||{},['km','kilometro','kilómetro','kmRuta','progresiva','progresivaKm']) || '-';
+  }
+  alertKmV1250 = function(a,t){ return kmFromAlert(a,t); };
+  alertKmValue = function(a,t){ return kmFromAlert(a,t); };
+  alertKm = function(a,t){ return kmFromAlert(a,t); };
+
+  function tipoA(a){ return String(a?.tipo||a?.type||a?.motivo||a?.nombre||'Alerta'); }
+  function fechaA(a){ return (typeof fd==='function') ? fd(a?.time||a?.fecha||a?.createdAt||a?.ts) : '-'; }
+  function locA(a,t){ return (typeof alertLoc==='function' ? alertLoc(a,t) : '') || firstDeep(a,['localidad','ubicacionTexto','ubicacion','lugar','zona','city','ciudad']) || locFull(t) || '-'; }
+  function isVerif(t,a,idx){ return typeof alertVerifiedV1250==='function' ? alertVerifiedV1250(t,a,idx) : (a?.verificada===true || a?.vista===true || a?.verificado===true); }
+
+  trackingAlertsHtml = function(t){
+    const arr=(t.alerts||[]).map((a,idx)=>({a,idx})).filter(x=>!isVerif(t,x.a,x.idx));
+    arr.sort((x,y)=>tv(y.a.time||y.a.fecha||y.a.createdAt||y.a.ts)-tv(x.a.time||x.a.fecha||x.a.createdAt||x.a.ts));
+    if(!arr.length) return '<div class="trackingAlertItem">Sin alertas registradas.</div>';
+    return arr.map(({a})=>`<div class="trackingAlertItem trackingAlertItemV1252"><div class="trackingAlertTop"><span>⚠️ ${esc(tipoA(a))}</span><span>${fechaA(a)}</span></div><div class="trackingAlertMeta"><div><b>Localidad:</b> ${esc(locA(a,t))}</div><div><b>Km:</b> ${esc(kmFromAlert(a,t))}</div></div></div>`).join('');
+  };
+
+  trackingCard = function(t){
+    const o=openT(t), r=ruta(t)||{}, pos=getPosObj(t), last=lastGpsTimeV1237(t);
+    return `<div class="trackingCard"><div class="trackingCardTop"><div class="trackingFleetTitle">Flota ${esc(flota(t)||'-')}</div><span class="trackingState ${o?'':'closed'}">${o?'Abierto':'Finalizado'}</span></div><div class="trackingData"><div><b>Emb.:</b> ${esc(t.embarque||'-')}</div><div><b>Chofer:</b> ${esc(typeof driverName==='function'?driverName(t):'-')}</div><div class="locationLine"><b>Ubicación:</b> ${esc(locFull(t))}</div><div><b>Cliente:</b> ${esc(r.cliente||'-')}</div><div><b>Destino:</b> ${esc(r.destino||'-')}</div><div class="trackingReportLine"><b>Últ. reporte:</b> ${fd(last)}</div></div><div class="trackingAlerts"><h4>⚠️ Alertas del tránsito</h4>${trackingAlertsHtml(t)}</div></div>`;
+  };
+
+  renderAlertCards = function(rows){
+    if(!q('alertCards'))return;
+    const byFleet={};
+    rows.forEach(r=>{const key=flota(r.t)||'-'; (byFleet[key]=byFleet[key]||[]).push(r);});
+    const html=Object.entries(byFleet).sort((a,b)=>a[0].localeCompare(b[0],'es',{numeric:true})).map(([fleet,list])=>{
+      const pend=list.filter(r=>!r.verified).length;
+      return `<div class="alertFleetCard"><div class="alertFleetTop"><div class="alertFleetTitle">🚚 Flota ${esc(fleet)}</div><span class="alertPendingBadge">${pend} pendientes</span></div>${list.map(r=>{
+        const id= typeof alertId==='function' ? alertId(r.t,r.a,r.idx) : `${r.t.embarque||''}_${fleet}_${r.idx}`;
+        const safeId=String(id).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        const btn=r.verified ? `<span class="alertVerifiedInfo">Verificada</span>` : `<button class="alertVerifyBtn verifyBlink" onclick="markAlertVerifiedById ? markAlertVerifiedById('${safeId}') : markAlertVerified(trs.find(t=>String(t.embarque)==='${String(r.t.embarque||'').replace(/'/g,"\\'")}' && String(flota(t))==='${String(fleet).replace(/'/g,"\\'")}'), (trs.find(t=>String(t.embarque)==='${String(r.t.embarque||'').replace(/'/g,"\\'")}' && String(flota(t))==='${String(fleet).replace(/'/g,"\\'")}')?.alerts||[])[${r.idx}], ${r.idx})">Verificar</button>`;
+        return `<div class="alertItemCard alertItemCardV1252"><div class="alertMainV1252"><div class="alertItemTop"><span>⚠️ ${esc(tipoA(r.a))}</span></div><div class="alertItemMeta alertItemMetaV1252"><div><b>Embarque:</b> ${esc(r.t.embarque||'-')}</div><div><b>Km:</b> <span class="alertKmHighlight">${esc(kmFromAlert(r.a,r.t))}</span></div><div><b>Fecha/hora:</b> ${fechaA(r.a)}</div><div class="alertLocalidadLine"><b>Localidad:</b> ${esc(locA(r.a,r.t))}</div></div></div><div class="alertActionV1252">${btn}</div></div>`;
+      }).join('')}</div>`;
+    }).join('');
+    q('alertCards').innerHTML=html || '<div class="alertEmpty">No hay alertas para el filtro seleccionado.</div>';
+  };
+
+  function weatherTempValue(w){ return (w?.temp===undefined||w?.temp===null)?'-':w.temp; }
+  function weatherIcon(w){ return w?.icon || w?.emoji || '🌦️'; }
+  weatherCardReal = function(title,subtitle,c,w,extra='',cls='',iconOverride='🌦️',statusHtml=''){
+    const icon=(iconOverride===null)?'':(iconOverride || weatherIcon(w));
+    return `<div class="weatherCard weatherCardV1252 ${cls}"><div class="weatherCardTop weatherCardTopV1252"><div class="weatherTitleWrap weatherTitleWrapV1252">${icon?`<span class="weatherIconBadge">${icon}</span>`:''}<div class="weatherTitleText"><div class="weatherTitle weatherTitleV1252">${title}</div><div class="weatherDesc weatherDescV1252">${weatherIcon(w)} ${esc(w?.desc||'-')}</div>${statusHtml}</div></div><div class="weatherTemp weatherTempV1252"><span>${esc(weatherTempValue(w))}°</span><span class="weatherTempIcon">${weatherIcon(w)}</span></div></div><div class="weatherData weatherDataV1252"><div class="weatherLocationLine"><b>Ubicación:</b> ${esc(subtitle||'-')}</div><div><b>Sensación:</b> ${esc(w?.sens??'-')}°</div><div><b>Viento:</b> ${esc(w?.wind??'-')} km/h</div><div><b>Actualizado:</b> ${fd(new Date().toISOString())}</div></div>${extra}</div>`;
+  };
+
+  renderWeatherFleets = async function(){
+    const el=q('weatherFleets'); if(!el)return;
+    const abiertos=Array.isArray(trs)?trs.filter(openT):[];
+    if(!abiertos.length){el.innerHTML='<div class="weatherLoading">No hay flotas en tránsito.</div>';return;}
+    el.innerHTML='<div class="weatherLoading">Consultando clima real de última posición GPS de flotas...</div>';
+    const html=[];
+    for(const t of abiertos){
+      const c=lastGpsCoords(t), w=await fetchWeatherByCoords(c), rt=ruta(t)||{}, upd=lastGpsTimeV1237(t), gpsLoc=lastGpsLocalidadV1237(t);
+      const extra=`<div class="weatherFleetTransit weatherFleetTransitV1252"><div><b>Chofer:</b> ${esc(typeof driverName==='function'?driverName(t):'-')}</div><div><b>Embarque:</b> ${esc(t.embarque||'-')}</div><div><b>Cliente:</b> ${esc(rt.cliente||'-')}</div><div><b>Origen:</b> ${esc(rt.origen||'-')}</div><div><b>Destino:</b> ${esc(rt.destino||'-')}</div><div><b>Últ. reporte GPS:</b> ${fd(upd)}</div><div class="weatherLocationLine"><b>Localidad GPS:</b> ${esc(gpsLoc||'-')}</div><div><b>GPS:</b> ${c?'Reportado':'Sin coordenadas'}</div></div>`;
+      html.push(weatherCardReal(`Flota ${esc(flota(t)||'-')}`,gpsLoc||'-',c,w,extra,'fleetWeatherCard','🚚'));
+    }
+    el.innerHTML=html.join('');
+  };
+
+  renderWeatherPasses = async function(){
+    const el=q('weatherPasses'); if(!el)return;
+    el.innerHTML='<div class="weatherLoading">Consultando clima real del Paso Los Libertadores...</div>';
+    const paso={lat:-32.824,lng:-70.086,text:'-32.824, -70.086'};
+    const w=await fetchWeatherByCoords(paso);
+    const closed=passIsClosedByWeather(w);
+    const badge=`<span class="weatherStatusBadge ${closed?'closed':'open'}">${closed?'🔴 PASO CERRADO':'🟢 PASO OPERATIVO'}</span>`;
+    el.innerHTML=weatherCardReal('Paso Los Libertadores','Argentina / Chile',paso,w,'',closed?'weatherClosed':'weatherOpen',null,badge);
+  };
+
+  renderWeatherDestinations = async function(){
+    const el=q('weatherDestinations'); if(!el)return;
+    const list=Array.isArray(destinos)?destinos:[];
+    if(!list.length){el.innerHTML='<div class="weatherLoading">No hay destinos registrados.</div>';return;}
+    el.innerHTML='<div class="weatherLoading">Consultando clima real de destinos...</div>';
+    const html=[];
+    for(const d of list){
+      const c=coordsFromObjClima(d), w=await fetchWeatherByCoords(c);
+      const sub=[destinoLocalidadClima(d),destinoPaisClima(d)].filter(x=>x&&x!=='-').join(', ');
+      html.push(weatherCardReal(`${esc(destinationNameClima(d))}`,sub,c,w,'','destinationWeatherCard','📍'));
+    }
+    el.innerHTML=html.join('');
+  };
+
+  renderClima = async function(){ await Promise.all([renderWeatherFleets(),renderWeatherPasses(),renderWeatherDestinations()]); };
+
+  function updateLabelsV1252(){
+    document.querySelectorAll('span, small, p, div').forEach(el=>{ if(el.childElementCount===0 && /Versi[oó]n\s+\d+\.\d+\.\d+/.test(el.textContent||'')) el.textContent=(el.textContent||'').replace(/Versi[oó]n\s+\d+\.\d+\.\d+/g,'Versión 1.2.52'); });
+    document.querySelectorAll('.sideNav button[onclick*="dash"] span').forEach(el=>el.textContent='Torre de Control');
+    const dashTitle=document.querySelector('#dash .sectionTitle h2'); if(dashTitle) dashTitle.textContent='Torre de Control';
+    document.querySelectorAll('button[onclick*="clima"]').forEach(btn=>{ btn.title='Clima'; let b=btn.querySelector('b'); if(!b){b=document.createElement('b'); btn.appendChild(b);} b.textContent='Clima'; });
+  }
+  const oldUpdateVersionLabels= typeof updateVersionLabels==='function' ? updateVersionLabels : null;
+  updateVersionLabels=function(){ if(oldUpdateVersionLabels) oldUpdateVersionLabels(); updateLabelsV1252(); };
+  document.addEventListener('DOMContentLoaded',()=>{ updateLabelsV1252(); setTimeout(updateLabelsV1252,300); setTimeout(updateLabelsV1252,1000); });
+
+  const oldRenderDash=typeof renderDash==='function'?renderDash:null;
+  if(oldRenderDash){ renderDash=function(){ oldRenderDash.apply(this,arguments); updateLabelsV1252(); if(typeof updateAlertCountersV1250==='function') updateAlertCountersV1250(); }; }
+
+  const oldRefresh=typeof refresh==='function'?refresh:null;
+  if(oldRefresh){ refresh=async function(){ await oldRefresh.apply(this,arguments); updateLabelsV1252(); if(q('clima')?.classList.contains('active')) await renderClima(); }; }
+
+  const oldLogin=typeof login==='function'?login:null;
+  if(oldLogin){ login=async function(){ await oldLogin.apply(this,arguments); updateLabelsV1252(); setTimeout(updateLabelsV1252,300); }; }
+})();
