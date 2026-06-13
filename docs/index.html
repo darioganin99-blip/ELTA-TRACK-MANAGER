@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ELTA ITS Intelligent Traffic System</title>
+<title>ELTA Track Manager</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="style.css">
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -19,8 +19,8 @@
 
   <div class="loginCard">
     <img class="loginLogo" src="assets/logo-elta.png" alt="ELTA">
-    <h1>ITS Intelligent Traffic System</h1>
-    <p>Centro de monitoreo y coordinación logística</p>
+    <h1>TRACK MANAGER</h1>
+    <p>Panel de tráfico y coordinación</p>
     <div class="greenLine"></div>
 
     <label>Usuario</label>
@@ -41,8 +41,8 @@
 
   <footer class="loginFooter">
     <span>🛡 Sistema seguro</span>
-    <span>© 2025 ELTA ITS - Intelligent Traffic System</span>
-    <span>Versión 1.2.44</span>
+    <span>© 2025 ELTA Tracking Solutions</span>
+    <span>Versión 1.2.50</span>
   </footer>
 </section>
 
@@ -57,10 +57,10 @@
     </div>
 
     <nav class="sideNav">
-      <button onclick="tab('dash')" class="active">🏠 <span>Torre de Control</span></button>
+      <button onclick="tab('dash')" class="active">🏠 <span>Dashboard</span></button>
       <button onclick="tab('transitos')">🚚 <span>Tránsitos</span></button>
       <button onclick="tab('mapa')">📍 <span>Seguimiento</span></button>
-<button onclick="tab('clima')" class="climaMenuBtn" title="Clima"><span>🌦️</span><b>Clima</b></button>
+<button onclick="tab('clima')" title="Clima"><span>🌦️</span><b>Clima</b></button>
       
       <button onclick="tab('unidades')">🚛 <span>Unidades / Choferes</span></button>
       
@@ -76,7 +76,7 @@
       <div class="adminAvatar">A</div>
       <div>
         <b>Administrador</b>
-        <small>correo@base</small>
+        <small>admin@elta.com.ar</small>
       </div>
     </div>
 
@@ -88,9 +88,9 @@
       <button class="hamburger" type="button" onclick="toggleSidebar()">☰</button>
 
       <div class="headerTitle">
-        <h1>ITS Intelligent Traffic System</h1>
-        <p>Centro de monitoreo y coordinación logística</p>
-        <span>Versión 1.2.44</span>
+        <h1>Track Manager</h1>
+        <p>Panel tráfico / coordinación</p>
+        <span>Versión 1.2.50</span>
       </div>
 
       <div class="headerActions">
@@ -100,8 +100,8 @@
 
     <section id="dash" class="panel active">
       <div class="sectionTitle">
-        <h2>Torre de Control</h2>
-        <p>Resumen general de la operación logística</p>
+        <h2>Dashboard</h2>
+        <p>Resumen general de la operación</p>
       </div>
 
       <div class="kpiGrid">
@@ -318,8 +318,8 @@
 
     <footer class="appFooter">
       <span>🛡 Sistema seguro</span>
-      <span>© 2025 ELTA ITS - Intelligent Traffic System</span>
-      <span>Versión 1.2.44</span>
+      <span>© 2025 ELTA Tracking Solutions</span>
+      <span>Versión 1.2.50</span>
     </footer>
   </main>
 </section>

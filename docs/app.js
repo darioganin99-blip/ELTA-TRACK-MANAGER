@@ -3991,348 +3991,214 @@ tab = function(id){
   if(id==="clima" && typeof ensureClimaDataAndRender==="function")ensureClimaDataAndRender();
 };
 
-/* ===== V1.2.41 - Titilar campana cuando hay alertas sin verificar ===== */
-function updateAlertBellBlink(){
-  let pending=0;
-  try{
-    pending=typeof pendingAlertsCount==="function" ? pendingAlertsCount() : 0;
-  }catch(e){pending=0;}
+/* ===== V1.2.50 - Publicacion desde docs: version unica + filtros sin cambiar formato ===== */
+const ELTA_APP_VERSION = "1.2.50";
 
-  document.querySelectorAll(".alertBell").forEach(btn=>{
-    btn.classList.toggle("hasUnverifiedAlerts", pending>0);
-    btn.title = pending>0 ? `${pending} alertas sin verificar` : "Ver alertas";
+function updateVersionLabels(){
+  document.querySelectorAll('span, small, p, div').forEach(el=>{
+    if(el.childElementCount===0 && /Versi[oó]n\s+\d+\.\d+\.\d+/.test(el.textContent||"")){
+      el.textContent = (el.textContent||"").replace(/Versi[oó]n\s+\d+\.\d+\.\d+/g, `Versión ${ELTA_APP_VERSION}`);
+    }
   });
-
-  let headerCount=q("headerAlertCount");
-  if(headerCount)headerCount.innerText=pending;
 }
 
-const _renderDash_v1241 = typeof renderDash==="function" ? renderDash : null;
-if(_renderDash_v1241){
-  renderDash=function(){
-    _renderDash_v1241();
-    updateAlertBellBlink();
+document.addEventListener('DOMContentLoaded',()=>{
+  updateVersionLabels();
+  setTimeout(updateVersionLabels,300);
+  setTimeout(updateVersionLabels,1200);
+});
+
+const _login_v1250 = typeof login === 'function' ? login : null;
+if(_login_v1250){
+  login = async function(){
+    await _login_v1250.apply(this, arguments);
+    updateVersionLabels();
+    setTimeout(updateVersionLabels,500);
   };
 }
 
-const _renderBadge_v1241 = typeof renderBadge==="function" ? renderBadge : null;
-renderBadge=function(){
-  if(_renderBadge_v1241){
-    try{_renderBadge_v1241();}catch(e){}
-  }
-  updateAlertBellBlink();
-};
-
-document.addEventListener("DOMContentLoaded",updateAlertBellBlink);
-setTimeout(updateAlertBellBlink,300);
-
-/* ===== V1.2.42 - Mejoras completas del documento 12/06 ===== */
-const ELTA_APP_VERSION="1.2.43";
-let currentUserDoc=null;
-
-function updateAppVersionLabels(){
-  document.querySelectorAll(".loginFooter span, .headerTitle span, .appFooter span").forEach(el=>{
-    if(/Versi[oó]n/i.test(el.textContent||"")) el.textContent=`Versión ${ELTA_APP_VERSION}`;
-  });
-}
-
-function userEmailValue(u,id){
-  return String(u?.correo||u?.email||u?.mail||u?.correoElectronico||u?.e_mail||id||"").trim();
-}
-function updateAdminBoxUser(u,id){
-  const name=String(u?.nombre||u?.name||u?.usuario||id||"Administrador").trim();
-  const email=userEmailValue(u,id);
-  const box=document.querySelector(".adminBox");
-  if(!box)return;
-  const b=box.querySelector("b");
-  const small=box.querySelector("small");
-  const av=box.querySelector(".adminAvatar");
-  if(b)b.textContent=name;
-  if(small)small.textContent=email||"-";
-  if(av)av.textContent=(name||id||"A").trim().charAt(0).toUpperCase();
-}
-
-async function login(){
+function alertVerifiedV1250(t,a,idx){
+  if(typeof isAlertVerified === 'function') return isAlertVerified(t,a,idx);
   try{
-    init();
-    let u=q("user").value.trim(),p=q("pass").value.trim();
-    let d=await db.collection("usuarios").doc(u).get();
-    if(!d.exists)return q("msg").innerText="Usuario no existe";
-    let x=d.data(),r=String(x.role||x.rol||"").toLowerCase();
-    if(x.pass!==p)return q("msg").innerText="PASS incorrecto";
-    if(!["admin","trafico","coordinador"].includes(r))return q("msg").innerText="Sin permiso Admin";
-    currentUserDoc={...x,id:u};
-    q("login").classList.remove("active");
-    q("app").classList.add("active");
-    updateAppVersionLabels();
-    updateAdminBoxUser(x,u);
-    await refresh();
-    updateAppVersionLabels();
-    updateAdminBoxUser(x,u);
-  }catch(e){console.log(e);q("msg").innerText="Error Firebase / configuración";}
-}
-
-document.addEventListener("DOMContentLoaded",()=>{updateAppVersionLabels();});
-setTimeout(updateAppVersionLabels,200);
-
-function weatherCardReal(title,subtitle,c,w,extra="",cls="",iconOverride="",statusHtml=""){
-  let icon=iconOverride||w.icon||"🌦️";
-  let tempValue=(w.temp===undefined||w.temp===null)?"-":w.temp;
-  return `<div class="weatherCard ${cls}">
-    <div class="weatherCardTop">
-      <div class="weatherTitleWrap">
-        <span class="weatherIconBadge">${icon}</span>
-        <div class="weatherTitleText">
-          <div class="weatherTitle">${title}</div>
-          <div class="weatherDesc">${w.icon||""} ${esc(w.desc||"-")}</div>
-          ${statusHtml}
-        </div>
-      </div>
-      <div class="weatherTemp"><span>${esc(tempValue)}°</span><span class="weatherTempIcon">${w.icon||""}</span></div>
-    </div>
-    <div class="weatherData">
-      <div><b>Ubicación:</b> ${esc(subtitle||"-")}</div>
-      <div><b>Sensación:</b> ${esc(w.sens)}°</div>
-      <div><b>Viento:</b> ${esc(w.wind)} km/h</div>
-      <div><b>Actualizado:</b> ${fd(new Date().toISOString())}</div>
-    </div>
-    ${extra}
-  </div>`;
-}
-
-function passIsClosedByWeather(w){
-  let code=Number(w.code);
-  return code===45 || code===48 || code>=65 || code>=71 || Number(w.temp)<=0 || Number(w.wind)>=45;
-}
-async function renderWeatherPasses(){
-  let el=q("weatherPasses");
-  if(!el)return;
-  el.innerHTML='<div class="weatherLoading">Consultando clima del Paso Los Libertadores...</div>';
-  let paso={lat:-32.824,lng:-70.086,text:"-32.824, -70.086"};
-  let w=await fetchWeatherByCoords(paso);
-  let closed=passIsClosedByWeather(w);
-  let status=closed?"PASO CERRADO":"PASO OPERATIVO";
-  let cls=closed?"weatherClosed passClosedRed":"weatherOpen";
-  let badge=`<span class="weatherStatusBadge ${closed?"closed":"open"}">${closed?"🔴":"🟢"} ${status}</span>`;
-  el.innerHTML=weatherCardReal("Paso Los Libertadores","Argentina / Chile",paso,w,"",cls,"",badge);
-}
-
-async function renderWeatherFleets(){
-  let el=q("weatherFleets");
-  if(!el)return;
-  let abiertos=Array.isArray(trs)?trs.filter(openT):[];
-  if(!abiertos.length){el.innerHTML='<div class="weatherLoading">No hay flotas en tránsito.</div>';return;}
-  el.innerHTML='<div class="weatherLoading">Consultando clima de última posición GPS de flotas...</div>';
-  let html=[];
-  for(let t of abiertos){
-    let c=lastGpsCoords(t);
-    let w=await fetchWeatherByCoords(c);
-    let rt=ruta(t)||{};
-    let upd=typeof lastGpsTimeV1237==="function"?lastGpsTimeV1237(t):(typeof transitUpdatedValue==="function"?transitUpdatedValue(t):(t.updatedAt||t.start?.time||t.start));
-    let gpsLoc=typeof lastGpsLocalidadV1237==="function"?lastGpsLocalidadV1237(t):(typeof locFull==="function"?locFull(t):"-");
-    let extra=`<div class="weatherFleetTransit compactWeatherFleet">
-      <div><b>Chofer:</b> ${esc(typeof driverName==="function"?driverName(t):"-")}</div>
-      <div><b>Embarque:</b> ${esc(t.embarque||"-")}</div>
-      <div><b>Cliente:</b> ${esc(rt.cliente||"-")}</div>
-      <div><b>Origen:</b> ${esc(rt.origen||"-")}</div>
-      <div><b>Destino:</b> ${esc(rt.destino||"-")}</div>
-      <div><b>Últ. reporte GPS:</b> ${fd(upd)}</div>
-      <div><b>Localidad GPS:</b> ${esc(gpsLoc||"-")}</div>
-      <div><b>GPS:</b> ${c?"Reportado":"Sin coordenadas"}</div>
-    </div>`;
-    html.push(weatherCardReal(`Flota ${esc(flota(t)||"-")}`,gpsLoc||"-",c,w,extra,"fleetWeatherCard","🚚"));
+    let id = typeof alertId==='function' ? alertId(t,a,idx) : `${t?.embarque||''}_${flota(t)||''}_${idx}`;
+    let store = JSON.parse(localStorage.getItem('eltaAlertasVerificadas')||'{}');
+    return a?.verificada===true || a?.vista===true || a?.verificado===true || store[id]?.verificada===true;
+  }catch(e){
+    return a?.verificada===true || a?.vista===true || a?.verificado===true;
   }
-  el.innerHTML=html.join("");
 }
 
-function collectAlertRowsForRenderV1242(){
-  if(typeof collectAlertRows==="function")return collectAlertRows();
+function pendingAlertsOpenRowsV1250(){
   let rows=[];
-  (trs||[]).forEach(t=>(t.alerts||[]).forEach((a,idx)=>rows.push({t,a,idx,verified:typeof isAlertVerified==="function"?isAlertVerified(t,a,idx):false,id:typeof normalizeAlertIdV1232==="function"?normalizeAlertIdV1232(t,a,idx):`${t.embarque||""}_${idx}`})));
-  return rows;
-}
-function renderAlerts(){
-  let el=q("alertCards")||q("alertList");
-  if(!el)return;
-  let rows=collectAlertRowsForRenderV1242();
-  rows=rows.filter(r=>{
-    if(window.alertFilterMode==="pendientes" && r.verified)return false;
-    if(window.alertFilterMode==="verificadas" && !r.verified)return false;
-    return true;
-  });
-  let by={};
-  rows.forEach(r=>{let f=flota(r.t)||"-";(by[f]=by[f]||[]).push(r);});
-  el.innerHTML=Object.entries(by).map(([fleet,list])=>{
-    let pend=list.filter(r=>!r.verified).length,total=list.length;
-    return `<div class="alertFleetCard ${pend?"hasPending":"noPending"}">
-      <div class="alertFleetTop"><div class="alertFleetTitle">🚚 Flota ${esc(fleet)}</div><div class="alertFleetSummary"><span class="alertPendingBadge ${pend?"pending":"ok"}">${pend} pendientes</span><span class="alertPendingBadge ok">${total} total</span></div></div>
-      ${list.map(r=>{let info=typeof alertVerifiedInfo==="function"?alertVerifiedInfo(r.t,r.a,r.idx):{};let rt=ruta(r.t)||{};let id=String(r.id||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'");return `<div class="alertItemCard ${r.verified?"verifiedAlert":"pendingAlert"}"><div class="alertItemContent"><div class="alertItemTop"><span>⚠️ ${esc(typeof alertTipo==="function"?alertTipo(r.a):(r.a.tipo||r.a.type||r.a.motivo||"Alerta"))}</span></div><div class="alertItemMeta"><div><b>Embarque:</b> ${esc(r.t.embarque||"-")}</div><div><b>Km:</b> <span class="alertKmHighlight">${esc(typeof alertKmValue==="function"?alertKmValue(r.a,r.t):alertKm(r.a))}</span></div><div><b>Fecha/hora:</b> ${typeof alertDateValue==="function"?alertDateValue(r.a):alertDate(r.a)}</div><div><b>Localidad:</b> ${esc(typeof alertLocationValue==="function"?alertLocationValue(r.a,r.t):alertLoc(r.a,r.t))}</div></div><div class="alertTransitDetail"><div class="alertChoferLine"><b>Chofer:</b> ${esc(typeof alertChoferValue==="function"?alertChoferValue(r.t):(typeof driverName==="function"?driverName(r.t):"-"))}</div><div><b>Cliente:</b> ${esc(rt.cliente||"-")}</div><div><b>Origen:</b> ${esc(rt.origen||"-")}</div><div><b>Destino:</b> ${esc(rt.destino||"-")}</div><div><b>Estado:</b> ${openT(r.t)?"En tránsito":"Finalizado"}</div><div><b>Inicio:</b> ${fd(r.t.start?.time||r.t.start)}</div><div><b>Últ. reporte:</b> ${fd(typeof transitUpdatedV1232==="function"?transitUpdatedV1232(r.t):(lastU(r.t)||{}).time)}</div><div><b>Lote/Carga:</b> ${esc(r.t.lote||r.t.carga||"-")}</div></div></div><div class="alertItemAction">${r.verified?`<span class="alertVerifiedInfo">Verificada${info.fecha?`<br>${fd(info.fecha)}`:""}</span>`:`<button class="alertVerifyBtn" onclick="markAlertVerifiedById('${id}')">Verificar</button>`}</div></div>`;}).join("")}
-    </div>`;
-  }).join("")||'<div class="alertEmpty">Sin alertas registradas.</div>';
-  if(typeof updateAlertBellBlink==="function")updateAlertBellBlink();
-}
-
-const _renderDash_v1242 = typeof renderDash==="function" ? renderDash : null;
-if(_renderDash_v1242){
-  renderDash=function(){_renderDash_v1242();updateAppVersionLabels();if(typeof updateAlertBellBlink==="function")updateAlertBellBlink();};
-}
-
-
-/* ===== V1.2.43 - Dashboard: Alertas activas solo de tránsitos abiertos ===== */
-function activeOpenTransitAlertsRowsV1243(){
-  let rows=[];
-  try{
-    (Array.isArray(trs)?trs:[]).filter(openT).forEach(t=>{
-      (t.alerts||[]).forEach((a,idx)=>{
-        let verified=typeof isAlertVerified==="function" ? isAlertVerified(t,a,idx) : false;
-        if(!verified)rows.push({t,a,idx,verified});
-      });
+  (Array.isArray(trs)?trs:[]).filter(openT).forEach(t=>{
+    (t.alerts||[]).forEach((a,idx)=>{
+      if(!alertVerifiedV1250(t,a,idx)) rows.push({t,a,idx,verified:false});
     });
-  }catch(e){rows=[];}
+  });
   return rows.sort((x,y)=>tv(y.a.time||y.a.fecha||y.a.createdAt||y.a.ts)-tv(x.a.time||x.a.fecha||x.a.createdAt||x.a.ts));
 }
 
 function pendingAlertsCount(){
-  return activeOpenTransitAlertsRowsV1243().length;
+  return pendingAlertsOpenRowsV1250().length;
 }
 
-function updateDashboardOpenAlertsV1243(){
-  let rows=activeOpenTransitAlertsRowsV1243();
-  let n=rows.length;
-  ["kal","headerAlertCount","legAlert"].forEach(id=>{let el=q(id); if(el)el.innerText=n;});
-  if(q("dashAlerts")){
-    q("dashAlerts").innerHTML=rows.slice(0,3).map(x=>{
-      let tipo=esc(typeof alertTipo==="function"?alertTipo(x.a):(x.a.tipo||x.a.type||x.a.motivo||"Alerta"));
-      let fecha=typeof alertDateValue==="function"?alertDateValue(x.a):(typeof alertDate==="function"?alertDate(x.a):fd(x.a.time||x.a.fecha||x.a.createdAt||x.a.ts));
-      return `<div class="alertLine">• ${tipo} · Emb. ${esc(x.t.embarque||"-")} · Flota ${esc(flota(x.t)||"-")} · ${fecha}</div>`;
-    }).join("") || '<div class="alertEmpty">Sin alertas activas en tránsitos abiertos.</div>';
-  }
-  if(typeof updateAlertBellBlink==="function")updateAlertBellBlink();
+function updateAlertCountersV1250(){
+  let n = pendingAlertsCount();
+  if(q('kal')) q('kal').innerText = n;
+  if(q('headerAlertCount')) q('headerAlertCount').innerText = n;
+  document.querySelectorAll('.badgeCount,.alertBadge,.topAlertCount,#alertCount,#badgeAlertas').forEach(el=>el.textContent=n);
+  document.querySelectorAll('.alertBell').forEach(el=>el.classList.toggle('bellBlink', n>0));
 }
 
-const _renderDash_v1243 = typeof renderDash==="function" ? renderDash : null;
-if(_renderDash_v1243){
-  renderDash=function(){
-    _renderDash_v1243();
-    updateDashboardOpenAlertsV1243();
-    if(typeof updateAppVersionLabels==="function")updateAppVersionLabels();
+const _renderDash_v1250 = typeof renderDash === 'function' ? renderDash : null;
+if(_renderDash_v1250){
+  renderDash = function(){
+    _renderDash_v1250.apply(this, arguments);
+    updateAlertCountersV1250();
   };
 }
 
-const _refresh_v1243 = typeof refresh==="function" ? refresh : null;
-if(_refresh_v1243){
-  refresh=async function(){
-    await _refresh_v1243();
-    updateDashboardOpenAlertsV1243();
-  };
+renderBadge = function(){ updateAlertCountersV1250(); };
+
+function alertTipoV1250(a){ return String(a?.tipo||a?.type||a?.motivo||a?.nombre||'Alerta'); }
+function alertKmV1250(a){ return String(a?.km||a?.kilometro||a?.kilómetro||a?.kmRuta||a?.progresiva||a?.progresivaKm||'-'); }
+function alertDateV1250(a){ return fd(a?.time||a?.fecha||a?.createdAt||a?.ts); }
+function alertLocV1250(a,t){
+  if(typeof alertLoc==='function') return alertLoc(a,t);
+  return a?.localidad||a?.ubicacionTexto||a?.ubicacion||locFull?.(t)||'-';
 }
 
-document.addEventListener("DOMContentLoaded",()=>setTimeout(updateDashboardOpenAlertsV1243,250));
-setTimeout(updateDashboardOpenAlertsV1243,700);
+/* Seguimiento: conservar formato original, solamente ocultar alertas verificadas */
+trackingAlertsHtml = function(t){
+  let arr=(t.alerts||[]).map((a,idx)=>({a,idx})).filter(x=>!alertVerifiedV1250(t,x.a,x.idx));
+  arr.sort((x,y)=>tv(y.a.time||y.a.fecha||y.a.createdAt||y.a.ts)-tv(x.a.time||x.a.fecha||x.a.createdAt||x.a.ts));
+  if(!arr.length)return '<div class="trackingAlertItem">Sin alertas registradas.</div>';
+  return arr.map(({a})=>`<div class="trackingAlertItem"><div class="trackingAlertTop"><span>⚠️ ${esc(alertTipoV1250(a))}</span><span>${alertDateV1250(a)}</span></div><div><b>Localidad:</b> ${esc(alertLocV1250(a,t))}</div><div><b>Km:</b> ${esc(alertKmV1250(a))}</div></div>`).join('');
+};
 
-/* ===== V1.2.44 - Aplicacion real: mejoras documento + alertas de transitos abiertos ===== */
-const ELTA_APP_VERSION_FINAL="1.2.44";
-function setFinalVersionV1244(){
-  document.querySelectorAll(".loginFooter span, .headerTitle span, .appFooter span").forEach(el=>{
-    if(/Versi[oó]n/i.test(el.textContent||"")) el.textContent=`Versión ${ELTA_APP_VERSION_FINAL}`;
-  });
-}
-function isTransitOpenV1244(t){return typeof openT==="function" ? openT(t) : !/cerr|final|cancel/i.test(String(t?.estado||t?.status||""));}
-function alertRowsOpenPendingV1244(){
+/* Alertas: pendientes por defecto, solo transitos abiertos. Boton amarillo texto Verificar */
+window.alertFilterMode = window.alertFilterMode || 'pendientes';
+function collectOpenAlerts(){
   let rows=[];
-  (Array.isArray(trs)?trs:[]).filter(isTransitOpenV1244).forEach(t=>{
+  (Array.isArray(trs)?trs:[]).filter(openT).forEach(t=>{
     (t.alerts||[]).forEach((a,idx)=>{
-      let verified=typeof isAlertVerified==="function" ? isAlertVerified(t,a,idx) : !!(a.verificada||a.verified);
-      if(!verified) rows.push({t,a,idx,verified:false,id:typeof normalizeAlertIdV1232==="function"?normalizeAlertIdV1232(t,a,idx):`${t.embarque||""}_${idx}`});
+      let verified=alertVerifiedV1250(t,a,idx);
+      if(window.alertFilterMode==='pendientes' && verified) return;
+      if(window.alertFilterMode==='verificadas' && !verified) return;
+      rows.push({t,a,idx,verified});
     });
   });
-  return rows;
+  return rows.sort((x,y)=>tv(y.a.time||y.a.fecha||y.a.createdAt||y.a.ts)-tv(x.a.time||x.a.fecha||x.a.createdAt||x.a.ts));
 }
-function pendingAlertsCount(){return alertRowsOpenPendingV1244().length;}
-function updateDashboardOpenAlertsV1244(){
-  let rows=alertRowsOpenPendingV1244();
-  let n=rows.length;
-  ["kal","headerAlertCount","legAlert"].forEach(id=>{let el=q(id); if(el) el.innerText=n;});
-  if(q("dashAlerts")){
-    q("dashAlerts").innerHTML=rows.slice(0,3).map(x=>{
-      let tipo=esc(typeof alertTipo==="function"?alertTipo(x.a):(x.a.tipo||x.a.type||x.a.motivo||"Alerta"));
-      let fecha=typeof alertDateValue==="function"?alertDateValue(x.a):(typeof alertDate==="function"?alertDate(x.a):fd(x.a.time||x.a.fecha||x.a.createdAt||x.a.ts));
-      return `<div class="alertLine">• ${tipo} · Emb. ${esc(x.t.embarque||"-")} · Flota ${esc(flota(x.t)||"-")} · ${fecha}</div>`;
-    }).join("") || '<div class="alertEmpty">Sin alertas activas en tránsitos abiertos.</div>';
-  }
-  if(typeof updateAlertBellBlink==="function") updateAlertBellBlink();
+
+function setAlertFilter(mode){
+  window.alertFilterMode=mode||'pendientes';
+  document.querySelectorAll('.alertFilters button').forEach(b=>b.classList.toggle('active', b.dataset.alertFilter===window.alertFilterMode));
+  renderAlerts();
 }
-function alertKmValueFinalV1244(a,t){
-  return esc((typeof alertKmValue==="function"?alertKmValue(a,t):(a?.km??a?.kilometro??a?.kilometraje??a?.kmRuta??a?.kilometros??"-"))||"-");
+
+function markAlertVerified(t,a,idx){
+  if(!t || !a) return;
+  let id = typeof alertId==='function' ? alertId(t,a,idx) : `${t.embarque||''}_${flota(t)||''}_${idx}`;
+  let store={};
+  try{store=JSON.parse(localStorage.getItem('eltaAlertasVerificadas')||'{}');}catch(e){}
+  store[id]={verificada:true,por:(q('user')?.value||'admin'),fecha:new Date().toISOString()};
+  localStorage.setItem('eltaAlertasVerificadas',JSON.stringify(store));
+  renderAlerts();
+  renderMapa();
+  updateAlertCountersV1250();
 }
+
+function renderAlertCards(rows){
+  if(!q('alertCards'))return;
+  let byFleet={};
+  rows.forEach(r=>{let key=flota(r.t)||'-';(byFleet[key]=byFleet[key]||[]).push(r);});
+  let html=Object.entries(byFleet).sort((a,b)=>a[0].localeCompare(b[0],'es',{numeric:true})).map(([fleet,list])=>{
+    let pend=list.filter(r=>!r.verified).length;
+    return `<div class="alertFleetCard"><div class="alertFleetTop"><div class="alertFleetTitle">🚚 Flota ${esc(fleet)}</div><span class="alertPendingBadge">${pend} pendientes</span></div>${list.map(r=>{
+      let emb=String(r.t.embarque||'').replace(/'/g,"\\'");
+      let flo=String(flota(r.t)||'').replace(/'/g,"\\'");
+      let btn = r.verified ? `<span class="alertVerifiedInfo">Verificada</span>` : `<button class="alertVerifyBtn verifyBlink" onclick="markAlertVerified(trs.find(t=>String(t.embarque)==='${emb}' && String(flota(t))==='${flo}'), (trs.find(t=>String(t.embarque)==='${emb}' && String(flota(t))==='${flo}')?.alerts||[])[${r.idx}], ${r.idx})">Verificar</button>`;
+      return `<div class="alertItemCard"><div class="alertItemTop"><span>⚠️ ${esc(alertTipoV1250(r.a))}</span>${btn}</div><div class="alertItemMeta"><div><b>Embarque:</b> ${esc(r.t.embarque||'-')}</div><div><b>Km:</b> ${esc(alertKmV1250(r.a))}</div><div><b>Fecha/hora:</b> ${alertDateV1250(r.a)}</div><div><b>Localidad:</b> ${esc(alertLocV1250(r.a,r.t))}</div></div></div>`;
+    }).join('')}</div>`;
+  }).join('');
+  q('alertCards').innerHTML=html||'<div class="alertEmpty">No hay alertas para el filtro seleccionado.</div>';
+}
+
 function renderAlerts(){
-  let el=q("alertCards")||q("alertList");
+  document.querySelectorAll('.alertFilters button').forEach(b=>b.classList.toggle('active', b.dataset.alertFilter===window.alertFilterMode));
+  let rows=collectOpenAlerts();
+  if(typeof renderAlertCharts==='function')renderAlertCharts(rows);
+  renderAlertCards(rows);
+  updateAlertCountersV1250();
+}
+
+/* Ultimas alertas del dashboard: solo pendientes en transitos abiertos */
+function renderDashAlerts(){
+  let alerts=pendingAlertsOpenRowsV1250();
+  if(!q('dashAlerts'))return;
+  if(!alerts.length){q('dashAlerts').innerHTML='<div class="alertEmpty">Sin alertas activas.</div>';return;}
+  q('dashAlerts').innerHTML=alerts.slice(0,3).map(x=>`<div class="alertLine">• ${esc(alertTipoV1250(x.a))} · Emb. ${esc(x.t.embarque||'-')} · Flota ${esc(flota(x.t)||'-')} · Km ${esc(alertKmV1250(x.a))} · ${alertDateV1250(x.a)}</div>`).join('');
+}
+
+/* Clientes: tarjetas compactas sin campo ID visible */
+function renderClients(){
+  let el=q('clientsList');
   if(!el)return;
-  let rows=alertRowsOpenPendingV1244();
-  let by={};
-  rows.forEach(r=>{let f=flota(r.t)||"-";(by[f]=by[f]||[]).push(r);});
-  el.innerHTML=Object.entries(by).map(([fleet,list])=>`<div class="alertFleetCard hasPending">
-    <div class="alertFleetTop"><div class="alertFleetTitle">🚚 Flota ${esc(fleet)}</div><div class="alertFleetSummary"><span class="alertPendingBadge pending">${list.length} pendientes</span></div></div>
-    ${list.map(r=>{let rt=ruta(r.t)||{};let id=String(r.id||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'");return `<div class="alertItemCard pendingAlert"><div class="alertItemContent"><div class="alertItemTop"><span>⚠️ ${esc(typeof alertTipo==="function"?alertTipo(r.a):(r.a.tipo||r.a.type||r.a.motivo||"Alerta"))}</span></div><div class="alertItemMeta"><div><b>Embarque:</b> ${esc(r.t.embarque||"-")}</div><div><b>Km:</b> <span class="alertKmHighlight">${alertKmValueFinalV1244(r.a,r.t)}</span></div><div><b>Fecha/hora:</b> ${typeof alertDateValue==="function"?alertDateValue(r.a):(typeof alertDate==="function"?alertDate(r.a):fd(r.a.time||r.a.fecha||r.a.createdAt||r.a.ts))}</div><div><b>Localidad:</b> ${esc(typeof alertLocationValue==="function"?alertLocationValue(r.a,r.t):(typeof alertLoc==="function"?alertLoc(r.a,r.t):"-"))}</div></div><div class="alertTransitDetail"><div><b>Chofer:</b> ${esc(typeof alertChoferValue==="function"?alertChoferValue(r.t):(typeof driverName==="function"?driverName(r.t):"-"))}</div><div><b>Cliente:</b> ${esc(rt.cliente||"-")}</div><div><b>Origen:</b> ${esc(rt.origen||"-")}</div><div><b>Destino:</b> ${esc(rt.destino||"-")}</div><div><b>Estado:</b> En tránsito</div><div><b>Últ. reporte:</b> ${fd(typeof transitUpdatedV1232==="function"?transitUpdatedV1232(r.t):(typeof lastU==="function"?(lastU(r.t)||{}).time:null))}</div></div></div><div class="alertItemAction"><button class="alertVerifyBtn" onclick="markAlertVerifiedById('${id}')">Verificar</button></div></div>`;}).join("")}
-  </div>`).join("") || '<div class="alertEmpty">Sin alertas sin verificar en tránsitos abiertos.</div>';
-  updateDashboardOpenAlertsV1244();
+  let nameFn=(typeof clientNameV1226==='function'?clientNameV1226:(c=>c.nombre||c.cliente||c.name||c.id||'-'));
+  let contactFn=(typeof clientContactV1226==='function'?clientContactV1226:(c=>c.contacto||c.contact||'-'));
+  let phoneFn=(typeof clientPhoneV1226==='function'?clientPhoneV1226:(c=>c.telefono||c.phone||'-'));
+  let list=(Array.isArray(clientes)?clientes:[]).slice().sort((a,b)=>String(nameFn(a)).localeCompare(String(nameFn(b)),'es'));
+  el.innerHTML=list.map(c=>`<div class="clientCard compactClientCard"><div class="clientTop"><div class="clientName">🏢 ${esc(nameFn(c))}</div><span class="clientDot"></span></div><div class="clientContactBox"><div><b>Contacto:</b> ${esc(contactFn(c)||'-')}</div><div><b>Teléfono:</b> ${esc(phoneFn(c)||'-')}</div></div></div>`).join('')||'<div class="clientCard">No hay clientes registrados.</div>';
 }
-function trackingCardV1244(t){
-  let pending=(t.alerts||[]).map((a,idx)=>({a,idx})).filter(x=>!(typeof isAlertVerified==="function"?isAlertVerified(t,x.a,x.idx):!!(x.a.verificada||x.a.verified)));
-  let last=typeof lastGpsObjectV1237==="function"?lastGpsObjectV1237(t):(typeof lastU==="function"?lastU(t):{});
-  let locText=(last?.localidad||last?.ubicacionTexto||last?.locationName||(typeof locFull==="function"?locFull(t):loc(t))||"-");
-  return `<div class="trackingCard"><div class="trackingTop"><b>Flota ${esc(flota(t)||"-")}</b><span class="badge open">Abierto</span></div><div><b>Ubicación:</b> ${esc(locText)}</div><div><b>Últ. GPS:</b> ${fd(last?.time||last?.fecha||last?.createdAt||last?.ts||(typeof transitUpdatedValue==="function"?transitUpdatedValue(t):""))}</div>${pending.length?`<div class="trackingAlerts"><b>Alertas sin verificar:</b>${pending.map(x=>`<div>⚠️ ${esc(typeof alertTipo==="function"?alertTipo(x.a):(x.a.tipo||x.a.type||x.a.motivo||"Alerta"))} · Km ${alertKmValueFinalV1244(x.a,t)}</div>`).join("")}</div>`:'<div class="trackingAlerts empty">Sin alertas sin verificar.</div>'}</div>`;
+
+/* Clima: sin proveedor, no repetir flota en detalle y Paso cerrado rojo sin camion */
+if(typeof weatherCardReal==='function'){
+  weatherCardReal = function(title,subtitle,c,w,extra='',cls='',icon='🌦️',badge=''){
+    return `<div class="weatherCard ${cls}"><div class="weatherTop"><div class="weatherTitleBlock"><div class="weatherName">${icon?`<span class="weatherIcon">${icon}</span>`:''}<span>${title}</span></div>${w?.desc?`<div class="weatherDescInline">${esc(w.desc)}</div>`:''}</div><div class="weatherTemp">${esc(w?.temp ?? '-')}° ${w?.emoji||''}</div></div>${badge||''}<div class="weatherData"><div><b>Ubicación:</b> ${esc(subtitle||'-')}</div><div><b>Sensación:</b> ${esc(w?.sens ?? '-')}°</div><div><b>Viento:</b> ${esc(w?.wind ?? '-')} km/h</div><div><b>Actualizado:</b> ${fd(new Date().toISOString())}</div></div>${extra}</div>`;
+  };
 }
-function renderMapa(){
-  if(typeof refreshSeguimientoFilters==="function") refreshSeguimientoFilters();
-  let items=(Array.isArray(trs)?trs:[]).filter(isTransitOpenV1244).filter(typeof seguimientoFilter==="function"?seguimientoFilter:()=>true);
-  if(q("mapList")) q("mapList").innerHTML=items.map(trackingCardV1244).join("") || '<div class="trackingCard">No hay flotas abiertas para mostrar.</div>';
-  if(typeof initSeguimientoMap==="function") initSeguimientoMap(items);
+
+if(typeof renderWeatherFleets==='function'){
+  renderWeatherFleets = async function(){
+    let el=q('weatherFleets'); if(!el)return;
+    let abiertos=Array.isArray(trs)?trs.filter(openT):[];
+    if(!abiertos.length){el.innerHTML='<div class="weatherLoading">No hay flotas en tránsito.</div>';return;}
+    el.innerHTML='<div class="weatherLoading">Consultando clima real de última posición GPS de flotas...</div>';
+    let html=[];
+    for(let t of abiertos){
+      let c=lastGpsCoords(t); let w=await fetchWeatherByCoords(c); let rt=ruta(t)||{}; let upd=lastGpsTimeV1237(t); let gpsLoc=lastGpsLocalidadV1237(t);
+      let extra=`<div class="weatherFleetTransit"><div><b>Chofer:</b> ${esc(typeof driverName==='function'?driverName(t):'-')}</div><div><b>Embarque:</b> ${esc(t.embarque||'-')}</div><div><b>Cliente:</b> ${esc(rt.cliente||'-')}</div><div><b>Origen:</b> ${esc(rt.origen||'-')}</div><div><b>Destino:</b> ${esc(rt.destino||'-')}</div><div><b>Últ. reporte GPS:</b> ${fd(upd)}</div><div><b>Localidad GPS:</b> ${esc(gpsLoc||'-')}</div><div><b>GPS:</b> ${c?'Reportado':'Sin coordenadas'}</div></div>`;
+      html.push(weatherCardReal(`Flota ${esc(flota(t)||'-')}`,gpsLoc||'-',c,w,extra,'fleetWeatherCard','🚚'));
+    }
+    el.innerHTML=html.join('');
+  };
 }
-function weatherCardReal(title,subtitle,c,w,extra="",cls="",iconOverride="",statusHtml=""){
-  let icon=iconOverride||w.icon||"🌦️";
-  let tempValue=(w.temp===undefined||w.temp===null)?"-":w.temp;
-  return `<div class="weatherCard ${cls}"><div class="weatherCardTop"><div class="weatherTitleWrap"><span class="weatherIconBadge">${icon}</span><div class="weatherTitleText"><div class="weatherTitle">${title}</div><div class="weatherDesc">${w.icon||""} ${esc(w.desc||"")}</div>${statusHtml}</div></div><div class="weatherTemp"><span>${esc(tempValue)}°</span><span class="weatherTempIcon">${w.icon||""}</span></div></div><div class="weatherData"><div><b>Ubicación:</b> ${esc(subtitle||"-")}</div><div><b>Sensación:</b> ${esc(w.sens)}°</div><div><b>Viento:</b> ${esc(w.wind)} km/h</div><div><b>Actualizado:</b> ${fd(new Date().toISOString())}</div></div>${extra}</div>`;
+
+if(typeof renderWeatherPasses==='function'){
+  renderWeatherPasses = async function(){
+    let el=q('weatherPasses'); if(!el)return;
+    el.innerHTML='<div class="weatherLoading">Consultando clima real del Paso Los Libertadores...</div>';
+    let paso={lat:-32.824,lng:-70.086,text:'-32.824, -70.086'};
+    let w=await fetchWeatherByCoords(paso);
+    let closed=passIsClosedByWeather(w);
+    let badge=`<span class="weatherStatusBadge ${closed?'closed':'open'}">${closed?'🔴 PASO CERRADO':'🟢 PASO OPERATIVO'}</span>`;
+    el.innerHTML=weatherCardReal('Paso Los Libertadores','Argentina / Chile',paso,w,'',closed?'weatherClosed':'weatherOpen','',badge);
+  };
 }
-async function renderWeatherPasses(){
-  let el=q("weatherPasses"); if(!el)return;
-  el.innerHTML='<div class="weatherLoading">Consultando clima del Paso Los Libertadores...</div>';
-  let paso={lat:-32.824,lng:-70.086,text:"-32.824, -70.086"};
-  let w=await fetchWeatherByCoords(paso);
-  let closed=typeof passIsClosedByWeather==="function"?passIsClosedByWeather(w):false;
-  let status=closed?"PASO CERRADO":"PASO OPERATIVO";
-  let cls=closed?"weatherClosed passClosedRed":"weatherOpen";
-  let badge=`<span class="weatherStatusBadge ${closed?"closed":"open"}">${closed?"🔴":"🟢"} ${status}</span>`;
-  el.innerHTML=weatherCardReal("Paso Los Libertadores","Argentina / Chile",paso,w,"",cls,"",badge);
+
+/* Correo real en usuario y ajuste visual */
+function updateAdminEmailV1250(){
+  let u=(q('user')?.value||'admin').trim();
+  let userDoc=(Array.isArray(users)?users:[]).find(x=>String(x.id||x.user||'')===u) || {};
+  let email=userDoc.correo||userDoc.email||userDoc.mail||userDoc.userEmail||'';
+  document.querySelectorAll('.adminBox small').forEach(el=>{ if(email) el.textContent=email; });
 }
-async function renderWeatherFleets(){
-  let el=q("weatherFleets"); if(!el)return;
-  let abiertos=(Array.isArray(trs)?trs:[]).filter(isTransitOpenV1244);
-  if(!abiertos.length){el.innerHTML='<div class="weatherLoading">No hay flotas en tránsito.</div>';return;}
-  el.innerHTML='<div class="weatherLoading">Consultando clima de última posición GPS...</div>';
-  let html=[];
-  for(let t of abiertos){
-    let c=typeof lastGpsCoords==="function"?lastGpsCoords(t):null;
-    let w=await fetchWeatherByCoords(c);
-    let rt=ruta(t)||{};
-    let upd=typeof lastGpsTimeV1237==="function"?lastGpsTimeV1237(t):(typeof transitUpdatedValue==="function"?transitUpdatedValue(t):"");
-    let gpsLoc=typeof lastGpsLocalidadV1237==="function"?lastGpsLocalidadV1237(t):(typeof locFull==="function"?locFull(t):"-");
-    let extra=`<div class="weatherFleetTransit"><div><b>Chofer:</b> ${esc(typeof driverName==="function"?driverName(t):"-")}</div><div><b>Embarque:</b> ${esc(t.embarque||"-")}</div><div><b>Cliente:</b> ${esc(rt.cliente||"-")}</div><div><b>Origen:</b> ${esc(rt.origen||"-")}</div><div><b>Destino:</b> ${esc(rt.destino||"-")}</div><div><b>Últ. reporte GPS:</b> ${fd(upd)}</div><div><b>Localidad GPS:</b> ${esc(gpsLoc||"-")}</div><div><b>GPS:</b> ${c?"Reportado":"Sin coordenadas"}</div></div>`;
-    html.push(weatherCardReal(`Flota ${esc(flota(t)||"-")}`,gpsLoc||"-",c,w,extra,"fleetWeatherCard","🚚"));
-  }
-  el.innerHTML=html.join("");
+const _refresh_v1250 = typeof refresh === 'function' ? refresh : null;
+if(_refresh_v1250){
+  refresh = async function(){
+    await _refresh_v1250.apply(this, arguments);
+    updateAdminEmailV1250(); updateVersionLabels(); updateAlertCountersV1250();
+  };
 }
-function compactClientCardV1244(x,type){
-  let name=type==="cliente"?(typeof clientName==="function"?clientName(x):(x.nombre||x.cliente||x.id||"-")):(typeof destinationName==="function"?destinationName(x):(x.nombre||x.destino||x.id||"-"));
-  let contact=x.contacto||x.contact||x.mail||x.email||"-";
-  let phone=x.telefono||x.tel||x.phone||"-";
-  return `<div class="clientCard compactEntityCard"><div class="clientTop"><div class="clientName">${type==="cliente"?"🏢":"📍"} ${esc(name)}</div></div><div class="clientData compact"><span><b>ID:</b> ${esc(x.id||name)}</span><span><b>Contacto:</b> ${esc(contact)}</span><span><b>Teléfono:</b> ${esc(phone)}</span></div></div>`;
-}
-function renderClients(){if(q("clientsList"))q("clientsList").innerHTML=(clientes||[]).slice().sort((a,b)=>String(a.nombre||a.id||"").localeCompare(String(b.nombre||b.id||""),"es")).map(c=>compactClientCardV1244(c,"cliente")).join("")||'<div class="clientCard">No hay clientes registrados.</div>';}
-function renderDestinos(){if(q("destinosList"))q("destinosList").innerHTML=(destinos||[]).slice().sort((a,b)=>String(a.nombre||a.id||"").localeCompare(String(b.nombre||b.id||""),"es")).map(d=>compactClientCardV1244(d,"destino")).join("")||'<div class="clientCard">No hay destinos registrados.</div>';}
-const _renderDash_v1244=typeof renderDash==="function"?renderDash:null;
-if(_renderDash_v1244){renderDash=function(){_renderDash_v1244();setFinalVersionV1244();updateDashboardOpenAlertsV1244();};}
-const _refresh_v1244=typeof refresh==="function"?refresh:null;
-if(_refresh_v1244){refresh=async function(){await _refresh_v1244();setFinalVersionV1244();updateDashboardOpenAlertsV1244();};}
-document.addEventListener("DOMContentLoaded",()=>{setFinalVersionV1244();setTimeout(updateDashboardOpenAlertsV1244,300);});
-setTimeout(()=>{setFinalVersionV1244();updateDashboardOpenAlertsV1244();},800);
+
