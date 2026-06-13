@@ -4281,7 +4281,7 @@ function trackingCardV1244(t){
   let pending=(t.alerts||[]).map((a,idx)=>({a,idx})).filter(x=>!(typeof isAlertVerified==="function"?isAlertVerified(t,x.a,x.idx):!!(x.a.verificada||x.a.verified)));
   let last=typeof lastGpsObjectV1237==="function"?lastGpsObjectV1237(t):(typeof lastU==="function"?lastU(t):{});
   let locText=(last?.localidad||last?.ubicacionTexto||last?.locationName||(typeof locFull==="function"?locFull(t):loc(t))||"-");
-  return `<div class="trackingCard"><div class="trackingTop"><b>Flota ${esc(flota(t)||"-")}</b><span class="badge open">Abierto</span></div><div><b>Ubicación:</b> ${esc(locText)}</div><div><b>Últ. GPS:</b> ${fd(last?.time||last?.fecha||last?.createdAt||last?.ts||(typeof transitUpdatedValue==="function"?transitUpdatedValue(t):""))}</div>${pending.length?`<div class="trackingAlerts"><b>Alertas sin verificar:</b>${pending.map(x=>`<div>⚠️ ${esc(typeof alertTipo==="function"?alertTipo(x.a):(x.a.tipo||x.a.type||x.a.motivo||"Alerta"))} · Km ${alertKmValueFinalV1244(x.a,t)}</div>`).join("")}</div>`:'<div class="trackingAlerts empty">Sin alertas sin verificar.</div>'}</div>`;
+  return `<div class="trackingCard"><div class="trackingTop"><b>Flota ${esc(flota(t)||"-")}</b><span class="badge open">Abierto</span></div><div><b>Ubicación:</b> ${esc(locText)}</div><div><b>Últ. GPS:</b> ${fd(last?.time||last?.fecha||last?.createdAt||last?.ts||(typeof transitUpdatedValue==="function"?transitUpdatedValue(t):""))}</div>${pending.length?`<div class="trackingAlerts"><b>Alertas sin verificar:</b>${pending.map(x=>`<div>⚠️ ${esc(typeof alertTipo==="function"?alertTipo(x.a):(x.a.tipo||x.a.type||x.a.motivo||"Alerta"))} · Km ${alertKmValueFinalV1244(x.a,t)}</div>`).join("")}</div>`:'<div class="trackingAlerts empty">Sin alertas registradas.</div>'}</div>`;
 }
 function renderMapa(){
   if(typeof refreshSeguimientoFilters==="function") refreshSeguimientoFilters();
@@ -4338,7 +4338,7 @@ document.addEventListener("DOMContentLoaded",()=>{setFinalVersionV1244();setTime
 setTimeout(()=>{setFinalVersionV1244();updateDashboardOpenAlertsV1244();},800);
 
 /* ===== V1.2.46 - Ajustes varios 12/06: menu, KM, seguimiento, clima, usuario, clientes/destinos ===== */
-const ELTA_APP_VERSION_FINAL="1.2.46";
+const ELTA_APP_VERSION_FINAL="1.2.47";
 function setVersionV1246(){
   document.querySelectorAll(".loginFooter span,.headerTitle span,.appFooter span").forEach(el=>{
     if(/Versi[oó]n/i.test(el.textContent||"")) el.textContent=`Versión ${ELTA_APP_VERSION_FINAL}`;
@@ -4392,7 +4392,7 @@ function pendingAlertsCount(){ return openPendingAlertRowsV1246().length; }
 function trackingAlertsHtml(t){
   let arr=(t.alerts||[]).map((a,idx)=>({a,idx})).filter(x=>isAlertPendingV1246(t,x.a,x.idx));
   arr.sort((x,y)=>tv(y.a.time||y.a.fecha||y.a.createdAt||y.a.ts)-tv(x.a.time||x.a.fecha||x.a.createdAt||x.a.ts));
-  if(!arr.length) return '<div class="trackingAlertItem">Sin alertas sin verificar.</div>';
+  if(!arr.length) return '<div class="trackingAlertItem">Sin alertas registradas.</div>';
   return arr.map(({a})=>{
     let tipo=esc(typeof alertTipo==="function"?alertTipo(a):(a.tipo||a.type||a.motivo||"Alerta"));
     let fecha=typeof alertDateValue==="function"?alertDateValue(a):(typeof alertDate==="function"?alertDate(a):fd(a.time||a.fecha||a.createdAt||a.ts));
@@ -4408,7 +4408,7 @@ function trackingCardV1246(t){
 function renderMapa(){
   if(typeof refreshSeguimientoFilters==="function") refreshSeguimientoFilters();
   let items=(Array.isArray(trs)?trs:[]).filter(openT).filter(typeof seguimientoFilter==="function"?seguimientoFilter:()=>true);
-  if(q("mapList")) q("mapList").innerHTML=items.map(trackingCardV1246).join("") || '<div class="trackingCard">No hay flotas abiertas para mostrar.</div>';
+  if(q("mapList")) q("mapList").innerHTML=items.map(trackingCard).join("") || '<div class="trackingCard">No hay flotas abiertas para mostrar.</div>';
   if(typeof initSeguimientoMap==="function") initSeguimientoMap(items);
 }
 function updateDashboardOpenAlertsV1246(){
