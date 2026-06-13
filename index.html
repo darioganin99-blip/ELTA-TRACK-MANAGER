@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ELTA ITS Intelligent Traffic System</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+
+<section id="login" class="view active loginPage">
+  <div class="bgPhoto"></div>
+  <div class="bgOverlay"></div>
+
+  <img class="cornerLogo" src="assets/logo-elta.png" alt="ELTA">
+
+  <div class="loginCard">
+    <img class="loginLogo" src="assets/logo-elta.png" alt="ELTA">
+    <h1>ITS INTELLIGENT TRAFFIC SYSTEM</h1>
+    <p>Centro de monitoreo y coordinación logística</p>
+    <div class="greenLine"></div>
+
+    <label>Usuario</label>
+    <div class="inputWrap">
+      <input id="user" autocomplete="username" placeholder="Ingresá tu usuario">
+    </div>
+
+    <label>Contraseña</label>
+    <div class="inputWrap">
+      <input id="pass" type="password" autocomplete="current-password" placeholder="Ingresá tu contraseña">
+      <button type="button" class="eyeBtn" onclick="togglePass()">👁</button>
+    </div>
+
+    <button class="loginButton" onclick="login()">INGRESAR</button>
+    <a class="forgot" href="javascript:void(0)">¿Olvidaste tu contraseña?</a>
+    <div id="msg"></div>
+  </div>
+
+  <footer class="loginFooter">
+    <span>🛡 Sistema seguro</span>
+    <span>© 2025 ELTA ITS - Intelligent Traffic System</span>
+    <span>Versión 1.2.45</span>
+  </footer>
+</section>
+
+<section id="app" class="view appPage">
+  <div class="appBgPhoto"></div>
+  <div class="appBgOverlay"></div>
+
+  <aside class="sidebar">
+    <div class="brandBox">
+      <img src="assets/logo-elta.png" alt="ELTA">
+      <div class="brandDivider"></div>
+    </div>
+
+    <nav class="sideNav">
+      <button onclick="tab('dash')" class="active">🏠 <span>Torre de Control</span></button>
+      <button onclick="tab('transitos')">🚚 <span>Tránsitos</span></button>
+      <button onclick="tab('mapa')">📍 <span>Seguimiento</span></button>
+<button onclick="tab('clima')" title="Clima"><span>🌦️</span><b>Clima</b></button>
+      
+      <button onclick="tab('unidades')">🚛 <span>Unidades / Choferes</span></button>
+      
+      <button onclick="tab('alertas')">🔔 <span>Alertas</span></button>
+<button onclick="tab('clientes')">🏢 <span>Clientes / Destinos</span></button>
+
+      
+      
+      <button onclick="tab('abm')">⚙️ <span>Configuración</span></button>
+    </nav>
+
+    <div class="adminBox">
+      <div class="adminAvatar">A</div>
+      <div>
+        <b>Administrador</b>
+        <small>correo@base</small>
+      </div>
+    </div>
+
+    <button onclick="salir()" class="logoutBtn">🚪 Cerrar sesión</button>
+  </aside>
+
+  <main class="dashboardShell">
+    <header class="managerHeader">
+      <button class="hamburger" type="button" onclick="toggleSidebar()">☰</button>
+
+      <div class="headerTitle">
+        <h1>ITS Intelligent Traffic System</h1>
+        <p>Centro de monitoreo y coordinación logística</p>
+        <span>Versión 1.2.45</span>
+      </div>
+
+      <div class="headerActions">
+        <button class="miniPill alertBell" onclick="tab(\'alertas\')" title="Ver alertas">🔔 <span id="headerAlertCount">0</span></button>
+      </div>
+    </header>
+
+    <section id="dash" class="panel active">
+      <div class="sectionTitle">
+        <h2>Torre de Control</h2>
+        <p>Resumen general de la operación logística</p>
+      </div>
+
+      <div class="kpiGrid">
+        <div class="kpiCard green">
+          <div>
+            <h3>Tránsitos activos</h3>
+            <strong id="ka">0</strong>
+            <small>En circulación</small>
+          </div>
+          <span>🚚</span>
+        </div>
+        <div class="kpiCard blue">
+          <div>
+            <h3>Unidades activas</h3>
+            <strong id="kf">0</strong>
+            <small>Flotas registradas</small>
+          </div>
+          <span>🚛</span>
+        </div>
+        <div class="kpiCard yellow">
+          <div>
+            <h3>Alertas activas</h3>
+            <strong id="kal">0</strong>
+            <small>Requieren atención</small>
+          </div>
+          <span>⚠️</span>
+        </div>
+        <div class="kpiCard purple">
+          <div>
+            <h3>Finalizados</h3>
+            <strong id="kc">0</strong>
+            <small>Tránsitos cerrados</small>
+          </div>
+          <span>✅</span>
+        </div>
+      </div>
+
+      
+<div class="chartsGrid">
+        <div class="glassPanel chartPanel">
+          <div class="panelHead"><h3>Tránsitos por estado</h3></div>
+          <div id="chartEstado" class="compactChart"></div>
+        </div>
+
+        <div class="glassPanel chartPanel">
+          <div class="panelHead"><h3>Tránsitos por cliente</h3></div>
+          <div id="chartCliente" class="compactChart"></div>
+        </div>
+
+        <div class="glassPanel chartPanel">
+          <div class="panelHead"><h3>Tránsitos por origen</h3></div>
+          <div id="chartOrigen" class="compactChart"></div>
+        </div>
+
+        <div class="glassPanel chartPanel">
+          <div class="panelHead"><h3>Tránsitos por destino</h3></div>
+          <div id="chartDestino" class="compactChart"></div>
+        </div>
+      </div>
+
+      <div class="glassPanel tablePanel">
+        <div class="panelHead">
+          <h3>Últimos tránsitos</h3>
+          <button onclick="refresh()">Actualizar</button>
+        </div>
+        <div id="dashTable" class="darkTable"></div>
+      </div>
+
+      <div class="glassPanel alertStrip">
+        <div>
+          <h3>⚠️ Últimas alertas</h3>
+          <div id="dashAlerts"></div>
+        </div>
+        <button onclick="tab('alertas')">Ver todas las alertas →</button>
+      </div>
+    </section>
+
+    <section id="transitos" class="panel">
+      <div class="sectionTitle"><h2>Tránsitos</h2><p>Consulta y filtros operativos</p></div>
+      <div class="glassPanel">
+        <div class="filters">
+          <input id="fEmb" placeholder="Embarque" oninput="renderTransitos()">
+          <select id="fFlo" onchange="renderTransitos()"><option value="">Todas las flotas</option></select>
+          <select id="fCli" onchange="renderTransitos()"><option value="">Todos los clientes</option></select>
+          <select id="fEst" onchange="renderTransitos()">
+            <option value="">Todos</option>
+            <option value="abierto">Abiertos</option>
+            <option value="cerrado">Cerrados</option>
+          </select>
+        </div>
+      </div>
+      <div class="glassPanel"><div id="transList" class="cardList"></div></div>
+    </section>
+
+    <section id="mapa" class="panel">
+      <div class="sectionTitle"><h2>Seguimiento</h2><p>Unidades activas y ubicación operativa</p></div>
+      <div class="seguimientoFilters">
+        <input id="segEmb" placeholder="Embarque" oninput="renderMapa()">
+        <select id="segCli" onchange="renderMapa()"><option value="">Todos los clientes</option></select>
+      </div>
+      <div class="seguimientoLayout">
+        <div class="glassPanel trackingMapPanel">
+          <div id="realMap" class="realMap"></div>
+        </div>
+        <div class="glassPanel trackingSidePanel">
+          <div class="panelHead">
+            <h3>Flotas en seguimiento</h3>
+            <button onclick="refresh()">Actualizar</button>
+          </div>
+          <div id="mapList" class="trackingFleetList"></div>
+        </div>
+      </div>
+    </section>
+
+    
+
+    <section id="unidades" class="panel">
+      <div class="sectionTitle"><h2>Unidades / Choferes</h2><p>Usuarios registrados con rol flota</p></div>
+      <div class="glassPanel">
+        <div class="panelHead">
+          <div>
+            <h3>Flotas registradas</h3>
+            <div class="unitFilters">
+              <button class="active" data-unit-filter="todas" onclick="setUnitFilter('todas')">Todas</button>
+              <button data-unit-filter="transito" onclick="setUnitFilter('transito')">En tránsito</button>
+              <button data-unit-filter="sin" onclick="setUnitFilter('sin')">Sin tránsito</button>
+            </div>
+          </div>
+          <button onclick="refresh()">Actualizar</button>
+        </div>
+        <div id="unitsList" class="fleetUsersGrid"></div>
+      </div>
+    </section>
+
+    
+
+    <section id="clima" class="panel">
+      <div class="sectionTitle"><h2>Clima</h2><p>Situación climática por flotas, pasos fronterizos y destinos</p></div>
+      <div class="climaLayout climaLayoutV1237">
+        <div class="glassPanel climaLeft">
+          <div class="panelHead">
+            <h3>Flotas en tránsito</h3>
+            <button onclick="refresh()">Actualizar</button>
+          </div>
+          <div id="weatherFleets" class="weatherCards"></div>
+        </div>
+        <div class="climaRight">
+          <div class="glassPanel">
+            <div class="panelHead"><h3>Pasos fronterizos</h3></div>
+            <div id="weatherPasses" class="weatherCards compactWeatherCards"></div>
+          </div>
+          <div class="glassPanel">
+            <div class="panelHead"><h3>Destinos registrados</h3></div>
+            <div id="weatherDestinations" class="weatherCards compactWeatherCards"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="clientes" class="panel">
+      <div class="sectionTitle"><h2>Clientes / Destinos</h2><p>Clientes y destinos registrados</p></div>
+      <div class="clientesDestinosGrid">
+        <div class="glassPanel">
+          <div class="panelHead">
+            <h3>Clientes registrados</h3>
+            <button onclick="refresh()">Actualizar</button>
+          </div>
+          <div id="clientsList" class="clientCards"></div>
+        </div>
+        <div class="glassPanel">
+          <div class="panelHead">
+            <h3>Destinos registrados</h3>
+          </div>
+          <div id="destinosList" class="destinationCards"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="alertas" class="panel">
+      <div class="sectionTitle"><h2>Alertas</h2><p>Alertas pendientes de verificación sobre tránsitos abiertos</p></div>
+      <div class="glassPanel">
+        <div class="panelHead">
+          <div>
+            <h3>Resumen de alertas</h3>
+            <div class="alertFilters">
+              <button class="active" data-alert-filter="pendientes" onclick="setAlertFilter('pendientes')">Pendientes</button>
+              <button data-alert-filter="verificadas" onclick="setAlertFilter('verificadas')">Verificadas</button>
+              <button data-alert-filter="todas" onclick="setAlertFilter('todas')">Todas</button>
+            </div>
+          </div>
+          <button onclick="refresh()">Actualizar</button>
+        </div>
+        <div id="alertCharts" class="alertChartsGrid"></div>
+        <div id="alertCards" class="alertFleetCards"></div>
+      </div>
+    </section>
+
+    <section id="abm" class="panel">
+      <div class="sectionTitle"><h2>Configuración</h2><p>Altas, bajas y modificaciones</p></div>
+      <div class="glassPanel">
+        <div class="abmtabs">
+          <button onclick="abm('usuarios')">Usuarios/Flotas</button>
+          <button onclick="abm('clientes')">Clientes</button>
+          <button onclick="abm('origenes')">Orígenes</button>
+          <button onclick="abm('destinos')">Destinos</button>
+          <button onclick="abm('embarque')">Embarques</button>
+        </div>
+        <div id="abmForm" class="form"></div>
+        <div id="abmList" class="cardList"></div>
+      </div>
+    </section>
+
+    
+
+    <footer class="appFooter">
+      <span>🛡 Sistema seguro</span>
+      <span>© 2025 ELTA ITS - Intelligent Traffic System</span>
+      <span>Versión 1.2.45</span>
+    </footer>
+  </main>
+</section>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
