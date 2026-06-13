@@ -3653,3 +3653,17 @@ button[onclick*="clima"] b{
 .clientContactBox,.destinationContactBox,.destinationCoords{margin-top:6px!important;padding:6px 8px!important;font-size:11px!important;line-height:1.15!important;}
 .clientCards,.destinationCards{gap:8px!important;}
 .compactWeatherFleet{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:5px 10px!important;font-size:11px!important;}
+
+/* ===== V1.2.44 - estilos finales mejoras documento ===== */
+.alertVerifyBtn{background:#ffd21a!important;color:#111!important;border:0!important;font-weight:900!important;animation:verifyBlinkV1244 1s infinite!important;}
+@keyframes verifyBlinkV1244{0%,100%{filter:brightness(1)}50%{filter:brightness(1.35);transform:scale(1.02)}}
+.weatherClosed,.passClosedRed{border-color:#ff3b30!important;background:linear-gradient(135deg,rgba(120,0,0,.55),rgba(35,0,0,.85))!important;}
+.weatherStatusBadge.closed{background:#ff3b30!important;color:#fff!important;}
+.weatherTitleText .weatherDesc{display:flex;align-items:center;gap:6px;margin-top:2px;}
+.weatherProvider{display:none!important;}
+.fleetWeatherCard .weatherFleetTransit div:first-child b:contains('Flota'){display:none;}
+.compactEntityCard{padding:12px 14px!important;margin:8px 0!important;}
+.compactEntityCard .clientTop{margin-bottom:6px!important;}
+.clientData.compact{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;padding:8px!important;}
+.trackingAlerts{margin-top:8px;padding:8px;border-radius:10px;background:rgba(255,210,26,.08);}
+.trackingAlerts.empty{background:rgba(255,255,255,.04);opacity:.8;}
